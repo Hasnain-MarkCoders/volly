@@ -1,0 +1,37 @@
+/* All button css lies here */
+.btn_1{
+    display: inline-block;
+    width: auto;
+    background-color: #2D9CDB;
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-weight: 500;
+    @include remy(14);
+    line-height: 16px;
+    padding: 10px 15px;
+    transition: .3s all ease;
+    &:focus{
+        outline: none;
+        box-shadow: none;
+    }
+    &:hover{
+        background-color: #2684b9;
+    }
+}
+
+
+.menu_btn{
+    display: inline-block;
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    &.active{
+        .menu_icon{
+            &::before{
+                background-position: -28px -78px;
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+/* Tables Scss*/
+.table_ui_1{
+    >thead{
+        >tr{
+            >th{
+                @include remy(12);
+                line-height: 16px;
+                color: #878787;
+                border-top: none;
+                &:first-child{
+                    border-right: 1px solid #E6E6E6;
+                }
+            }
+        }
+    }
+    >tbody{
+        >tr{
+            >td{
+                @include remy(14);
+                line-height: 16px;
+                color: #1D1718;
+                &:first-child{
+                    border-right: 1px solid #E6E6E6;
+                }
+            }
+        }
+    }
+}
+/* Tables Scss*/

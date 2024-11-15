@@ -1,0 +1,32 @@
+<!-- <p>login works!</p> -->
+<div class="full_sc_container">
+    <div class="col-sm-3 col-md-6 col-lg-3 mx-auto offset-4" style="
+    margin-top: 10%">
+      <div class="card card-login my-5">
+        <div class="card-body">
+          <img src="../../../assets/avatar-380-456332.png" alt=""
+            style="height: 35%;width: 40%;margin-top: -22%;margin-left: 27%;">
+          <h5 class="card-title text-center">Member Login</h5>
+          <form class="form-login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-label-group">
+              <input type="email" id="inputEmail" class="form-control" placeholder="Email" formControlName="email"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required autofocus>
+              <label for="inputEmail">Username</label>
+            </div>
+  
+            <div class="form-label-group">
+              <input type="password" id="inputPassword" class="form-control" formControlName="password"
+                placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required autofocus>
+              <label for="inputPassword">Password</label>
+            </div>
+  
+            <div class="custom-control custom-checkbox mb-3">
+              <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="rememberMe">
+              <label class="custom-control-label" for="customCheck1">Remember password</label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

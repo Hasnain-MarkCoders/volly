@@ -1,0 +1,70 @@
+<!-- <p>locations works!</p> -->
+<div class="container mw_1440">
+  <div class="right_head" style="margin-bottom: 3%;">
+    <h2 class="heading_main">Payments</h2>
+
+    <!-- <ul class="buttons_listing">
+      <li>
+        <button class="btn btn_1" (click)="open(content)"><span class="icons"></span> Create Rule</button>
+      </li>
+    </ul> -->
+  </div>
+  <div class="row">
+    <div class="col-11">
+      <ul class="nav nav-tabs" style="width: 109%;">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payments">Payouts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/balances">Balances</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="data_container">
+    <div class="table-responsive">
+      <table class="table table_ui_1">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Retailer<i class="fa fa-fw fa-sort" (click)="toggleSort('retailerName')"></i></th>
+          <th scope="col">Balance <i class="fa fa-fw fa-sort" (click)="toggleSort('amount')"></i></th>
+          <th scope="col">Account ID</th>
+          <th scope="col">Updated At</th>
+          <!--          <th scope="col">Action</th>-->
+        </tr>
+        </thead>
+        <tbody  *ngIf="balanceData?.length != 0">
+        <tr *ngFor="let data of balanceData; let idx=index" >
+          <td>{{idx+1}}</td>
+          <td>{{data.retailerName}}</td>
+          <td>{{data.balance.toFixed(2)}}</td>
+          <td>{{data.accountId}}</td>
+          <td>{{data.updatedAt | amTimeAgo}}</td>
+          <!-- <td>{{list.createdAt}}</td>
+          <td>{{list.updatedAt}}</td> -->
+          <!-- <td> -->
+
+
+        </tr>
+        </tbody>
+        <tbody *ngIf="balanceData?.length == 0">
+        <tr>
+          <td colspan="9" class="no-data-available">No data!</td>
+        </tr>
+        <tbody>
+      </table>
+    </div>
+    <ul class="pagination">
+      <!--    <li class="page-item"><button class="page-link" (click)="navigatePrev()">Previous</button></li>-->
+      <ng-container *ngFor="let idx of pages">
+        <li class="page-item">
+          <button class="page-link" (click)="navigateToPage(idx)">{{idx}}</button>
+        </li>
+      </ng-container>&nbsp;
+      <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label>
+      <!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
+    </ul>
+  </div>
+</div>

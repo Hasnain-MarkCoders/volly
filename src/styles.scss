@@ -1,0 +1,97 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: .75rem;
+}
+.icons{
+	display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  &::before{
+    background-image:url('./assets/images/iconsheet.svg');
+    content: "";
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+  }
+}
+.orders_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -3px -3px;
+  }
+}
+.setting_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -96px -3px;
+  }
+}
+.location_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -25px -3px;
+  }
+}
+.retailers_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -47px -3px;
+  }
+}
+.payment_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -72px -3px;
+  }
+}
+.search_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -138px -2px;
+  }
+}
+.logout_icon{
+  width: 24px;
+  height: 24px;
+  &::before{
+    background-position: 2px -51px;
+  }
+}
+.edit_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -158px -2px;
+  }
+}
+.delete_icon{
+  width: 18px;
+  height: 18px;
+  &::before{
+    background-position: -118px -2px;
+  }
+}
+.menu_icon{
+    width: 24px;
+    height: 24px;
+    &::before{
+      background-position: -28px -52px;
+    }
+}
+/* All icons Defined Here*/

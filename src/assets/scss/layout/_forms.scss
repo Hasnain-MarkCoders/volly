@@ -1,0 +1,21 @@
+.select_no_style{
+    display: inline-block;
+    width: auto;
+    background-color: transparent;
+    border: none;
+}
+
+.search_bar{
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    input{
+        padding: 7px 7px 7px 30px;
+    }
+    .search_icon{
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}

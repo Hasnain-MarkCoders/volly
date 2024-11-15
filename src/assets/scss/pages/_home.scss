@@ -1,0 +1,321 @@
+.sidebar{
+    display: inline-block;
+    width: 100%;
+    max-width: 224px;
+    background-color: #FFFFFF;
+    padding: 66px 8px 100px 8px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    vertical-align: top;
+    height: 100vh;
+    z-index: 1;
+    @media screen and (max-width: 767px){
+        left: -100%;
+        width: 100%;
+        max-width: 100%;
+        &.active{
+            left: 0;
+        }
+    }
+    .logo_top{
+        display: inline-block;
+        width: 100%;
+        padding: 17px 8px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #ccc;
+        text-align: center;
+        img{
+            display: inline-block;
+            width: auto;
+            max-width: 100px;
+        }
+    }
+    .logout_section{
+
+    }
+}
+.w_side{
+    display: inline-block;
+    width: 100%;
+    max-width: calc(100% - 224px);
+    margin-left: 224px;
+    vertical-align: top;
+    padding-left:15px;
+    @media screen and (max-width: 767px){
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0;
+    }
+    // height: 100vh;
+}
+.side_listing{
+    display: inline-block;
+    width: 100%;
+    margin-top: 20px;
+    li{
+        display: inline-block;
+        width: 100%;
+        padding: 10px 15px;
+        position: relative;
+
+        &.active{
+            &::before{
+                content: '';
+                position: absolute;
+                top: 0;
+                display: inline-block;
+                left: 0;
+                transition: .3s all ease;
+                height: 100%;
+                width: 6px;
+                background-color: #2D9CDB;
+            }
+            .icons{
+                &::before{
+                    background-position-y: -26px;
+                }
+            }
+            &>a{
+                label{
+                    color: #2B2526;
+                }
+            }
+        }
+        .icons{
+            margin-right: 10px;
+        }
+        >a{
+            display: inline-block;
+            width: 100%;
+            padding-left: 30px;
+            &:hover{
+                label{
+                    color: #2B2526;
+                }
+            }
+            label{
+                display: inline-block;
+                width: auto;
+                font-weight: 600;
+                @include remy(12);
+                line-height: 14px;
+                color: $font_grey;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+h2.heading_main{
+    display: inline-block;
+    width: 100%;
+    font-weight: 600;
+    @include remy(24);
+    line-height: 28px;
+    color: #585858;
+    max-width: 200px;
+    vertical-align: middle;
+}
+.head_container_side{
+    display: inline-block;
+    width: 100%;
+    position: fixed;
+    right: 0;
+    top: 0px;
+    margin-bottom: 0px;
+    z-index: 2;
+    // padding-top: 15px;
+    // padding-bottom: 15px;
+    background-color: #FFFFFF;
+    @media screen and (max-width: 767px){
+        text-align: center;
+    }
+    .logo_container{
+        display: inline-block;
+        width: 100%;
+        max-width: 224px;
+        background-color: #ffffff;
+        text-align: center;
+        padding: 15px 0px;
+        a{
+            display: inline-block;
+            width: 100%;
+            img{
+                display: inline-block;
+                width: auto;
+                max-width: 100px;
+            }
+        }
+    }
+}
+.right_head{
+    display: inline-block;
+    width: 100%;
+    // max-width: calc(100% - 229px);
+    padding-left: 15px;
+    padding-right: 15px;
+    @media screen and (max-width: 767px){
+        width: 100%;
+        padding: 0;
+        max-width: 100%;
+        .heading_main{
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.buttons_listing{
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    max-width: calc(100% - 205px);
+    vertical-align: middle;
+    @media screen and (max-width: 575px){
+        width: 100%;
+        max-width: 100%;
+        text-align: left;
+    }
+    li{
+        display: inline-block;
+        width: auto;
+    }
+}
+
+.data_container{
+    display: inline-block;
+    width: 100%;
+    padding-top: 30px;
+}
+
+.filter_container{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.filter_listing{
+    display: inline-block;
+    width: 100%;
+    li{
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+.location_detail_left{
+    display: inline-block;
+    width: 100%;
+    padding: 30px;
+    background-color: #FFFFFF;
+}
+.location_detail_right{
+    display: inline-block;
+    width: 100%;
+    padding: 30px;
+    background-color: #FFFFFF;
+}
+.header_right_extra{
+    display: inline-block;
+    width: 100%;
+    max-width: calc(100% - 229px);
+    text-align: right;
+    @media screen and (max-width: 767px){
+        width: auto;
+        max-width: auto;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    ul{
+        display: inline-block;
+        width: auto;
+        li{
+            display: inline-block;
+            width: auto;
+            .logout_btn{
+                display: inline-block;
+                width: auto;
+                &:hover{
+                    label{
+                        color: #2D9CDB;
+                        cursor: pointer;
+                    }
+                    .logout_icon{
+                        &::before{
+                            background-position: 2px -76px;
+                        }
+                    }
+                }
+                label{
+                    display: inline-block;
+                    width: auto;
+                    font-weight: 600;
+                    @include remy(12);
+                    line-height: 14px;
+                    color: #878787;
+                    @media screen and (max-width: 767px){
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tab_cust{
+    .nav-item{
+        .nav-link{
+            @include remy(14);
+            line-height: 16px;
+            color: #878787;
+            font-weight: 600;
+            position: relative;
+            &.active{
+                color: #2D9CDB;
+                &::after{
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background-color: #2D9CDB;
+                }
+            }
+        }
+    }
+}
+
+.action_listing{
+    display: inline-block;
+    width: auto;
+    li{
+        display: inline-block;
+        width: auto;
+        margin-right: 15px;
+        a{
+            display: inline-block;
+            width: 100%;
+            &:hover{
+                .edit_icon{
+                    &::before{
+                        background-position: -158px -25px;
+                    }
+                }
+                .delete_icon{
+                    &::before{
+                        background-position: -119px -25px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+/*All modal css lies here*/
+.modal_custom{
+    .modal-content{
+        border-radius: 0;
+        border: none;
+        .modal-body{
+            padding: 0;
+        }
+    }
+    .close_btn{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        opacity: 1;
+        transition: .3s all ease;
+        &:hover{
+            transform: rotate(90deg);
+        }
+        span{
+            color: #FFFFFF;
+            z-index: 1;;
+        }
+    }
+}
+.modal-backdrop{
+    // background-color: $font_color;
+}

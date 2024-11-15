@@ -1,0 +1,84 @@
+<!-- <p>add-tracking works!</p> -->
+<div class="full_sc_container">
+    <div class="col-sm-3 col-md-6 col-lg-3 mx-auto offset-4">
+      <div class="card card-login my-5">
+        <div class="card-body">
+          <ng-container *ngIf="!success">
+          <h5 class="card-title text-center">Tracking for Order #{{trackingInfo?.orderNumber}}</h5>
+            <ng-container *ngIf="trackingInfo?.status">
+              <div class="alert alert-info" role="alert">
+                Tracking Info is already added for this order, submit again to update.
+              </div>
+            </ng-container>
+          <form  [formGroup]="trackingForm" novalidate (ngSubmit)="save()">
+            <div class="form-group has-label">
+                <label class="control-label" for="">Tracking Number:
+                    <span class="star">*</span>
+                </label>
+                <input type="text" class="form-control" formControlName="trackingNo">
+                <small
+                [hidden]="trackingForm.get('trackingNo').valid && (! submitted || trackingForm.get('trackingNo').touched)"
+                class="text-danger">
+                 Tracking Number is Required.
+              </small>
+              </div>
+              <div class="form-group has-label">
+                <label class="control-label" for="">Shipping Service:
+                    <span class="star">*</span>
+                </label>
+                <select class="form-control"  formControlName="shippingService" (change)="selectService($event)">
+                  <option value=''>Choose Service</option>
+                  <option value="UPS">UPS</option>
+                  <option value="FedEx">FedEx</option>
+                  <option value="Other">Other</option>
+                </select>
+                <small
+                [hidden]="trackingForm.get('shippingService').valid && (! submitted || trackingForm.get('shippingService').touched)"
+                class="text-danger">
+                 Shipping Service is Required.
+              </small>
+              </div>
+              <div class="form-group has-label" *ngIf="visible">
+                <label class="control-label" for="">Shipping Service Name:
+                    <span class="star">*</span>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="shippingServiceName"  [ngModelOptions]="{standalone: true}">
+                <small
+                *ngIf="!shippingServiceName"
+                class="text-danger">
+                 Shipping Service Name is Required.
+              </small>
+              </div>
+              <div class="form-group has-label">
+                <label class="control-label" for="">Tracking Url:
+                    <!-- <span class="star">*</span> -->
+                </label>
+                <input type="text" class="form-control" formControlName="trackingUrl">
+                <!-- <small
+                [hidden]="trackingForm.get('trackingUrl').valid && (! submitted || trackingForm.get('trackingUrl').touched)"
+                class="text-danger">
+                 Tracking Url is Required.
+              </small> -->
+              </div>
+              <!-- <div class="form-group has-label">
+                <label class="control-label" for="">Shipping Service:
+                    <span class="star">*</span>
+                </label>
+                <input type="text" class="form-control" formControlName="shippingService">
+                <small
+                [hidden]="trackingForm.get('shippingService').valid && (! submitted || trackingForm.get('shippingService').touched)"
+                class="text-danger">
+                 Shipping Service is Required.
+              </small>
+              </div> -->
+
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button>
+          </form>
+          </ng-container>
+          <ng-container *ngIf="success">
+            Thank you!
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>

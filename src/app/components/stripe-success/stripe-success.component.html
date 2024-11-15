@@ -1,0 +1,15 @@
+<!-- <p>stripe-success works!</p> -->
+<div class="full_sc_container">
+    <div class="col-sm-3 col-md-6 col-lg-3 mx-auto offset-4" style="text-align: center">
+      <div class="card card-login my-5">
+        <div class="card-body"  *ngIf="success">
+          <h5 class="card-title text-center">Thank You </h5>
+          <label class=" text-center">Thank you submitting your details.<br> Provided details will be verified by <b>Stripe</b></label>
+        </div>
+        <div class="card-body" *ngIf="error">
+            <h5 class="card-title text-center">Oops</h5>
+            <label class=" text-center">Provided link is expired.</label>
+          </div>
+      </div>
+    </div>
+  </div>

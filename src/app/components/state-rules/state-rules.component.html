@@ -1,0 +1,356 @@
+<!-- <p>rules works!</p> -->
+<div class="container mw_1440">
+  <div class="right_head" style="margin-bottom: 3%;">
+    <h2 class="heading_main">Rule List</h2>
+    <div class="buttons_listing">
+      <button class="btn btn_1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+        Create Rule
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <button class="dropdown-item" (click)="state(statecontent)">State Rule</button>
+        <!-- <button class="dropdown-item" (click)="zip(zipcontent)">Zip Rule</button> -->
+        <button class="dropdown-item" (click)="product(productcontent)">Product Rule</button>
+      </div>
+    </div>
+    <!-- <ul class="buttons_listing">
+      <li>
+        <button class="btn btn_1" (click)="open(content)"><span class="icons"></span> Create Rule</button>
+      </li>
+    </ul> -->
+  </div>
+  <div class="row">
+    <div class="col-11">
+      <ul class="nav nav-tabs" style="width: 109%;">
+        <li class="nav-item">
+          <a class="nav-link " routerLink="/location">Location</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/location/product-rules"> Product Rule</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="javascript:void(0)"> State Rule</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="data_container">
+    <div class="table-responsive">
+      <table class="table table_ui_1">
+        <thead>
+        <tr>
+          <th scope="col">State <i class="fa fa-fw fa-sort" (click)="toggleSort()"></i></th>
+          <th scope="col">Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let rule of rulesList;let i = index">
+          <td>{{rule['code']}}</td>
+          <td>{{rule['locationName']}}  ({{rule['locationId']}})</td>
+          <td>
+            <ul class="action_listing">
+              <li>
+                <a href="javascript:void(0)" (click)="stateRule(updateState, rule)">
+                  <span class="icons edit_icon"></span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="deleteStateRule(rule)">
+                  <span class="icons delete_icon"></span>
+                </a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- State Rule Modal Open -->
+<ng-template #statecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Create State Rule</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="stateForm" novalidate (ngSubmit)="saveState()">
+      <div class="modal-body">
+        <div class="row m-0">
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">State:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="stateId" (change)="selectcode($event)">
+              <option value="">Choose State</option>
+              <option value="{{ state.id }}" *ngFor="let state of states; let i = index">{{ state.name }} </option>
+            </select>
+            <small
+              [hidden]="stateForm.get('stateId').valid && (! stateForm.submitted || stateForm.get('stateId').touched)"
+              class="text-danger">
+              State is Required.
+            </small>
+          </div>
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Location:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+              <option value="">Choose Location</option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
+            </select>
+            <small
+              [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
+              class="text-danger">
+              Location is Required.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- State Rule Modal End -->
+
+<!-- Zip Rule Modal Open -->
+<ng-template #zipcontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Create Zip Rule</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="zipForm" novalidate (ngSubmit)="saveZip()">
+      <div class="modal-body">
+        <div class="row m-0">
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Minimum Zip:</label>
+            <input type="text" class="form-control" formControlName="minZip">
+            <small
+              [hidden]="zipForm.get('minZip').valid && (! zipForm.submitted || zipForm.get('minZip').touched)"
+              class="text-danger">
+              Minimum zip is Required and maximum length not greater than 5.
+            </small>
+          </div>
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Maximum Zip:</label>
+            <input type="text" class="form-control" formControlName="maxZip">
+            <small
+              [hidden]="zipForm.get('maxZip').valid && (! zipForm.submitted || zipForm.get('maxZip').touched)"
+              class="text-danger">
+              Minimum zip is Required and maximum length not greater than 5.
+            </small>
+          </div>
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Location:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="locationId">
+              <option value="">Choose Location</option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
+            </select>
+            <small
+              [hidden]="zipForm.get('locationId').valid && (! zipForm.submitted || zipForm.get('locationId').touched)"
+              class="text-danger">
+              Location is Required.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- Zip Rule Modal End -->
+
+<!-- Product Rule Modal Open -->
+<ng-template #productcontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Create Product Rule</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="productForm" novalidate (ngSubmit)="saveProduct()">
+      <div class="modal-body">
+        <!-- Body -->
+        <div class="row m-0">
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Product:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event)">
+              <option value="">Choose Product</option>
+              <option value="{{ product.id }}"
+                      *ngFor="let product of products; let i = index">{{ product.title }} </option>
+            </select>
+            <small
+              [hidden]="productForm.get('productId').valid && (! productForm.submitted || productForm.get('productId').touched)"
+              class="text-danger">
+              Product is Required.
+            </small>
+          </div>
+          <!-- <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Variant:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="variantId">
+              <option value="">Choose Variant</option>
+              <option value="{{ variant.id }}"
+                      *ngFor="let variant of variants; let i = index">{{ variant.title }} </option>
+            </select>
+            <small
+              [hidden]="productForm.get('variantId').valid && (! productForm.submitted || productForm.get('variantId').touched)"
+              class="text-danger">
+              Variant is Required.
+            </small>
+          </div> -->
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Location:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+              <option value="">Choose Location</option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
+            </select>
+            <small
+              [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
+              class="text-danger">
+              Location is Required.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- Product Rule Modal end -->
+<ng-template #updateState let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Edit State Rule</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="stateForm" novalidate (ngSubmit)="updateStateRule()">
+      <div class="modal-body">
+        <div class="row m-0">
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">State:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="stateId" (change)="selectcode($event)">
+              <option value="">Choose State</option>
+              <option value="{{ state.id }}" *ngFor="let state of states; let i = index">{{ state.name }} </option>
+            </select>
+            <small
+              [hidden]="stateForm.get('stateId').valid && (! stateForm.submitted || stateForm.get('stateId').touched)"
+              class="text-danger">
+              State is Required.
+            </small>
+          </div>
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Location:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+              <option value="">Choose Location</option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
+            </select>
+            <small
+              [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
+              class="text-danger">
+              Location is Required.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #updateProduct let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Edit Product Rule</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="productForm" novalidate (ngSubmit)="updateProductRule()">
+      <div class="modal-body">
+        <!-- Body -->
+        <div class="row m-0">
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Product:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event)">
+              <option value="">Choose Product</option>
+              <option value="{{ product.id }}"
+                      *ngFor="let product of products; let i = index">{{ product.title }} </option>
+            </select>
+            <small
+              [hidden]="productForm.get('productId').valid && (! productForm.submitted || productForm.get('productId').touched)"
+              class="text-danger">
+              Product is Required.
+            </small>
+          </div>
+          <!-- <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Variant:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="variantId">
+              <option value="">Choose Variant</option>
+              <option value="{{ variant.id }}"
+                      *ngFor="let variant of variants; let i = index">{{ variant.title }} </option>
+            </select>
+            <small
+              [hidden]="productForm.get('variantId').valid && (! productForm.submitted || productForm.get('variantId').touched)"
+              class="text-danger">
+              Variant is Required.
+            </small>
+          </div> -->
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Location:</label>
+            <span class="star">*</span>
+            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+              <option value="">Choose Location</option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
+            </select>
+            <small
+              [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
+              class="text-danger">
+              Location is Required.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

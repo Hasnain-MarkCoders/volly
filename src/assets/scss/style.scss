@@ -1,0 +1,33 @@
+
+/** Helpers includes all variabls and config files **/
+@import
+	'helpers/_mixins.scss';
+
+/** Base includes all basic requirements for every page **/
+@import
+	'base/_icons.scss',
+	'base/_fonts.scss',
+	'base/_colors.scss';
+	 /** Adding icons to the site **/
+
+/** Components includes buttons, carousel, dropdown etc.. **/
+@import
+	'components/_buttons.scss';
+
+
+
+
+/** Layout folder styles for major sections of the layout like a header, footer and styles for a grid system **/
+@import
+
+	'layout/_tables.scss',
+	'layout/_forms.scss';
+
+@import
+ 	'pages/_home.scss';
+
+
+/** custom writter css **/
+@import
+	'main.scss';
+	/** all common styles written in main.scss **/

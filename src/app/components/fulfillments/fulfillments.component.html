@@ -1,0 +1,65 @@
+<!-- <p>payments works!</p> -->
+<!-- <p>rules works!</p> -->
+<div class="container mw_1440">
+  <div class="right_head" style="margin-bottom: 3%;">
+    <h2 class="heading_main">Fulfillments</h2>
+  </div>
+  <div>
+    <label>Status</label>:
+    <select [(ngModel)]="status" class="form-control col-2" (ngModelChange)="fetchData()">
+      <option value="" selected>All</option>
+      <option value="true">Success</option>
+      <option value="false">Pending</option>
+    </select>
+  </div>
+  <div class="data_container">
+    <div class="table-responsive">
+      <table class="table table_ui_1">
+        <thead>
+        <tr>
+          <th scope="col">Order Number<i class="fa fa-fw fa-sort" (click)="toggleSort('orderNumber')"></i></th>
+          <th scope="col">Amount <i class="fa fa-fw fa-sort" (click)="toggleSort('amount')"></i></th>
+          <th scope="col">Retailer</th>
+          <th scope="col">Location</th>
+          <th scope="col">Shipping Status</th>
+          <th scope="col">Timestamp</th>
+        </tr>
+        </thead>
+        <tbody  *ngIf="payoutData?.length != 0">
+        <tr *ngFor="let data of payoutData" >
+          <td>{{data.orderNumber}}</td>
+          <td>{{data.amount.toFixed(2)}}</td>
+
+          <td>{{data.retailerName}}</td>
+          <td>{{data.locationName}}</td>
+          <td>
+            <span class="badge badge-success" style="padding:7px" *ngIf="data.status">SUCCESS</span>
+            <span class="badge badge-danger" style="padding:7px" *ngIf="!data.status">PENDING</span>
+          </td>
+          <td>{{data.createdAt | amTimeAgo}}</td>
+          <!-- <td>{{list.createdAt}}</td>
+          <td>{{list.updatedAt}}</td> -->
+          <!-- <td> -->
+
+
+        </tr>
+        </tbody>
+        <tbody *ngIf="payoutData?.length == 0">
+        <tr>
+          <td colspan="9" class="no-data-available">No data!</td>
+        </tr>
+        <tbody>
+      </table>
+    </div>
+    <ul class="pagination">
+      <!--    <li class="page-item"><button class="page-link" (click)="navigatePrev()">Previous</button></li>-->
+      <ng-container *ngFor="let idx of pages">
+        <li class="page-item">
+          <button class="page-link" (click)="navigateToPage(idx)">{{idx}}</button>
+        </li>
+      </ng-container>&nbsp;
+      <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label>
+      <!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
+    </ul>
+  </div>
+</div>

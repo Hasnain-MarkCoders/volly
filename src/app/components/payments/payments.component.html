@@ -1,0 +1,81 @@
+<div class="container mw_1440">
+  <div class="right_head" style="margin-bottom: 3%;">
+    <h2 class="heading_main">Payments</h2>
+
+    <!-- <ul class="buttons_listing">
+      <li>
+        <button class="btn btn_1" (click)="open(content)"><span class="icons"></span> Create Rule</button>
+      </li>
+    </ul> -->
+  </div>
+  <div class="row">
+    <div class="col-11">
+      <ul class="nav nav-tabs" style="width: 109%;">
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/payments">Payouts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/balances">Balances</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <label>Status</label>:
+    <select [(ngModel)]="status" class="form-control col-2" (ngModelChange)="fetchData()">
+      <option value="" selected>All</option>
+      <option value="true">Success</option>
+      <option value="false">Pending</option>
+    </select>
+  </div>
+  <div class="data_container">
+    <div class="table-responsive">
+      <table class="table table_ui_1">
+        <thead>
+        <tr>
+          <th scope="col">Order Number<i class="fa fa-fw fa-sort" (click)="toggleSort('orderNumber')"></i></th>
+          <th scope="col">Amount <i class="fa fa-fw fa-sort" (click)="toggleSort('amount')"></i></th>
+          <th scope="col">Retailer</th>
+          <th scope="col">Account ID</th>
+          <th scope="col">Status</th>
+          <th scope="col">Timestamp</th>
+<!--          <th scope="col">Action</th>-->
+        </tr>
+        </thead>
+        <tbody  *ngIf="payoutData?.length != 0">
+        <tr *ngFor="let data of payoutData" >
+          <td>{{data.orderNumber}}</td>
+          <td>{{data.amount.toFixed(2)}}</td>
+          <td>{{data.retailerName}}</td>
+          <td>{{data.destination}}</td>
+          <td>
+            <span class="badge badge-success" style="padding:5px" *ngIf="data.status">SUCCESS</span>
+            <span class="badge badge-danger" style="padding:5px" *ngIf="!data.status">PENDING</span>
+          </td>
+          <td>{{data.createdAt | amTimeAgo}}</td>
+          <!-- <td>{{list.createdAt}}</td>
+          <td>{{list.updatedAt}}</td> -->
+          <!-- <td> -->
+
+
+        </tr>
+        </tbody>
+        <tbody *ngIf="payoutData?.length == 0">
+        <tr>
+          <td colspan="9" class="no-data-available">No data!</td>
+        </tr>
+        <tbody>
+      </table>
+    </div>
+    <ul class="pagination">
+      <!--    <li class="page-item"><button class="page-link" (click)="navigatePrev()">Previous</button></li>-->
+      <ng-container *ngFor="let idx of pages">
+        <li class="page-item">
+          <button class="page-link" (click)="navigateToPage(idx)">{{idx}}</button>
+        </li>
+      </ng-container>&nbsp;
+      <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label>
+      <!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
+    </ul>
+  </div>
+</div>

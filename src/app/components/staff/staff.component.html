@@ -1,0 +1,298 @@
+<div class="container mw_1440">
+    <div class="right_head" style="margin-bottom: 3%;">
+        <h2 class="heading_main">Staff List</h2>
+  
+        <ul class="buttons_listing">
+          <li>
+            <button class="btn btn_1" (click)="open(content)"><span class="icons"></span>Add Staff</button>
+          </li>
+        </ul>
+      </div>
+  
+    <div class="data_container">
+      <div class="table-responsive">
+        <table class="table table_ui_1">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tbody *ngIf="staffList?.length != 0">
+                <tr *ngFor="let staff of staffList">
+                  <td>{{ staff.name }}</td>
+                  <td>{{ staff.email }}</td>
+                  <td>{{ staff.contactNumber }}</td>
+                  <td>
+                    <span class="badge badge-success" *ngIf="staff.status">Active</span>
+                    <span class="badge badge-danger" *ngIf="!staff.status">Inactive</span>
+                  </td>
+                  <td>
+                    <ul class="action_listing">
+                      <li>
+                        <a href="javascript:void(0)" (click)="updateModal(Updatecontent, staff)">
+                          <span class="icons edit_icon"></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)"  (click)="delete(staff)">
+                          <span class="icons delete_icon"></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a  href="javascript:void(0)"><span (click)=reset(resetContent,staff)><u>Reset Password</u></span></a>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="staffList?.length == 0">
+                <tr>
+                  <td colspan="5" class="no-data-available">No data!</td>
+                </tr>
+              <tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Staff Modal Open -->
+  <ng-template #content let-modal>
+    <div class="modal-content">
+      <div class="modal-header" id="modal-basic-title">
+        <h5 class="modal-title" id="exampleModalLabel">Add Staff</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="staffForm" novalidate (ngSubmit)="save()">
+        <div class="modal-body">
+            <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Name:
+                      <span class="star">*</span>
+                  </label>
+                  <input class="form-control" formControlName="name"/>
+                  <small [hidden]="staffForm.get('name').valid && (! staffForm.submitted || staffForm.get('name').touched)" class="text-danger">
+                    Name is required.
+                  </small>
+                </div>
+              </div>
+              <!-- <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Role:
+                      <span class="star">*</span>
+                  </label>
+                  <select class="form-control" formControlName="roleId">
+                    <option [value]="role.id" *ngFor="let role of roles; let i = index">{{ role.name }} </option>
+                  </select>
+                  <small [hidden]="staffForm.get('roleId').valid && (! staffForm.submitted || staffForm.get('roleId').touched)" class="text-danger">
+                    Role is required.
+                  </small>
+                </div>
+              </div> -->
+              <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Phone:
+                      <span class="star">*</span>
+                  </label>
+                  <div>
+                    <ngx-intl-tel-input 
+                      [cssClass]="'form-control w-100'"
+                      [enableAutoCountrySelect]="true"
+                      [enablePlaceholder]="true"
+                      [searchCountryFlag]="true"
+                      [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                      [selectedCountryISO]="CountryISO.Canada"
+                      [maxLength]="15"
+                      [tooltipField]="TooltipLabel.Name"
+                      [phoneValidation]="true"
+                      name="contactNumber" formControlName="contactNumber">
+                    </ngx-intl-tel-input>
+                  </div>
+                  <small [hidden]="staffForm.get('contactNumber').valid && (! staffForm.submitted || staffForm.get('contactNumber').touched)" class="text-danger">
+                    Phone is required.
+                  </small>
+                </div>
+              </div>
+              <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Email:
+                      <span class="star">*</span>
+                  </label>
+                  <input class="form-control" formControlName="email"/>
+                  <small [hidden]="staffForm.get('email').valid && (! staffForm.submitted || staffForm.get('email').touched)" class="text-danger">
+                    Email is required and format should be <i>john@doe.com</i>.
+                  </small>
+                </div>
+              </div>
+              <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Password:
+                      <span class="star">*</span>
+                  </label>
+                  <input class="form-control" formControlName="password"/>
+                  <small [hidden]="staffForm.get('password').valid && (! staffForm.submitted || staffForm.get('password').touched)" class="text-danger">
+                    Password is required.
+                  </small>
+                </div>
+              </div>
+              
+              <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Status:</label>
+                  <div>
+                    <bSwitch
+                      [switch-on-color]="'primary'"
+                      [switch-off-color]="'primary'"
+                      formControlName="status"
+                      name="status">
+                    </bSwitch>
+                  </div>
+                </div> 
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+  <!-- Add Staff Modal End -->
+  
+  <!-- edit Staff Modal Open -->
+  <ng-template #Updatecontent let-modal>
+    <div class="modal-content">
+      <div class="modal-header" id="modal-basic-title">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Staff</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="editStaffForm" novalidate (ngSubmit)="update()">
+        <div class="modal-body">
+            <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Name:
+                      <span class="star">*</span>
+                  </label>
+                  <input class="form-control" formControlName="name"/>
+                  <small [hidden]="editStaffForm.get('name').valid && (! editStaffForm.submitted || editStaffForm.get('name').touched)" class="text-danger">
+                    Name is required.
+                  </small>
+                </div>
+              </div>
+              <!-- <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Role:
+                      <span class="star">*</span>
+                  </label>
+                  <select class="form-control" formControlName="roleId">
+                    <option [value]="role.id" *ngFor="let role of roles; let i = index">{{ role.name }} </option>
+                  </select>
+                  <small [hidden]="staffForm.get('roleId').valid && (! staffForm.submitted || staffForm.get('roleId').touched)" class="text-danger">
+                    Role is required.
+                  </small>
+                </div>
+              </div> -->
+              <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Phone:
+                      <span class="star">*</span>
+                  </label>
+                  <div>
+                    <ngx-intl-tel-input 
+                      [cssClass]="'form-control w-100'"
+                      [enableAutoCountrySelect]="true"
+                      [enablePlaceholder]="true"
+                      [searchCountryFlag]="true"
+                      [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                      [selectedCountryISO]="CountryISO.Canada"
+                      [maxLength]="15"
+                      [tooltipField]="TooltipLabel.Name"
+                      [phoneValidation]="true"
+                      name="contactNumber" formControlName="contactNumber">
+                    </ngx-intl-tel-input>
+                  </div>
+                  <small [hidden]="editStaffForm.get('contactNumber').valid && (! editStaffForm.submitted || editStaffForm.get('contactNumber').touched)" class="text-danger">
+                    Phone is required.
+                  </small>
+                </div>
+              </div>
+              <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Email:
+                      <span class="star">*</span>
+                  </label>
+                  <input class="form-control" formControlName="email"/>
+                  <small [hidden]="editStaffForm.get('email').valid && (! editStaffForm.submitted || editStaffForm.get('email').touched)" class="text-danger">
+                    Email is required and format should be <i>john@doe.com</i>.
+                  </small>
+                </div>
+              </div>
+              <div class="row m-0">
+                <div class="form-group has-label col-12">
+                  <label class="control-label" for="">Status:</label>
+                  <div>
+                    <bSwitch
+                      [switch-on-color]="'primary'"
+                      [switch-off-color]="'primary'"
+                      formControlName="status"
+                      name="status">
+                    </bSwitch>
+                  </div>
+                </div> 
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+  <!-- edit Staff Modal End -->
+
+  <!--Reset Password Modal open -->
+  <ng-template #resetContent let-modal>
+  <form [formGroup]="resetPasswordForm" novalidate (ngSubmit)="resetPassword()">
+    <div class="modal-content">
+      <div class="modal-header" id="modal-basic-title">
+        <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-label">
+          <label class="control-label" for="">Password:
+            <span class="star">*</span>
+          </label>
+          <input class="form-control" formControlName="password"/>
+          <small [hidden]="resetPasswordForm.get('password').valid && (! resetPasswordForm.submitted || resetPasswordForm.get('password').touched)" class="text-danger">
+            Password is required.
+          </small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="left-side">
+          <button type="button" class="btn btn-default btn-link" (click)="modal.close('Cancel clicked')">Cancel</button>
+        </div>
+        <div class="divider"></div>
+        <div class="right-side">
+          <button type="submit" class="btn btn-primary">Reset</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<!-- Reset Password Modal end -->
