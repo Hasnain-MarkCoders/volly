@@ -17,4 +17,16 @@ export class OrdersService {
     return this.http.get(`${environment.apiUrl}/order/${id}`);
 
   }
+
+  resendMail(email, orderId){
+    return this.http.post(`${environment.apiUrl}/order/sendTrackingLink`, {email, orderId});
+  }
+
+  fulfillOrder(order){
+    return this.http.post(`${environment.apiUrl}/webhook/order`, order);
+  }
+
+  getOrdersByOrderNumber(order_number) {
+    return this.http.get(`${environment.apiUrl}/orders?searchOrderNumber=${order_number ? order_number : ''}`);
+  }
 }

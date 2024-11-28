@@ -6,11 +6,11 @@ import { AccountsService } from '../../services/accounts.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-login-brand',
+  templateUrl: './login-brand.component.html',
+  styleUrls: ['./login-brand.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginBrandComponent implements OnInit {
   usernameFocus;
   passwordFocus;
   loginForm: FormGroup;
@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private accountsService: AccountsService,
     private toastr: ToastrService
+
   ) { }
 
   ngOnInit() {
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   get f() { return this.loginForm.controls; }
   handleNavigate(){
-    this.router.navigate(['/brand-login'], { queryParams: { returnUrl: "/" } })
+    this.router.navigate(['/brand-register'], { queryParams: { returnUrl: "/" } })
   }
 
   onSubmit() {
@@ -58,7 +59,7 @@ export class LoginComponent implements OnInit {
     }
     
     this.loading = true;
-    this.accountsService.login(this.loginForm.value.email, this.loginForm.value.password,this.f.rememberMe.value)
+    this.accountsService.loginBrand(this.loginForm.value.email, this.loginForm.value.password,this.f.rememberMe.value)
     .pipe(first())
     .subscribe(
       data => {
@@ -66,7 +67,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
       },
       error => {
-        console.log("error ", error)
         this.toastr.error(error?error:error?.error?.message, 'Error');
         const that = this;
         this.error = error;

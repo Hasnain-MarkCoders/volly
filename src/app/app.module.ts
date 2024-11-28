@@ -27,7 +27,11 @@ import { StateRulesComponent } from './components/state-rules/state-rules.compon
 import { RetailerComponent } from './components/retailer/retailer.component';
 import { FulfillmentsComponent } from './components/fulfillments/fulfillments.component';
 import { BalancesComponent } from './components/balances/balances.component';
-
+import { LoginBrandComponent } from './components/login-brand/login-brand.component';
+import { RegisterBrandComponent } from './components/register-brand/register-brand.component';
+import { BrandsComponent } from './components/brands/brands.component';
+import { CredentialsComponent } from './components/credentials/credentials.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 enableProdMode();
 
 
@@ -47,9 +51,14 @@ enableProdMode();
     StateRulesComponent,
     RetailerComponent,
     FulfillmentsComponent,
-    BalancesComponent
+    BalancesComponent,
+    LoginBrandComponent,
+    RegisterBrandComponent,
+    BrandsComponent,
+    CredentialsComponent,
   ],
   imports: [
+    NgMultiSelectDropDownModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     NgbModule,

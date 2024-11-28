@@ -126,6 +126,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "volley-app"
+    }
+  },
+  "defaultProject": "volley-app",
+  "cli": {
+    "analytics": "9a5c0466-a02c-4784-ba21-b8ec913326a0"
+  }
 }

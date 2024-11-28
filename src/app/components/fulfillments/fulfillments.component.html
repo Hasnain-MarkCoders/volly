@@ -1,65 +1,217 @@
 <!-- <p>payments works!</p> -->
 <!-- <p>rules works!</p> -->
+<style>
+  table {
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+
+  .pagination {
+    display: block;
+  }
+
+  .pagination li {
+    display: inline-block;
+    margin: 5px;
+  }
+</style>
 <div class="container mw_1440">
   <div class="right_head" style="margin-bottom: 3%;">
     <h2 class="heading_main">Fulfillments</h2>
   </div>
-  <div>
-    <label>Status</label>:
-    <select [(ngModel)]="status" class="form-control col-2" (ngModelChange)="fetchData()">
-      <option value="" selected>All</option>
-      <option value="true">Success</option>
-      <option value="false">Pending</option>
-    </select>
+  <div class="row" style="margin: 0px;">
+    <div class="col-2">
+      <label>Status</label>:
+      <select [(ngModel)]="status" class="form-control col-12">
+        <option value="" selected>All</option>
+        <option value="true">Success</option>
+        <option value="false">Pending</option>
+      </select>
+    </div>
+    <div class="col-3">
+      <label>Date</label>:
+      <select [(ngModel)]="daterange" class="form-control col-12">
+        <option value="" selected>All</option>
+        <option value="7"> Last 7 Days</option>
+        <option value="30">Last 30 Days</option>
+      </select>
+    </div>
+
+    <div class="col-3">
+      <label>Shopify Tracking Status</label>:
+      <select [(ngModel)]="shopifyTrackingStatus" class="form-control col-12">
+        <option value="" selected>All</option>
+        <option value="Label Printed">Label Printed</option>
+        <option value="Label Purchased">Label Purchased</option>
+        <option value="Attempted Delivery">Attempted Delivery</option>
+        <option value="Ready For Pickup">Ready For Pickup</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="In Transit">In Transit</option>
+        <option value="Out For Delivery">Out For Delivery</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Failure">Failure</option>
+      </select>
+    </div>
+    <div class="col-4">
+      <div>&nbsp;</div>
+      <button class="btn btn-primary" (click)="fetchData(true)">Search</button>
+    <!-- </div> -->
+    <!-- <div class="col-2" *ngIf="displayExport"> -->
+      <!-- <div>&nbsp;</div> -->
+      &nbsp;&nbsp;<button class="btn btn-primary" *ngIf="displayExport" (click)="exportToExcel()">Export</button>
+    </div>
   </div>
+
   <div class="data_container">
     <div class="table-responsive">
       <table class="table table_ui_1">
         <thead>
-        <tr>
-          <th scope="col">Order Number<i class="fa fa-fw fa-sort" (click)="toggleSort('orderNumber')"></i></th>
-          <th scope="col">Amount <i class="fa fa-fw fa-sort" (click)="toggleSort('amount')"></i></th>
-          <th scope="col">Retailer</th>
-          <th scope="col">Location</th>
-          <th scope="col">Shipping Status</th>
-          <th scope="col">Timestamp</th>
-        </tr>
+          <tr>
+            <th scope="col">Order Number<i class="fa fa-fw fa-sort" (click)="toggleSort('orderNumber')"></i></th>
+            <th scope="col">Amount <i class="fa fa-fw fa-sort" (click)="toggleSort('amount')"></i>
+            </th>
+            <th scope="col">CMS Retailer</th>
+            <th scope="col">Shopify Location</th>
+            <th scope="col">Tracking Status</th>
+            <th scope="col" style="width: 25%">Tracking Number</th>
+            <th scope="col">Shopify Tracking Status</th>
+            <th scope="col">Shopify Order Timestamp</th>
+            <th scope="col">Tracking Timestamp</th>
+            <th scope="col">Days Outstanding</th>
+          </tr>
         </thead>
-        <tbody  *ngIf="payoutData?.length != 0">
-        <tr *ngFor="let data of payoutData" >
-          <td>{{data.orderNumber}}</td>
-          <td>{{data.amount.toFixed(2)}}</td>
-
-          <td>{{data.retailerName}}</td>
-          <td>{{data.locationName}}</td>
-          <td>
-            <span class="badge badge-success" style="padding:7px" *ngIf="data.status">SUCCESS</span>
-            <span class="badge badge-danger" style="padding:7px" *ngIf="!data.status">PENDING</span>
-          </td>
-          <td>{{data.createdAt | amTimeAgo}}</td>
-          <!-- <td>{{list.createdAt}}</td>
-          <td>{{list.updatedAt}}</td> -->
-          <!-- <td> -->
-
-
-        </tr>
+        <tbody name="payoutData" ngDefaultControl [(ngModel)]="payoutData" *ngIf="payoutData?.length != 0">
+          <tr *ngFor="let data of payoutData">
+            <td>
+              <a href="{{data.shopifyOrderURL}}" target="_new">{{data.orderNumber}}</a>
+            </td>
+            <td>{{data.amount.toFixed(2)}}</td>
+            <td>{{data.retailerName}}</td>
+            <td>{{data.locationName}}</td>
+            <td>
+              <span class="badge badge-success" style="padding:7px" *ngIf="data.status">SUCCESS</span>
+              <span class="badge badge-danger" style="padding:7px" *ngIf="!data.status">PENDING</span>
+            </td>
+            <td>
+              <a *ngIf="data.shopifyTrackingNumber != null" href="{{data.shopifyTrackingLink}}" target="_new">
+                {{data.shopifyTrackingNumber}}
+              </a>
+              <span *ngIf="data.shopifyTrackingNumber == null"> - </span>
+            </td>
+            <td>{{data.shopifyTrackingStatus}}</td>
+            <td>{{data.createdAt | amDateFormat: 'MMMM DD, YYYY'}}</td>
+            <td>
+              <span *ngIf="data.status">{{data.shopifyTrackingDate | amDateFormat: 'MMMM DD, YYYY'}}</span>
+              <span *ngIf="!data.status">-</span>
+            </td>
+            <td>
+              <span *ngIf="data.status">{{data.daysOutstanding}}</span>
+              <span *ngIf="!data.status">-</span>
+            </td>
+            <!-- <td>{{list.createdAt}}</td>
+            <td>{{list.updatedAt}}</td> -->
+            <!-- <td> -->
+          </tr>
         </tbody>
-        <tbody *ngIf="payoutData?.length == 0">
-        <tr>
-          <td colspan="9" class="no-data-available">No data!</td>
-        </tr>
+        <tbody *ngIf="!loading && payoutData?.length == 0">
+          <tr>
+            <td colspan="9" class="no-data-available">No data!</td>
+          </tr>
+        <tbody>
+        <tbody *ngIf="loading">
+          <tr>
+            <td colspan="9" class="no-data-available">Loading Fulfillments...</td>
+          </tr>
         <tbody>
       </table>
     </div>
-    <ul class="pagination">
-      <!--    <li class="page-item"><button class="page-link" (click)="navigatePrev()">Previous</button></li>-->
-      <ng-container *ngFor="let idx of pages">
-        <li class="page-item">
-          <button class="page-link" (click)="navigateToPage(idx)">{{idx}}</button>
+
+    <!-- pagination start -->
+
+    <ul *ngIf="((payoutData && payoutData.length) && (!status && !daterange)) || ((payoutData && payoutData.length) && shopifyTrackingStatus)" class="pagination">
+      <li [ngClass]="{disabled:pageNumber === 1}" class="page-item first-item">
+        <a (click)="navigateToPage(1)" class="page-link">First</a>
+      </li>
+      <li [ngClass]="{disabled:pageNumber === 1}" class="page-item previous-item">
+        <a (click)="navigatePrev()" class="page-link">Previous</a>
+      </li>
+      <ng-container *ngIf="numPages <= 10; else second">
+        <li *ngFor="let page of pages" [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+          <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
         </li>
-      </ng-container>&nbsp;
-      <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label>
-      <!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
+      </ng-container>
+      <ng-template #second>
+        <ng-container *ngIf="pageNumber <= 5; else third">
+          <li *ngFor="let page of [1,2,3,4,5,6,7,8]" [ngClass]="{active:pageNumber === page}"
+            class="page-item number-item">
+            <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+          </li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+          <li [ngClass]="{active:pageNumber === numPages - 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages - 1)">{{numPages - 1}}</a></li>
+          <li [ngClass]="{active:pageNumber === numPages}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages)">{{numPages}}</a></li>
+        </ng-container>
+
+      </ng-template>
+      <ng-template #third>
+        <ng-container *ngIf="(pageNumber > 5 && pageNumber < numPages - 5); else fourth">
+          <li [ngClass]="{active:pageNumber === 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(1)">1</a></li>
+          <li [ngClass]="{active:pageNumber === 2}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(2)">2</a></li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+
+          <li *ngFor="let page of [(pageNumber-2),(pageNumber-1),(pageNumber),(pageNumber + 1),(pageNumber + 2)]"
+            [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+            <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+          </li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+          <li [ngClass]="{active:pageNumber === numPages - 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages - 1)">{{numPages - 1}}</a></li>
+          <li [ngClass]="{active:pageNumber === numPages}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages)">{{numPages}}</a></li>
+        </ng-container>
+      </ng-template>
+      <ng-template #fourth>
+        <ng-container>
+          <li [ngClass]="{active:pageNumber === 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(1)">1</a></li>
+          <li [ngClass]="{active:pageNumber === 2}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(2)">2</a></li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+
+          <li
+            *ngFor="let page of [(numPages-6),(numPages-5),(numPages - 4),(numPages- 3),(numPages - 2), (numPages - 1),(numPages)]"
+            [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+            <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+          </li>
+        </ng-container>
+      </ng-template>
+      <li [ngClass]="{disabled:pageNumber === numPages}" class="page-item next-item">
+        <a (click)="navigateNext()" class="page-link">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pageNumber === numPages}" class="page-item last-item">
+        <a (click)="navigateToPage(numPages)" class="page-link">Last</a>
+      </li>
     </ul>
+
+    <!-- pagination end -->
+
+
+    <br />
+    <!-- <div>
+      <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label>
+    </div> -->
   </div>
 </div>
+
+<!-- <ul class="pagination"> -->
+<!--    <li class="page-item"><button class="page-link" (click)="navigatePrev()">Previous</button></li>-->
+<!-- <ng-container *ngFor="let idx of pages">
+    <li class="page-item {{pageNumber == idx ? 'active' : ''}}">
+      <button class="page-link" (click)="navigateToPage(idx)">{{idx}}</button>
+    </li>
+  </ng-container>&nbsp; -->
+<!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
+<!-- </ul> -->

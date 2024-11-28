@@ -15,6 +15,10 @@ import {StateRulesComponent} from './components/state-rules/state-rules.componen
 import {RetailerComponent} from './components/retailer/retailer.component';
 import {FulfillmentsComponent} from './components/fulfillments/fulfillments.component';
 import {BalancesComponent} from './components/balances/balances.component';
+import { LoginBrandComponent } from './components/login-brand/login-brand.component';
+import { RegisterBrandComponent } from './components/register-brand/register-brand.component';
+import { BrandsComponent } from './components/brands/brands.component';
+import { CredentialsComponent } from './components/credentials/credentials.component';
 
 const routes: Routes = [
   {path: 'add-tracking/:id', component: AddTrackingComponent},
@@ -65,6 +69,14 @@ const routes: Routes = [
         path: 'fulfillments',
         component: FulfillmentsComponent
       },
+      {
+        path: 'brands',
+        component: BrandsComponent
+      },
+      {
+        path: 'credentials',
+        component: CredentialsComponent
+      },
       // {
       //   path: 'stripe-success/:successId',
       //   component: StripeSuccessComponent,
@@ -79,10 +91,16 @@ const routes: Routes = [
 {
   path: 'login', component:LoginComponent
 },
+{
+  path: 'brand-login', component:LoginBrandComponent
+},
+{
+  path: 'brand-register', component:RegisterBrandComponent
+},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

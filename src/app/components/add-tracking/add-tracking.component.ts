@@ -28,7 +28,7 @@ export class AddTrackingComponent implements OnInit {
     });
     this.helperService.fetchTrackingInfo(this.fulfillmentId).subscribe( (res) => {
       this.trackingInfo  = res;
-      console.log(res);
+      // console.log(res);
     })
     this.trackingForm = new FormGroup({
       trackingNo: new FormControl('', [Validators.required]),
@@ -86,7 +86,7 @@ export class AddTrackingComponent implements OnInit {
 
       }
     }
-    console.log(this.body)
+    // console.log(this.body)
     this.helperService.addTracking(this.body).subscribe((response) => {
       this.toastr.success('Success', '', {
         timeOut: 2000

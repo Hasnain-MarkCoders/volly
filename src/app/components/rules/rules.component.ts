@@ -34,6 +34,7 @@ export class RulesComponent implements OnInit {
     this.stateForm = new FormGroup({
       stateId: new FormControl('', [Validators.required]),
       locationId: new FormControl('', [Validators.required]),
+      productId: new FormControl('', [Validators.required]),
     });
 
     this.zipForm = new FormGroup({
@@ -41,6 +42,7 @@ export class RulesComponent implements OnInit {
       maxZip: new FormControl('', [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/), Validators.maxLength(5)]),
       locationId: new FormControl('', [Validators.required]),
     });
+    
     this.productForm = new FormGroup({
       productId: new FormControl('', [Validators.required]),
       // variantId: new FormControl('', [Validators.required]),
@@ -69,7 +71,7 @@ export class RulesComponent implements OnInit {
 
   list(){
     this.ruleService.getProductRules().subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
       this.rulesList = data.productRules;
     });
   }
@@ -99,8 +101,10 @@ export class RulesComponent implements OnInit {
   }
 
   state(content) {
+
     this.modal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
     this.modal.result.then((result) => {
+      // console.log("state", result);
       this.modal = null;
     });
   }
@@ -128,8 +132,10 @@ export class RulesComponent implements OnInit {
 
     const body = {
       stateId: JSON.parse(this.stateForm.value.stateId),
+      productId: this.stateForm.value.productId,
       locationId: this.stateForm.value.locationId,
       code: this.code,
+      productName: this.productName,
       locationName:this.locationName
     }
     this.ruleService.addStateRule(body).subscribe((response) => {
@@ -140,6 +146,7 @@ export class RulesComponent implements OnInit {
       this.modal.close();
       this.modal = null;
       this.locationName = null;
+      this.productName = null;
       this.stateForm.reset();
     }, (error) => {
       this.toastr.error(error, '',{
@@ -150,7 +157,7 @@ export class RulesComponent implements OnInit {
 
 
   saveZip() {
-    console.log(this.zipForm.value);
+    // console.log(this.zipForm.value);
     this.submitted = true;
     if (this.zipForm.invalid) {
       return;
@@ -172,7 +179,7 @@ export class RulesComponent implements OnInit {
   }
 
   saveProduct() {
-    console.log(this.productForm.value);
+    // console.log(this.productForm.value);
     this.submitted = true;
     if (this.productForm.invalid) {
       return;
@@ -203,13 +210,16 @@ export class RulesComponent implements OnInit {
     });
   }
 
-
   stateRule(content, rule) {
+    // console.log("rule", rule);
+    
     this.stateForm.patchValue({
       stateId: rule.stateId,
       locationId: rule.locationId,
+      productId: rule.productId,
     });
     this.locationName = rule.locationName;
+    this.productName = rule.productName;
     this.code = rule.code
     this.stateId = rule.id
     this.modal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', });
@@ -262,7 +272,9 @@ export class RulesComponent implements OnInit {
       id: this.stateId,
       stateId: JSON.parse(this.stateForm.value.stateId),
       locationId: this.stateForm.value.locationId,
+      productId: this.stateForm.value.productId,
       code: this.code,
+      productName: this.productName,
       locationName:this.locationName
     }
     this.ruleService.updateState(body).subscribe((response) => {

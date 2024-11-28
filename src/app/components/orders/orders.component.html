@@ -1,143 +1,265 @@
 <!-- <p>orders works!</p> -->
 <div class="container mw_1440">
-    <div class="right_head">
-      <h2 class="heading_main">Orders</h2>
+    <div class="right_head" [ngStyle]="{'margin-bottom': '3%'}">
+        <h2 class="heading_main">Orders</h2>
+    </div>
+
+    <!-- Added By gaurav -->
+    <div class="row" style="margin: 0px;">
+        <div class="col-3">
+            <label>Order</label>:
+            <input class="form-control col12 input-search-order" [(ngModel)]="search_order" placeholder="Search Order Exa. 1001">
+            <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Enter Valid Order No</span>
+        </div>
+        <div class="col-6">
+            <div>&nbsp;</div>
+            <button class="btn btn-primary" (click)="searchOrder(true)">Search</button> &nbsp;
+            <button class="btn btn-danger" (click)="searchOrder(false)">Clear</button>
+        </div>
     </div>
 
     <div class="data_container">
-      <div class="table-responsive">
-          <table class="table table_ui_1">
-            <thead>
-            <tr>
-                <th scope="col">Order</th>
-                <!-- <th scope="col">Date</th> -->
-                <th scope="col">Customer</th>
-                <th scope="col">Total</th>
-                <!-- <th scope="col">Payment</th> -->
-                <th scope="col">Order placed on</th>
-                <th scope="col">Items</th>
-                <th scope="col">Fulfillment Status</th>
-                <!-- <th scope="col">Delivery Methord</th> -->
-                <!-- <th scope="col">Action</th> -->
-            </tr>
-            </thead>
-            <tbody  *ngIf="orders?.length != 0">
-            <tr *ngFor="let order of orders"  >
-                <td>{{order.order_number}}</td>
-                <td>{{order.email}}</td>
-                <td>{{order.total_price}}</td>
-                <td>{{order.created_at | amDateFormat:'MMMM D, YYYY'}}<br>{{order.created_at | amDateFormat:'h:mm a'}}</td>
-                <td>{{order.line_items.length}}</td>
-                <td>
-                  <span class="badge badge-success" style="padding:7px" *ngIf="order.fulfillment_status=='fulfilled'">FULFILLED</span>
-                  <span class="badge badge-info" style="padding:7px" *ngIf="order.fulfillment_status=='partial'">PARTIAL</span>
-                  <span class="badge badge-warning" style="padding:7px" *ngIf="order.fulfillment_status==null">PENDING</span>
-                </td>
-                <td>
-                  <a href="javascript:void(0)" (click)="open(content,order)">
-                   <span><u>Details</u></span>
-                  </a>
-                </td>
-            </tr>
-            <div class="btn-group">
-            <button *ngIf="navInfo.prev" (click)="prevPage()" class="btn btn-info">Prev</button><button *ngIf="navInfo.next" (click)="nextPage()" class="btn btn-outline-info">Next</button>
-            </div>
-            </tbody>
-            <tbody *ngIf="orders?.length == 0">
-              <tr>
-                <td colspan="9" class="no-data-available">No data!</td>
-              </tr>
-            <tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <ng-template #content let-modal>
-    <div class="modal-content">
-      <div class="modal-header" id="modal-basic-title">
-          <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <div class="modal-body">
-      <!-- Body -->
-      <div class="row">
-        <div class="form-group has-label col-12">
-          <label class="control-label" for=""><b>Customer Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{orderDetails.billing_address.name}}
-          </label>
-        </div>
-        <div class="form-group has-label col-12">
-          <label class="control-label" for=""><b>Customer Email:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{orderDetails.email}}
-          </label>
-        </div>
-        <div class="form-group has-label col-6">
-          <label class="control-label" for=""><b>Shipping Address:</b>
-          </label>
-          <p>{{orderDetails.shipping_address.address1}}
-            <br>{{orderDetails.shipping_address.city}}, {{orderDetails.shipping_address.province}}, {{orderDetails.shipping_address.zip}}
-          </p>
-        </div>
-        <div class="form-group has-label col-6">
-          <label class="control-label" for=""><b>Billing Address:</b>
-          </label>
-          <p>{{orderDetails.billing_address.address1}}
-            <br>{{orderDetails.billing_address.city}}, {{orderDetails.billing_address.province}}, {{orderDetails.billing_address.zip}}
-          </p>
-        </div>
-        <div class="form-group has-label col-6">
-          <label class="control-label" for="">Status:
-          </label>
-          <input class="form-control" [value]="orderDetails.fulfillment_status" readonly/>
-        </div>
-        <div class="form-group has-label col-6">
-          <label class="control-label" for="">Total Amount:
-          </label>
-          <input class="form-control" [value]="orderDetails.subtotal_price" readonly/>
-        </div>
-        <div class="form-group has-label col-6">
-          <label class="control-label" for="">Order placed on:
-          </label>
-          <input class="form-control" [value]="propertyAddedDate" readonly/>
-        </div>
-        <div class="col-12">
-          <p><u>Item List:</u></p>
         <div class="table-responsive">
-          <table class="table table_ui_1">
-            <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Variant</th>
-                <th scope="col">Qunatity</th>
-                <th scope="col">Price</th>
-                <th scope="col">Fulfilled</th>
-            </tr>
-            </thead>
-            <tbody  *ngIf="orderDetails?.line_items?.length != 0">
-            <tr *ngFor="let item of orderDetails?.line_items"  >
-                <td>{{item.title}}</td>
-                <td>{{item.variant_title}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.price}}</td>
-                <td>
-                  <span class="badge badge-success" style="padding:7px" *ngIf="item.fulfillment_status=='fulfilled'">FULFILLED</span>
-                  <span class="badge badge-danger" style="padding:7px" *ngIf="item.fulfillment_status==null">PENDING</span>
-                </td>
-            </tr>
-            </tbody>
-            <tbody *ngIf="orderDetails?.line_items?.length == 0">
-              <tr>
-                <td colspan="9" class="no-data-available">No data!</td>
-              </tr>
-            <tbody>
-        </table>
-      </div>
-      </div>
-      </div>
+            <table class="table table_ui_1">
+                <thead>
+                    <tr>
+                        <th scope="col">Order</th>
+                        <!-- <th scope="col">Date</th> -->
+                        <th scope="col">Customer</th>
+                        <th scope="col">Total</th>
+                        <!-- <th scope="col">Payment</th> -->
+                        <th scope="col">Order placed on</th>
+                        <th scope="col">Items</th>
+                        <th scope="col">Fulfillment Status</th>
+                        <th scope="col">Actions</th>
+                        <!-- <th scope="col">Delivery Methord</th> -->
+                        <!-- <th scope="col">Action</th> -->
+                    </tr>
+                </thead>
+                <tbody *ngIf="orders?.length != 0">
+                    <tr *ngFor="let order of orders">
+                        <td>{{order.order_number}}</td>
+                        <td>{{order.email}}</td>
+                        <td>{{order.total_price}}</td>
+                        <td>{{order.created_at | amDateFormat:'MMMM D, YYYY'}}<br>{{order.created_at | amDateFormat:'h:mm a'}}</td>
+                        <td>{{order.line_items.length}}</td>
+                        <td>
+                            <span class="badge badge-success" style="padding:7px" *ngIf="order.fulfillment_status=='fulfilled'">FULFILLED</span>
+                            <span class="badge badge-info" style="padding:7px" *ngIf="order.fulfillment_status=='partial'">PARTIAL</span>
+                            <span class="badge badge-warning" style="padding:7px" *ngIf="order.fulfillment_status==null">PENDING</span>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="open(content,order)"><span><u>Details</u></span></a>
+
+                            <br> <a href="javascript:void(0)" (click)="openSendMail(sendmail,order)" *ngIf="order.fulfillment_status=='fulfilled'"><span>Resend Mail</span></a>
+
+                            <br><a href="javascript:void(0)" (click)="fulfillOrder(order)" *ngIf="order.fulfillment_status==null"><span>Fulfill Order</span></a>
+                        </td>
+                    </tr>
+                    <div class="btn-group">
+                        <button *ngIf="navInfo.prev" (click)="prevPage()" class="btn btn-info">Prev</button><button *ngIf="navInfo.next" (click)="nextPage()" class="btn btn-outline-info">Next</button>
+                    </div>
+                </tbody>
+                <tbody *ngIf="orders?.length == 0">
+                    <tr *ngIf="loading">
+                        <td colspan="9" class="no-data-available">Fetching Orders ...</td>
+                    </tr>
+                    <tr *ngIf="!loading">
+                        <td colspan="9" class="no-data-available">No data!</td>
+                    </tr>
+                    <tbody>
+            </table>
+        </div>
     </div>
-    <div class="modal-footer justify-content-center">
-      <button type="button" class="btn btn-info btn-round" (click)="modal.close('Cancel clicked')">Close</button>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-content">
+        <div class="modal-header" id="modal-basic-title">
+            <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+        </div>
+        <div class="modal-body">
+            <!-- Body -->
+            <div class="row">
+                <div class="form-group has-label col-12">
+                    <label class="control-label" for=""><b>Customer
+              Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{orderDetails.billing_address.name}}
+          </label>
+                </div>
+                <div class="form-group has-label col-12">
+                    <label class="control-label" for=""><b>Customer Email:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{orderDetails.email}}
+          </label>
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for=""><b>Shipping Address:</b>
+          </label>
+                    <p>{{orderDetails.shipping_address.address1}}, <br>{{orderDetails.shipping_address.address2}}
+                        <br>{{orderDetails.shipping_address.city}}, {{orderDetails.shipping_address.province}}, {{orderDetails.shipping_address.zip}}
+                    </p>
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for=""><b>Billing Address:</b>
+          </label>
+                    <p>{{orderDetails.billing_address.address1}}, <br>{{orderDetails.billing_address.address2}}
+                        <br>{{orderDetails.billing_address.city}}, {{orderDetails.billing_address.province}}, {{orderDetails.billing_address.zip}}
+                    </p>
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for="">Status:
+          </label>
+                    <input class="form-control" [value]="orderDetails.fulfillment_status" readonly />
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for="">Total Amount:
+          </label>
+                    <input class="form-control" [value]="orderDetails.subtotal_price" readonly />
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for="">Order placed on:
+          </label>
+                    <input class="form-control" [value]="propertyAddedDate" readonly />
+                </div>
+                <div class="col-12">
+                    <p><u>Item List:</u></p>
+                    <div class="table-responsive">
+                        <table class="table table_ui_1">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Variant</th>
+                                    <th scope="col">Qunatity</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Fulfilled</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="orderDetails?.line_items?.length != 0">
+                                <tr *ngFor="let item of orderDetails?.line_items">
+                                    <td>{{item.title}}</td>
+                                    <td>{{item.variant_title}}</td>
+                                    <td>{{item.quantity}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>
+                                        <span class="badge badge-success" style="padding:7px" *ngIf="item.fulfillment_status=='fulfilled'">FULFILLED</span>
+                                        <span class="badge badge-danger" style="padding:7px" *ngIf="item.fulfillment_status==null">PENDING</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="orderDetails?.line_items?.length == 0">
+                                <tr>
+                                    <td colspan="9" class="no-data-available">No data!</td>
+                                </tr>
+                                <tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-info btn-round" (click)="modal.close('Cancel clicked')">Close</button>
+        </div>
     </div>
+</ng-template>
+
+<ng-template #sendmail let-modal>
+    <div class="modal-content">
+        <div class="modal-header" id="modal-basic-title">
+            <h5 class="modal-title" id="exampleModalLabel">Resend Mail #{{orderDetails.order_number}}</h5>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+        </div>
+        <div class="modal-body">
+            <!-- Body -->
+            <div class="row">
+                <div class="form-group has-label col-12">
+                    <label class="control-label" for=""><b>Customer
+              Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{orderDetails.billing_address.name}}
+          </label>
+                </div>
+                <div class="form-group has-label col-12">
+                    <label class="control-label" for=""><b>Customer Email:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{orderDetails.email}}
+          </label>
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for=""><b>Shipping Address:</b>
+          </label>
+                    <p>{{orderDetails.shipping_address.address1}}, <br>{{orderDetails.shipping_address.address2}}
+                        <br>{{orderDetails.shipping_address.city}}, {{orderDetails.shipping_address.province}}, {{orderDetails.shipping_address.zip}}
+                    </p>
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for=""><b>Billing Address:</b>
+          </label>
+                    <p>{{orderDetails.billing_address.address1}}, <br>{{orderDetails.billing_address.address2}}
+                        <br>{{orderDetails.billing_address.city}}, {{orderDetails.billing_address.province}}, {{orderDetails.billing_address.zip}}
+                    </p>
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for="">Status:
+          </label>
+                    <input class="form-control" [value]="orderDetails.fulfillment_status" readonly />
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for="">Total Amount:
+          </label>
+                    <input class="form-control" [value]="orderDetails.subtotal_price" readonly />
+                </div>
+                <div class="form-group has-label col-6">
+                    <label class="control-label" for="">Order placed on:
+          </label>
+                    <input class="form-control" [value]="propertyAddedDate" readonly />
+                </div>
+                <div class="col-12">
+                    <p><u>Item List:</u></p>
+                    <div class="table-responsive">
+                        <table class="table table_ui_1">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Variant</th>
+                                    <th scope="col">Qunatity</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Fulfilled</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="orderDetails?.line_items?.length != 0">
+                                <tr *ngFor="let item of orderDetails?.line_items">
+                                    <td>{{item.title}}</td>
+                                    <td>{{item.variant_title}}</td>
+                                    <td>{{item.quantity}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>
+                                        <span class="badge badge-success" style="padding:7px" *ngIf="item.fulfillment_status=='fulfilled'">FULFILLED</span>
+                                        <span class="badge badge-danger" style="padding:7px" *ngIf="item.fulfillment_status==null">PENDING</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="orderDetails?.line_items?.length == 0">
+                                <tr>
+                                    <td colspan="9" class="no-data-available">No data!</td>
+                                </tr>
+                                <tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group has-label col-12">
+                    <label class="control-label col-2" for="">Email:&nbsp;
+          </label>
+                    <input [(ngModel)]="email" class="col-7" />&nbsp;
+                    <button type="button" class="btn btn-outline-info btn-round" (click)="resendEmail(email, orderDetails.id)">Send</button>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-info btn-round" (click)="modal.close('Cancel clicked')">Close</button>
+        </div>
     </div>
-  </ng-template>
+</ng-template>

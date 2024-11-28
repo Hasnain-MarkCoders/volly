@@ -15,7 +15,7 @@ export class StripeSuccessComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((res: any) => {
-      console.log(res.successId)
+      // console.log(res.successId)
       if (res.successId) {
         const body = {
             accountId : res.successId

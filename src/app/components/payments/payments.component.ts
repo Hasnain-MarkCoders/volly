@@ -38,7 +38,7 @@ export class PaymentsComponent implements OnInit {
 
   fetchData() {
     this.helperService.getPayouts(this.pageSize, this.pageNumber, this.status, this.sortField).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.payoutData = res['records'];
       if (this.payoutData) {
         this.dataLength = this.payoutData.length;

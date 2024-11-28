@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CountryISO, SearchCountryField} from 'ngx-intl-tel-input';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ActivatedRoute, Router} from '@angular/router';
-import {HelperService} from '../../services/helper.service';
-import {ToastrService} from 'ngx-toastr';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CountryISO, SearchCountryField } from 'ngx-intl-tel-input';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HelperService } from '../../services/helper.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-retailer',
@@ -14,11 +14,12 @@ import {ToastrService} from 'ngx-toastr';
 export class RetailerComponent implements OnInit {
 
   businessForm: FormGroup;
+  updateBusinessForm: FormGroup;
   locationForm: FormGroup;
+  inhouseForm: FormGroup;
   submitted = false;
   locations: any[] = [];
   SearchCountryField = SearchCountryField;
-  // TooltipLabel = TooltipLabel;
   CountryISO = CountryISO;
   retailerList = [] = [];
   id: any;
@@ -38,11 +39,23 @@ export class RetailerComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       contact: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required, Validators.pattern(this.URL_REGEX)]),
-      stripe: new FormControl('false', [Validators.required])
+      stripe: new FormControl('false', [Validators.required]),
+      inHouseBusiness: new FormControl('false', [Validators.required])
+    });
+
+    this.updateBusinessForm = new FormGroup({
+      businessName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      contact: new FormControl('', [Validators.required]),
+      website: new FormControl('', [Validators.required, Validators.pattern(this.URL_REGEX)]),
     });
 
     this.locationForm = new FormGroup({
       locationId: new FormControl('', [Validators.required]),
+    });
+
+    this.inhouseForm = new FormGroup({
+      id: new FormControl('', [Validators.required]),
     });
 
     this.helperService.getLocations().subscribe((resp: any) => {
@@ -52,7 +65,7 @@ export class RetailerComponent implements OnInit {
 
   list() {
     this.helperService.getRetailer().subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
       this.retailerList = data.account;
     });
   }
@@ -61,14 +74,14 @@ export class RetailerComponent implements OnInit {
     for (let i = 0; i < this.locations.length; i++) {
       if (event.target.value == this.locations[i].id) {
         this.locationName = this.locations[i].name;
-        console.log(this.locationName);
+        // console.log(this.locationName);
       }
     }
   }
 
   open(content) {
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
 
     }, (reason) => {
 
@@ -77,7 +90,7 @@ export class RetailerComponent implements OnInit {
 
   locationContent(content, list) {
     this.id = list.id;
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
 
     }, (reason) => {
 
@@ -97,7 +110,8 @@ export class RetailerComponent implements OnInit {
       email: this.businessForm.value.email,
       contact: contactNumber,
       website: this.businessForm.value.website,
-      stripe: this.businessForm.value.stripe
+      stripe: this.businessForm.value.stripe,
+      inHouseBusiness: this.businessForm.value.inHouseBusiness
     };
     this.helperService.addBusiness(body).subscribe((response) => {
       this.toastr.success('Retailer Added sucessfully!');
@@ -112,6 +126,51 @@ export class RetailerComponent implements OnInit {
     });
   }
 
+  // Start - Added By Sigma Solve(Rajendra) 10-March-2021
+  udpateModal(content, account) {
+    this.id = account.id;
+
+    this.updateBusinessForm.patchValue({
+      businessName: account.businessName,
+      email: account.email,
+      contact: account.contact,
+      website: account.website
+    });
+
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    }, (reason) => {
+    });
+  }
+
+  udpateRetailer() {
+    this.submitted = true;
+    if (this.updateBusinessForm.invalid) {
+      return;
+    }
+    
+    let contactNumber = `${this.updateBusinessForm.value.contact.dialCode} ${this.updateBusinessForm.value.contact.number.replace(/ /g, '').replace(this.updateBusinessForm.value.contact.dialCode, '')}`;
+    
+    const body = {
+      id: this.id,
+      businessName: this.updateBusinessForm.value.businessName,
+      email: this.updateBusinessForm.value.email,
+      contact: contactNumber,
+      website: this.updateBusinessForm.value.website,
+    };
+    this.helperService.updateBusiness(body).subscribe((response) => {
+      this.toastr.success('Retailer Updated sucessfully!');
+      this.list();
+      this.modalService.dismissAll();
+      this.updateBusinessForm.reset();
+      this.submitted = false;
+    }, (error) => {
+      this.toastr.error(error, '', {
+        timeOut: 2000,
+      });
+    });
+  }
+  // End
+
   assignLocation() {
     this.submitted = true;
     if (this.locationForm.invalid) {
@@ -122,7 +181,7 @@ export class RetailerComponent implements OnInit {
       locationId: this.locationForm.value.locationId,
       locationName: this.locationName
     };
-    console.log(body);
+    // console.log(body);
     this.helperService.assignLocation(body).subscribe((response) => {
       this.toastr.success('Location updated sucessfully!', '', {
         timeOut: 2000,
@@ -182,4 +241,30 @@ export class RetailerComponent implements OnInit {
     }, error => this.toastr.error(error));
 
   }
+
+  inHouseModal(inhousecontent, list) {
+    this.id = list.id;
+    this.modalService.open(inhousecontent, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    }, (reason) => {
+    });
+  }
+
+  changeInHouseBusiness() {
+    var id = this.id;
+    this.helperService.changeInHouseBusiness(id).subscribe(() => {
+      this.modalService.dismissAll();
+      this.list();
+    });
+  }
+
+  createAccountLink(accountId) {
+    const body = {
+      accountId: accountId,
+    };
+    this.helperService.createAccountLink(body).subscribe((response) => {
+      this.toastr.success('Email sent sucessfully!');
+    }, (error) => {
+    });
+  }
+
 }

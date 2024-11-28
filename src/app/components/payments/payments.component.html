@@ -32,50 +32,128 @@
     <div class="table-responsive">
       <table class="table table_ui_1">
         <thead>
-        <tr>
-          <th scope="col">Order Number<i class="fa fa-fw fa-sort" (click)="toggleSort('orderNumber')"></i></th>
-          <th scope="col">Amount <i class="fa fa-fw fa-sort" (click)="toggleSort('amount')"></i></th>
-          <th scope="col">Retailer</th>
-          <th scope="col">Account ID</th>
-          <th scope="col">Status</th>
-          <th scope="col">Timestamp</th>
-<!--          <th scope="col">Action</th>-->
-        </tr>
+          <tr>
+            <th scope="col">Order Number<i class="fa fa-fw fa-sort" (click)="toggleSort('orderNumber')"></i></th>
+            <th scope="col">Amount <i class="fa fa-fw fa-sort" (click)="toggleSort('amount')"></i></th>
+            <th scope="col">CMS Retailer</th>
+            <th scope="col">Stripe Account ID</th>
+            <th scope="col">Status</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Payment Date</th>
+            <!--          <th scope="col">Action</th>-->
+          </tr>
         </thead>
-        <tbody  *ngIf="payoutData?.length != 0">
-        <tr *ngFor="let data of payoutData" >
-          <td>{{data.orderNumber}}</td>
-          <td>{{data.amount.toFixed(2)}}</td>
-          <td>{{data.retailerName}}</td>
-          <td>{{data.destination}}</td>
-          <td>
-            <span class="badge badge-success" style="padding:5px" *ngIf="data.status">SUCCESS</span>
-            <span class="badge badge-danger" style="padding:5px" *ngIf="!data.status">PENDING</span>
-          </td>
-          <td>{{data.createdAt | amTimeAgo}}</td>
-          <!-- <td>{{list.createdAt}}</td>
+        <tbody *ngIf="payoutData?.length != 0">
+          <tr *ngFor="let data of payoutData">
+            <td>{{data.orderNumber}}</td>
+            <td>{{data.amount.toFixed(2)}}</td>
+            <td>{{data.retailerName}}</td>
+            <td>{{data.destination}}</td>
+            <td>
+              <span class="badge badge-success" style="padding:5px" *ngIf="data.status">SUCCESS</span>
+              <span class="badge badge-danger" style="padding:5px" *ngIf="!data.status">PENDING</span>
+            </td>
+            <td>{{data.createdAt | amTimeAgo}}</td>
+            <!-- <td>{{data.createdAt | date:'mm/dd/yyyy h:mm a'}}</td> -->
+            <td>{{data.createdAt | date:'MM/dd/yyyy'}}</td>
+            <!-- <td>{{list.createdAt}}</td>
           <td>{{list.updatedAt}}</td> -->
-          <!-- <td> -->
+            <!-- <td> -->
 
 
-        </tr>
+          </tr>
         </tbody>
         <tbody *ngIf="payoutData?.length == 0">
-        <tr>
-          <td colspan="9" class="no-data-available">No data!</td>
-        </tr>
+          <tr>
+            <td colspan="9" class="no-data-available">No data!</td>
+          </tr>
         <tbody>
       </table>
     </div>
-    <ul class="pagination">
-      <!--    <li class="page-item"><button class="page-link" (click)="navigatePrev()">Previous</button></li>-->
-      <ng-container *ngFor="let idx of pages">
-        <li class="page-item">
-          <button class="page-link" (click)="navigateToPage(idx)">{{idx}}</button>
+
+    <!-- pagination start -->
+
+    <ul *ngIf="payoutData && payoutData.length" class="pagination">
+      <li [ngClass]="{disabled:pageNumber === 1}" class="page-item first-item">
+        <a (click)="navigateToPage(1)" class="page-link">First</a>
+      </li>
+      <li [ngClass]="{disabled:pageNumber === 1}" class="page-item previous-item">
+        <a (click)="navigatePrev()" class="page-link">Previous</a>
+      </li>
+      <ng-container *ngIf="numPages <= 10; else second">
+        <li *ngFor="let page of pages" [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+          <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
         </li>
-      </ng-container>&nbsp;
-      <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label>
-      <!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
+      </ng-container>
+      <ng-template #second>
+        <ng-container *ngIf="pageNumber <= 5; else third">
+          <li *ngFor="let page of [1,2,3,4,5,6,7,8]" [ngClass]="{active:pageNumber === page}"
+            class="page-item number-item">
+            <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+          </li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+          <li [ngClass]="{active:pageNumber === numPages - 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages - 1)">{{numPages - 1}}</a></li>
+          <li [ngClass]="{active:pageNumber === numPages}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages)">{{numPages}}</a></li>
+        </ng-container>
+
+      </ng-template>
+      <ng-template #third>
+        <ng-container *ngIf="(pageNumber > 5 && pageNumber < numPages - 5); else fourth">
+          <li [ngClass]="{active:pageNumber === 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(1)">1</a></li>
+          <li [ngClass]="{active:pageNumber === 2}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(2)">2</a></li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+
+          <li *ngFor="let page of [(pageNumber-2),(pageNumber-1),(pageNumber),(pageNumber + 1),(pageNumber + 2)]"
+            [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+            <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+          </li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+          <li [ngClass]="{active:pageNumber === numPages - 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages - 1)">{{numPages - 1}}</a></li>
+          <li [ngClass]="{active:pageNumber === numPages}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(numPages)">{{numPages}}</a></li>
+        </ng-container>
+      </ng-template>
+      <ng-template #fourth>
+        <ng-container>
+          <li [ngClass]="{active:pageNumber === 1}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(1)">1</a></li>
+          <li [ngClass]="{active:pageNumber === 2}" class="page-item number-item"><a class="page-link"
+              (click)="navigateToPage(2)">2</a></li>
+          <li class="page-item number-item"><a class="page-link">...</a></li>
+
+          <li
+            *ngFor="let page of [(numPages-6),(numPages-5),(numPages - 4),(numPages- 3),(numPages - 2), (numPages - 1),(numPages)]"
+            [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+            <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+          </li>
+        </ng-container>
+      </ng-template>
+      <li [ngClass]="{disabled:pageNumber === numPages}" class="page-item next-item">
+        <a (click)="navigateNext()" class="page-link">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pageNumber === numPages}" class="page-item last-item">
+        <a (click)="navigateToPage(numPages)" class="page-link">Last</a>
+      </li>
     </ul>
+
+    <!-- pagination end -->
+
+    <br />
   </div>
 </div>
+
+<!-- <ul class="pagination"> -->
+<!--    <li class="page-item"><button class="page-link" (click)="navigatePrev()">Previous</button></li>-->
+<!-- <ng-container *ngFor="let idx of pages">
+    <li class="page-item">
+      <button class="page-link" (click)="navigateToPage(idx)">{{idx}}</button>
+    </li>
+  </ng-container>&nbsp; -->
+<!-- <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label> -->
+<!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
+<!-- </ul> -->

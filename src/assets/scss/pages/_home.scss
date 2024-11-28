@@ -117,7 +117,7 @@ h2.heading_main{
     @include remy(24);
     line-height: 28px;
     color: #585858;
-    max-width: 200px;
+    max-width: 300px;
     vertical-align: middle;
 }
 .head_container_side{
@@ -172,7 +172,7 @@ h2.heading_main{
     display: inline-block;
     width: 100%;
     text-align: right;
-    max-width: calc(100% - 205px);
+    max-width: calc(100% - 305px);
     vertical-align: middle;
     @media screen and (max-width: 575px){
         width: 100%;

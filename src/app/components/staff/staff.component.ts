@@ -3,6 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StaffService } from 'src/app/services/staff.service';
 import { SearchCountryField, CountryISO } from 'ngx-intl-tel-input';
+
 import * as $ from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,7 +18,6 @@ export class StaffComponent implements OnInit {
   submitted = false;
   staffList = [] = [];
   SearchCountryField = SearchCountryField;
-  // TooltipLabel = TooltipLabel;
   CountryISO = CountryISO;
   resetPasswordForm: FormGroup;
 
@@ -110,7 +110,7 @@ export class StaffComponent implements OnInit {
 
   save() {
     this.submitted = true;
-    console.log(this.staffForm.value)
+    // console.log(this.staffForm.value)
     if (this.staffForm.invalid) {
       return;
     }
@@ -126,7 +126,7 @@ export class StaffComponent implements OnInit {
       status:this.staffForm.value.status
 
     }
-    console.log(body)
+    // console.log(body)
     this.staffService.add(body).subscribe((response) => {
       this.toastr.success(response.message,'', {
         timeOut: 2000,
@@ -159,7 +159,7 @@ export class StaffComponent implements OnInit {
 
   update(){
     this.submitted = true;
-    console.log(this.editStaffForm.value)
+    // console.log(this.editStaffForm.value)
     if (this.editStaffForm.invalid) {
       return;
     }
@@ -175,7 +175,7 @@ export class StaffComponent implements OnInit {
       status:this.editStaffForm.value.status
 
     }
-    console.log(body)
+    // console.log(body)
     this.staffService.update(body).subscribe((response) => {
       this.toastr.success(response.message,'',{
         timeOut: 2000,
@@ -197,7 +197,7 @@ export class StaffComponent implements OnInit {
     }
 
     const resetPassword: any = this.resetPasswordForm.value;
-    console.log(resetPassword)
+    // console.log(resetPassword)
       this.staffService.resetPassword(resetPassword.id, resetPassword.password).subscribe((response) => {
         this.toastr.success(response.message, '',{
           timeOut: 2000,

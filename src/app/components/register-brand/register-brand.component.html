@@ -1,0 +1,65 @@
+<!-- <p>login works!</p> -->
+<div class="full_sc_container">
+    <div class="col-sm-3 col-md-6 col-lg-3 mx-auto offset-4" style="
+    margin-top: 10%">
+      <div class="card card-login my-5">
+        <div class="card-body">
+          <img src="../../../assets/avatar-380-456332.png" alt=""
+            style="height: 35%;width: 40%;margin-top: -22%;margin-left: 27%;">
+          <h5 class="card-title text-center">Register as Brand</h5>
+          <form class="form-login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-label-group">
+              <input type="email" id="inputEmail" class="form-control" placeholder="Email" formControlName="email"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required autofocus>
+              <label for="inputEmail">Email</label>
+            </div>
+  
+            <div class="form-label-group">
+              <input type="text" id="inputBrandName" class="form-control" placeholder="Brand Name" formControlName="brandName"
+               
+              
+              autofocus>
+              <label for="inputBrandName">Brand Name</label>
+            </div>
+
+
+            <div class="form-label-group">
+              <input type="text"
+              [ngClass]="{ 'is-invalid': submitted && f.contact.errors }"
+              id="inputContact" class="form-control" placeholder="Contact" formControlName="contact"
+                 autofocus>
+              <label for="inputContact">Contact</label>
+              <!-- <div *ngIf="submitted && f.contact.errors">
+                <small class="text-danger" *ngIf="f.contact.errors?.required">Contact is required.</small>
+                <small class="text-danger" *ngIf="f.contact.errors?.pattern">Invalid contact number. Please enter a valid number (e.g., 1234567890).</small>
+              </div> -->
+            </div>
+
+            <div class="form-label-group">
+              <input type="text"
+              [ngClass]="{ 'is-invalid': submitted && f.website.errors }"
+              id="inputWebsite" class="form-control" placeholder="Website" formControlName="website"
+                 autofocus>
+              <label for="inputWebsite">Website</label>
+              <!-- <div *ngIf="submitted && f.website.errors">
+                <small class="text-danger" *ngIf="f.website.errors?.required">Website is required.</small>
+                <small class="text-danger" *ngIf="f.website.errors?.pattern">Invalid website link. Please enter a valid URL (e.g., https://example.com).</small>
+              </div> -->
+            </div>
+            <div class="form-label-group">
+              <input type="password" id="inputPassword" class="form-control" formControlName="password"
+                placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required autofocus>
+              <label for="inputPassword">Password</label>
+            </div>
+  
+            <div class="custom-control custom-checkbox mb-3">
+              <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="rememberMe">
+              <label class="custom-control-label" for="customCheck1">Remember password</label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block " type="submit">Register brand</button>
+            <button class="btn btn-lg btn-primary btn-block " type="button" (click)="handleNavigate()">Login as super admin</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -38,6 +38,53 @@ export class AccountsService {
         }));
 }
 
+loginBrand(email: string, password: string, rememberMe: boolean) {
+  return this.http.post<any>(`${environment.apiUrl}/public/brand/login`, { email, password })
+      .pipe(map(response => {
+          if (response.data.accessToken) {
+              const user = response.data;
+              // login successful if there's a jwt token in the response
+              if (user && user.accessToken) {
+                  // store user details and jwt token in local storage to keep user logged in between page refreshes
+                  // local.setItem('loggedIn', moment());
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+                  localStorage.setItem('rememberMe', `${rememberMe}`);
+                  // console.log(user);
+                  this.currentUserSubject.next(user);
+              }
+              return user;
+          }
+      }));
+}
+
+registerBrand(email: string, password: string, rememberMe: boolean , brandName:string, contact:string, website:string) {
+    const payload: any = {};
+
+    if (email) payload.email = email;
+    if (password) payload.password = password;
+    if (brandName) payload.brandName = brandName;
+    if (contact) payload.contact = contact;
+    if (website) payload.website = website;
+  return this.http.post<any>(`${environment.apiUrl}/public/brand/register`, payload)
+      .pipe(map(response => {
+          if (response.data.accessToken) {
+              const user = response.data;
+              // login successful if there's a jwt token in the response
+              if (user && user.accessToken) {
+                  // store user details and jwt token in local storage to keep user logged in between page refreshes
+                  // local.setItem('loggedIn', moment());
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+                  localStorage.setItem('rememberMe', `${rememberMe}`);
+                  // console.log(user);
+                  this.currentUserSubject.next(user);
+              }
+              return user;
+          }
+      }));
+}
+
+
+
 logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('currentUser');

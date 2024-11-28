@@ -4,9 +4,7 @@
 
 export const environment = {
   // apiUrl: 'http://localhost:1337',
-  // apiUrl: 'https://g63zrwnq-1337.euw.devtunnels.ms',
   apiUrl: 'https://anton.markcoders.com/volley-backend',
-
   production: false
 };
 

@@ -38,7 +38,7 @@ export class BalancesComponent implements OnInit {
 
   fetchData() {
     this.helperService.getBalances(this.pageSize, this.pageNumber, this.status, this.sortField).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.balanceData = res['records'];
       if (this.balanceData) {
         this.dataLength = this.balanceData.length;

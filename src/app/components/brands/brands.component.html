@@ -1,0 +1,143 @@
+<!-- <p>payments works!</p> -->
+<!-- <p>rules works!</p> -->
+<style>
+    table {
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+  
+    .pagination {
+      display: block;
+    }
+  
+    .pagination li {
+      display: inline-block;
+      margin: 5px;
+    }
+  </style>
+  <div class="container mw_1440">
+    <div class="right_head" style="margin-bottom: 3%;">
+      <h2 class="heading_main">Brands</h2>
+    </div>
+  
+  
+    <div class="data_container">
+      <div class="table-responsive">
+        <table class="table table_ui_1">
+          <thead>
+            <tr>
+              <th scope="col">Brand Name</th>
+              <th scope="col">Website</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Email</th>
+              <th scope="col">Active</th>
+
+            </tr>
+          </thead>
+          <tbody name="payoutData" ngDefaultControl [(ngModel)]="payoutData" *ngIf="payoutData?.length != 0">
+            <tr *ngFor="let data of payoutData">
+              <td>{{data.brandName?data.brandName:"N/A"}}</td>
+              <td>
+                <a *ngIf="data.website" [href]="data.website" target="_new">{{data.website}}</a>
+                <span *ngIf="!data.website">N/A</span>
+              </td>
+              <td>{{data.contact?data.contact:"N/A"}}</td>
+              <td>{{data.email?data.email:"N/A"}}</td>
+              <td>
+                <span class="badge badge-success" style="padding:7px" *ngIf="data.isActivated">SUCCESS</span>
+                <span class="badge badge-danger" style="padding:7px" *ngIf="!data.isActivated">PENDING</span>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="!loading && payoutData?.length == 0">
+            <tr>
+              <td colspan="9" class="no-data-available">No data!</td>
+            </tr>
+          <tbody>
+          <tbody *ngIf="loading">
+            <tr>
+              <td colspan="9" class="no-data-available">Loading Fulfillments...</td>
+            </tr>
+          <tbody>
+        </table>
+      </div>
+  
+      <!-- pagination start -->
+  
+      <ul *ngIf="((payoutData && payoutData.length)) " class="pagination">
+        <li [ngClass]="{disabled:pageNumber === 1}" class="page-item first-item">
+          <a (click)="navigateToPage(1)" class="page-link">First</a>
+        </li>
+        <!-- <li [ngClass]="{disabled:pageNumber === 1}" class="page-item previous-item">
+          <a (click)="navigatePrev()" class="page-link">Previous</a>
+        </li> -->
+        <ng-container *ngIf="numPages <= 10; else second">
+          <li *ngFor="let page of pages" [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+            <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+          </li>
+        </ng-container>
+        <ng-template #second>
+          <ng-container *ngIf="pageNumber <= 5; else third">
+            <li *ngFor="let page of [1,2,3,4,5,6,7,8]" [ngClass]="{active:pageNumber === page}"
+              class="page-item number-item">
+              <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+            </li>
+            <li class="page-item number-item"><a class="page-link">...</a></li>
+            <li [ngClass]="{active:pageNumber === numPages - 1}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(numPages - 1)">{{numPages - 1}}</a></li>
+            <li [ngClass]="{active:pageNumber === numPages}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(numPages)">{{numPages}}</a></li>
+          </ng-container>
+  
+        </ng-template>
+        <ng-template #third>
+          <ng-container *ngIf="(pageNumber > 5 && pageNumber < numPages - 5); else fourth">
+            <li [ngClass]="{active:pageNumber === 1}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(1)">1</a></li>
+            <li [ngClass]="{active:pageNumber === 2}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(2)">2</a></li>
+            <li class="page-item number-item"><a class="page-link">...</a></li>
+  
+            <li *ngFor="let page of [(pageNumber-2),(pageNumber-1),(pageNumber),(pageNumber + 1),(pageNumber + 2)]"
+              [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+              <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+            </li>
+            <li class="page-item number-item"><a class="page-link">...</a></li>
+            <li [ngClass]="{active:pageNumber === numPages - 1}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(numPages - 1)">{{numPages - 1}}</a></li>
+            <li [ngClass]="{active:pageNumber === numPages}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(numPages)">{{numPages}}</a></li>
+          </ng-container>
+        </ng-template>
+        <ng-template #fourth>
+          <ng-container>
+            <li [ngClass]="{active:pageNumber === 1}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(1)">1</a></li>
+            <li [ngClass]="{active:pageNumber === 2}" class="page-item number-item"><a class="page-link"
+                (click)="navigateToPage(2)">2</a></li>
+            <li class="page-item number-item"><a class="page-link">...</a></li>
+  
+            <li
+              *ngFor="let page of [(numPages-6),(numPages-5),(numPages - 4),(numPages- 3),(numPages - 2), (numPages - 1),(numPages)]"
+              [ngClass]="{active:pageNumber === page}" class="page-item number-item">
+              <a (click)="navigateToPage(page)" class="page-link">{{page}}</a>
+            </li>
+          </ng-container>
+        </ng-template>
+        <!-- <li [ngClass]="{disabled:pageNumber === numPages}" class="page-item next-item">
+          <a (click)="navigateNext()" class="page-link">Next</a>
+        </li> -->
+        <li [ngClass]="{disabled:pageNumber === numPages}" class="page-item last-item">
+          <a (click)="navigateToPage(numPages)" class="page-link">Last</a>
+        </li>
+      </ul>
+  
+      <!-- pagination end -->
+  
+  
+      <br />
+      <!-- <div>
+        <label class="alert alert-info" *ngIf="dataLength!=0 " style="padding: 4px">Current Page: {{pageNumber}}</label>
+      </div> -->
+    </div>
+  </div>
