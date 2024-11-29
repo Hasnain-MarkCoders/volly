@@ -8,6 +8,23 @@
   outline:none;
 }
 
+.chip-container {
+	display: flex;
+	flex-wrap: wrap;
+  }
+  
+  .chip {
+	background-color: #e0e0e0;
+	border-radius: 16px;
+	padding: 5px 10px;
+	margin: 2px;
+	font-size: 14px;
+	display: inline-block;
+  }
+.disabled-dropdown{
+	pointer-events: none;
+}
+
 html{
 	height: 100%;
 	scroll-behavior: smooth;

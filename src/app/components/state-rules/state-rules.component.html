@@ -48,7 +48,14 @@
         <tbody>
           <tr *ngFor="let rule of rulesList;let i = index">
             <td>{{rule['code']}}</td>
-            <td>{{rule['locationName']}} ({{rule['locationId']}})</td>
+            <td>
+              <div class="chip-container">
+                <!-- Loop through the locations and display each as a chip -->
+                <span *ngFor="let location of rule.locations" class="chip">
+                  {{ location.locationName }}
+                </span>
+              </div>
+            </td>
             <td>{{rule['productName']}} ({{rule['productId']}})</td>
             <td>
               <ul class="action_listing">
@@ -85,7 +92,7 @@
           <div class="form-group has-label col-md-12">
             <label class="control-label" for="">State:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="stateId" (change)="selectcode($event)">
+            <select class="form-control mr-1" formControlName="stateId" (change)="selectcode($event); getFilteredLocations(stateForm.get('stateId').value,stateForm.get('productId').value)">
               <option value="">Choose State</option>
               <option value="{{ state.id }}" *ngFor="let state of states; let i = index">{{ state.name }} </option>
             </select>
@@ -95,15 +102,19 @@
               State is Required.
             </small>
           </div>
+          
 
           <div class="form-group has-label col-md-12">
             <label class="control-label" for="">Product:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event)">
+            <select 
+            
+            [ngClass]="{'disabled-dropdown': !stateForm.get('stateId').valid}"
+            class="form-control mr-1" formControlName="productId" (change)="selectProduct($event); getFilteredLocations(stateForm.get('stateId').value,stateForm.get('productId').value)" >
               <option value="">Choose Product</option>
               <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
               </option>
-            </select>
+            </select> 
             <small
               [hidden]="stateForm.get('productId').valid && (! stateForm.submitted || stateForm.get('productId').touched)"
               class="text-danger">
@@ -112,26 +123,31 @@
           </div>
           
           <div class="form-group has-label col-md-12">
-            <!-- <ng-multiselect-dropdown
-            [settings]="dropdownSettings"
+            <ng-multiselect-dropdown
+            formControlName="locationId"
+            allowRemoteDataSearch="true"
+            [settings]="state_dropdownSettings"
             [placeholder]="'Shopify Locations'"
-            [data]="dropdownList"
+            [data]="locations"
             [(ngModel)]="selectedItems"
             (onSelect)="onItemSelect($event)"
             (onSelectAll)="onSelectAll($event)"
+            [ngClass]="{'disabled-dropdown': !stateForm.get('stateId').valid || !stateForm.get('productId').valid }"
           >
-          </ng-multiselect-dropdown> -->
-            <label class="control-label" for="">Shopify Location:</label>
-            <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+          </ng-multiselect-dropdown>
+
+<!-- <button (click)="resetSelectedItems()">Reset Selection</button> -->
+            <!-- <label class="control-label" for="">Shopify Location:</label> -->
+            <!-- <span class="star">*</span> -->
+            <!-- <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
               <option value="">Choose Shopify Location</option>
               <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
-            </select>
-            <small
+            </select> -->
+            <!-- <small
               [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
               class="text-danger">
               Shopify Location is Required.
-            </small>
+            </small> -->
           </div>
         </div>
       </div>
@@ -217,7 +233,7 @@
           <div class="form-group has-label col-md-6">
             <label class="control-label" for="">Product:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event)">
+            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event); getFilteredLocationsForProductRule(productForm.get('productId').value)">
               <option value="">Choose Product</option>
               <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
               </option>
@@ -247,7 +263,7 @@
           <div class="form-group has-label col-md-6">
             <label class="control-label" for="">Shopify Location:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+            <!-- <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
               <option value="">Choose Shopify Location</option>
               <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
             </select>
@@ -255,7 +271,19 @@
               [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
               class="text-danger">
               Shopify Location is Required.
-            </small>
+            </small> -->
+            <ng-multiselect-dropdown
+            allowRemoteDataSearch="true"
+            [settings]="product_dropdownSettings"
+            [placeholder]="'Shopify Locations'"
+            [data]="locations"
+            [(ngModel)]="selectedItems"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+            [ngClass]="{'disabled-dropdown': !productForm.get('productId').valid }"
+
+          >
+          </ng-multiselect-dropdown>
           </div>
         </div>
       </div>
@@ -297,7 +325,20 @@
           </div>
 
           <div class="form-group has-label col-md-12">
+
             <label class="control-label" for="">Shopify Location:</label>
+            <ng-multiselect-dropdown
+            formControlName="locationId"
+            [settings]="state_dropdownSettings"
+            [placeholder]="'Shopify Locations'"
+            [data]="locations_for_update"
+            [(ngModel)]="selectedItems"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+            [ngClass]="{'disabled-dropdown': !stateForm.get('stateId').valid || !stateForm.get('productId').valid }"
+          >
+          </ng-multiselect-dropdown>
+            <!-- <label class="control-label" for="">Shopify Location:</label>
             <span class="star">*</span>
             <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
               <option value="">Choose Shopify Location</option>
@@ -307,7 +348,7 @@
               [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
               class="text-danger">
               Shopify Location is Required.
-            </small>
+            </small> -->
           </div>
           
           <div class="form-group has-label col-md-12">
@@ -382,7 +423,7 @@
           <div class="form-group has-label col-md-6">
             <label class="control-label" for="">Shopify Location:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+            <!-- <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
               <option value="">Choose Shopify Location</option>
               <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
             </select>
@@ -390,7 +431,8 @@
               [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
               class="text-danger">
               Shopify Location is Required.
-            </small>
+            </small> -->
+            
           </div>
         </div>
       </div>

@@ -19,6 +19,17 @@ export class HelperService {
 
   }
 
+  getFilteredLocations(stateId:string,productId:string) {
+    return this.http.get(`${environment.apiUrl}/rule/available-locations?stateId=${stateId}&productId=${productId}`);
+
+  }
+  getFilteredLocationsForProductRule(productId:string) {
+    return this.http.get(`${environment.apiUrl}/rule/available-locations2?productId=${productId}`);
+
+  }
+
+
+
   getState() {
     return this.http.get(`${environment.apiUrl}/states`);
 

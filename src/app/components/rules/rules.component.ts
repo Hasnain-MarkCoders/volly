@@ -27,14 +27,20 @@ export class RulesComponent implements OnInit {
   locationName:any;
   productName:any;
   sortToggle = false;
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+  state_dropdownSettings={};
+  product_dropdownSettings={};
+  locations_for_update = []
 
   constructor(private modalService: NgbModal, private ruleService: RuleService, private helperService: HelperService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.stateForm = new FormGroup({
       stateId: new FormControl('', [Validators.required]),
-      locationId: new FormControl('', [Validators.required]),
       productId: new FormControl('', [Validators.required]),
+      locationId: new FormControl(''),
     });
 
     this.zipForm = new FormGroup({
@@ -46,11 +52,15 @@ export class RulesComponent implements OnInit {
     this.productForm = new FormGroup({
       productId: new FormControl('', [Validators.required]),
       // variantId: new FormControl('', [Validators.required]),
-      locationId: new FormControl('', [Validators.required]),
+      locationId: new FormControl([], []),
     });
 
     this.helperService.getLocations().subscribe((resp: any) => {
       this.locations = resp;
+      this.locations_for_update = resp.map((item) => ({
+        id: item?.id?.toString(),
+        name: item?.name,
+      }));
     });
 
     this.helperService.getState().subscribe((resp: any) => {
@@ -66,8 +76,107 @@ export class RulesComponent implements OnInit {
     //   console.log(data);
     //   this.rulesList = data;
     // });
+    this.dropdownSettings = {
+      noDataAvailablePlaceholderText:"All locations already have a state rule.",
+      singleSelection: false,
+      idField: 'id',    // Correct field name for item ID
+      textField: 'name', // Correct field name for item text
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+    
+    this.state_dropdownSettings = {
+      noDataAvailablePlaceholderText:
+        'All locations already have a state rule.',
+      singleSelection: false,
+      idField: 'id', // Correct field name for item ID
+      textField: 'name', // Correct field name for item text
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
+
+    this.product_dropdownSettings = {
+      noDataAvailablePlaceholderText:
+        'All locations already have a product rule.',
+      singleSelection: false,
+      idField: 'id', // Correct field name for item ID
+      textField: 'name', // Correct field name for item text
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
+
+  
 
   }
+  getFilteredLocations(stateId:string, productId:string){
+    if (stateId && productId){
+      this.helperService.getFilteredLocations(stateId, productId).subscribe((resp: any) => {
+        console.log("resp==============>", resp)
+        this.locations = resp;
+      });
+    }
+  }
+
+  getFilteredLocationsForProductRule( productId: string){
+    if ( productId) {
+      this.helperService
+        .getFilteredLocationsForProductRule(productId)
+        .subscribe((resp: any) => {
+          console.log('resp filtered locations==============>', resp);
+          this.locations = resp;
+        });
+    }
+  }
+  getAllLocations() {
+    this.helperService.getLocations().subscribe((resp: any) => {
+      this.locations = resp;
+    });
+  }
+  updateDataKeys(data: any[], keyMapping: { [oldKey: string]: string }): any[] {
+    return data
+      .map((item) => {
+        let updatedItem: any = {};
+
+        for (const [oldKey, newKey] of Object.entries(keyMapping)) {
+          if (item.hasOwnProperty(oldKey)) {
+            updatedItem[newKey] = item[oldKey]?.toString();
+          }
+        }
+
+        // Only return updatedItem if it's not empty
+        return Object.keys(updatedItem).length > 0 ? updatedItem : null;
+      })
+      .filter((item) => item !== null); // Remove any null or empty objects
+  }
+
+
+  resetSelectedItems() {
+    // this.stateForm.reset();
+  }
+  onItemSelect(location: any) {
+    const existingItem = this.selectedItems.find(item => item.locationId === location.id);
+  
+    if (existingItem) {
+      // Update existing item
+      existingItem.locationId = location?.id?.toString();
+      existingItem.locationName = location?.name?.toString();
+    } else {
+      // Add new item
+      this.selectedItems.push({ locationId: location?.id?.toString(), locationName: location?.name.toString() });
+    }
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+    this.selectedItems = items.map(item => ({ locationName: item?.name?.toString(), locationId: item?.id?.toString() }));
+    console.log("this.selectedItems", this.selectedItems)
+  }
+  
 
   list(){
     this.ruleService.getProductRules().subscribe((data: any) => {
@@ -133,10 +242,11 @@ export class RulesComponent implements OnInit {
     const body = {
       stateId: JSON.parse(this.stateForm.value.stateId),
       productId: this.stateForm.value.productId,
-      locationId: this.stateForm.value.locationId,
       code: this.code,
       productName: this.productName,
-      locationName:this.locationName
+      // locationId: this.stateForm.value.locationId,
+      // locationName:this.locationName
+      locations:this.selectedItems
     }
     this.ruleService.addStateRule(body).subscribe((response) => {
       this.toastr.success('State Rule Added sucessfully!', '', {
@@ -184,13 +294,19 @@ export class RulesComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     }
-
+    this.getAllLocations();
+    const keyMapping = {
+       'id':"locationId",
+       'name':"locationName",
+    };
+    let data = this.updateDataKeys(this.selectedItems, keyMapping);
+    // this.selectedItems = data;
     const body = {
       productId: this.productForm.value.productId,
       // variantId: this.productForm.value.variantId,
       productName:this.productName,
-      locationName:this.locationName,
-      locationId: this.productForm.value.locationId
+      // locationName:this.locationName,
+      locations: data
     }
 
     this.ruleService.addProductRule(body).subscribe((response) => {
@@ -203,6 +319,7 @@ export class RulesComponent implements OnInit {
       this.productName = null;
       this.modal = null;
       this.productForm.reset();
+      this.selectedItems=[]
     }, (error) => {
       this.toastr.error(error, '',{
         timeOut: 2000,
@@ -234,12 +351,21 @@ export class RulesComponent implements OnInit {
     //     this.variants = this.products[i].variants;
     //   }
     // }
+    this.getAllLocations();
+    const keyMapping = {
+      locationId: 'id',
+      locationName: 'name',
+    };
+    let data = this.updateDataKeys(rule.locations, keyMapping);
+    this.selectedItems = data;
+    console.log("data selectedItems", data)
     this.productForm.patchValue({
       productId: rule.productId,
       // variantId: rule.variantId,
-      locationId: rule.locationId
+      // locationId: rule.locationId
+      
     })
-    this.locationName = rule.locationName;
+    // this.locationName = rule.locationName;
     this.productId = rule.id
     this.modal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', });
     this.modal.result.then((result) => {
@@ -296,13 +422,20 @@ export class RulesComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     }
+    const keyMapping = {
+      id: 'locationId',
+      name: 'locationName',
+    };
+    let data = this.updateDataKeys(this.selectedItems, keyMapping);
 
     const body = {
       id: this.productId,
       productId: this.productForm.value.productId,
       // variantId: this.productForm.value.variantId,
-      locationId: this.productForm.value.locationId,
-      locationName:this.locationName
+      // locationId: this.productForm.value.locationId,
+      // locationName:this.locationName
+      productName:this.productName,
+      locations: data,
     }
 
     this.ruleService.updateProductRule(body).subscribe((response) => {
