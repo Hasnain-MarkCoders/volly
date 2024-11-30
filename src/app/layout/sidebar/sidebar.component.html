@@ -1,53 +1,82 @@
 <div class="wrapper">
   <div class="head_container_side">
-        <div class="container-fluid">
-          <div class="menu_btn d-md-none">
-            <span class="icons menu_icon"></span>
-          </div>
-          <div class="logo_container">
-            <!-- <h4>Volley</h4> -->
-              <a href="javascript:void(0)">
-                  <img src="../../../assets/volley_logo.jpg" alt="logo" />
-              </a>
-          </div>
-          <div class="header_right_extra">
-            <ul>
-              <li>
-                <a href="javascript:void(0)" class="logout_btn" (click)="logout()"><label for="">Logout</label> <span class="icons logout_icon"></span></a>
-              </li>
-            </ul>
-          </div>
-        </div>
+    <div class="container-fluid">
+      <div class="menu_btn d-md-none">
+        <span class="icons menu_icon"></span>
       </div>
-      <aside class="sidebar">
-        <ul class="side_listing">
-       
-          <li (click)="isSelected('/')" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-            <a href="javascript:void(0)" routerLink="/"> <span class="icons orders_icon"></span> <label>Orders</label></a>
-          </li>
-          <li (click)="isSelected('/brands')" routerLinkActive="active" >
-            <a href="javascript:void(0)" routerLink="/brands"> <span class="icons setting_icon"></span> <label>Brands</label> </a>
-          </li>
-          <li (click)="isSelected('/location')" routerLinkActive="active">
-            <a href="javascript:void(0)" routerLink="/location"> <span class="icons location_icon"></span> <label>Shipping</label> </a>
-          </li>
-          <li (click)="isSelected('/retailer')" routerLinkActive="active" >
-            <a href="javascript:void(0)" routerLink="/retailer"> <span class="icons retailers_icon"></span> <label>CMS Retailer</label> </a>
-          </li>
-          <li (click)="isSelected('/payments')" routerLinkActive="active">
-            <a href="javascript:void(0)" routerLink="/payments"> <span class="icons payment_icon"></span> <label>Payments</label> </a>
-          </li>
-          <li (click)="isSelected('/fulfillments')" routerLinkActive="active">
-            <a href="javascript:void(0)" routerLink="/fulfillments"> <span class="icons edit_icon"></span> <label>Fulfillments</label> </a>
-          </li>
-          <li (click)="isSelected('/staff')" routerLinkActive="active" >
-            <a href="javascript:void(0)" routerLink="/staff"> <span class="icons setting_icon"></span> <label>Settings</label> </a>
-          </li>
-          <li (click)="isSelected('/credentials')" routerLinkActive="active" >
-            <a href="javascript:void(0)" routerLink="/credentials"> <span class="icons setting_icon"></span> <label>Credentials</label> </a>
+      <div class="logo_container">
+        <!-- <h4>Volley</h4> -->
+        <a href="javascript:void(0)">
+          <img src="../../../assets/volley_logo.jpg" alt="logo" />
+        </a>
+      </div>
+      <div class="header_right_extra">
+        <ul>
+          <li>
+            <a href="javascript:void(0)" class="logout_btn" (click)="logout()"
+              ><label for="">Logout</label>
+              <span class="icons logout_icon"></span
+            ></a>
           </li>
         </ul>
-      </aside>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar">
+    <ul class="side_listing">
+      <li
+        (click)="isSelected('/')"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a href="javascript:void(0)" routerLink="/">
+          <span class="icons orders_icon"></span> <label>Orders</label></a
+        >
+      </li>
+      <!-- <li (click)="isSelected('/brands')" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/brands">
+          <span class="icons material-symbols-outlined"> group </span>
+        </a>
+      </li> -->
+      <li (click)="isSelected('/brands')" *ngIf="currentUserValue && currentUserValue.roleId < 3"  routerLinkActive="active">
+        <a href="javascript:void(0)" class="custom_tab_icon_style" routerLink="/brands">
+          <span class="material-symbols-outlined">
+            group
+            </span> <label>Brands</label></a
+        >
+      </li>
+      <li (click)="isSelected('/location')" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/location">
+          <span class="icons location_icon"></span> <label>Shipping</label>
+        </a>
+      </li>
+      <li (click)="isSelected('/retailer')" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/retailer">
+          <span class="icons retailers_icon"></span> <label>CMS Retailer</label>
+        </a>
+      </li>
+      <li (click)="isSelected('/payments')" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/payments">
+          <span class="icons payment_icon"></span> <label>Payments</label>
+        </a>
+      </li>
+      <li (click)="isSelected('/fulfillments')" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/fulfillments">
+          <span class="icons edit_icon"></span> <label>Fulfillments</label>
+        </a>
+      </li>
+      <li (click)="isSelected('/staff')" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/staff">
+          <span class="icons setting_icon"></span> <label>Settings</label>
+        </a>
+      </li>
+      <li (click)="isSelected('/credentials')" routerLinkActive="active">
+        <a href="javascript:void(0)" class="custom_tab_icon_style" routerLink="/credentials">
+          <span class="material-symbols-outlined"> lock </span> <label>Credentials</label></a
+        >
+      </li>
+    </ul>
+  </aside>
   <div class="w_side">
     <router-outlet></router-outlet>
   </div>

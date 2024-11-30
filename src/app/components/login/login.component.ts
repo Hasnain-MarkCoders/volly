@@ -46,7 +46,9 @@ export class LoginComponent implements OnInit {
 
   get f() { return this.loginForm.controls; }
   handleNavigate(){
-    this.router.navigate(['/brand-login'], { queryParams: { returnUrl: "/" } })
+    // this.router.navigate(['/brand-login'], { queryParams: { returnUrl: "/" } })
+    this.router.navigate(['/login'], { queryParams: { returnUrl: "/" } })
+
   }
 
   onSubmit() {

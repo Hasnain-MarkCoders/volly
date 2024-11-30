@@ -52,7 +52,7 @@ export class RegisterBrandComponent implements OnInit {
     return this.loginForm.controls;
   }
   handleNavigate() {
-    this.router.navigate(['/login'], { queryParams: { returnUrl: '/' } });
+    this.router.navigate(['/admin-login'], { queryParams: { returnUrl: '/' } });
   }
 
   onSubmit() {

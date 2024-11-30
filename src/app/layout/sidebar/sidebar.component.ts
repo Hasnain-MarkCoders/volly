@@ -8,6 +8,7 @@ declare var $: any;
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+  currentUserValue = {}
   constructor(private router: Router,     private accountsService: AccountsService,) {
 
     $(document).ready(function () {
@@ -19,6 +20,11 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+     this.accountsService.currentUser.subscribe(user=>{
+      this.currentUserValue =user
+
+    })
+    console.log("currentUserValue====================>", this.currentUserValue)
   }
 
   logout() {
