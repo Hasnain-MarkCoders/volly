@@ -38,7 +38,7 @@
           <span class="icons material-symbols-outlined"> group </span>
         </a>
       </li> -->
-      <li (click)="isSelected('/brands')" *ngIf="currentUserValue && currentUserValue.roleId < 3"  routerLinkActive="active">
+      <li (click)="isSelected('/brands')"   *ngIf="currentUserValue && currentUserValue.roleId < 3"    routerLinkActive="active">
         <a href="javascript:void(0)" class="custom_tab_icon_style" routerLink="/brands">
           <span class="material-symbols-outlined">
             group
