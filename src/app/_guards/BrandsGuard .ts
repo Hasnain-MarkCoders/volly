@@ -18,7 +18,7 @@ export class BrandsGuard implements CanActivate {
     }
 
     // If roleId >= 3 or not authenticated, redirect to another route (e.g., dashboard)
-    this.router.navigate(['/dashboard']);  // Adjust the redirection as needed
+    this.router.navigate(['/']);  // Adjust the redirection as needed
     return false;
   }
 }

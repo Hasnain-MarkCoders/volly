@@ -65,7 +65,7 @@
           <span class="icons edit_icon"></span> <label>Fulfillments</label>
         </a>
       </li>
-      <li (click)="isSelected('/staff')" routerLinkActive="active">
+      <li (click)="isSelected('/staff')"  *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/staff">
           <span class="icons setting_icon"></span> <label>Settings</label>
         </a>

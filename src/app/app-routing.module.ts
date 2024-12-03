@@ -63,10 +63,10 @@ const routes: Routes = [
         path: 'balances',
         component: BalancesComponent,
       },
-      {
-        path: 'staff',
-        component: StaffComponent,
-      },
+      // {
+      //   path: 'staff',
+      //   component: StaffComponent,
+      // },
       {
         path: 'fulfillments',
         component: FulfillmentsComponent,
@@ -88,14 +88,20 @@ const routes: Routes = [
   {
     path: '',
     component: SidebarComponent,
+    canActivate: [AuthGuard, BrandsGuard],
+
     children: [
       {
         path: 'brands',
         component: BrandsComponent,
       },
+      {
+        path: 'staff',
+        component: StaffComponent,
+      },
     ],
 
-    canActivate: [AuthGuard, BrandsGuard],
+    // canActivate: [AuthGuard, BrandsGuard],
   },
   {
     path: 'stripe-success/:successId',
