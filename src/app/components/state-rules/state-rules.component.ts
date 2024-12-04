@@ -156,6 +156,8 @@ getProductsForSpecificLocation (locId:string){
   });
 
 }
+
+
   getStatesForSpecificProductAndLocation(prodId:string, locId:string){
     this.allStatesList=[]
     this.allSelectedStates=[]
