@@ -71,7 +71,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let rule of rulesList;let i = index">
-            <td><input type="text" class="filter_search_input" [(ngModel)]="rule.productFilter" placeholder="Filter products">
+            <td><input type="text" class="filter_search_input" [(ngModel)]="rule.productFilter" placeholder="Search">
               <div class="chip-container">
                 <!-- Loop through the locations and display each as a chip -->
                 <span   [ngClass]="{'highlight-chip': isProductHighlighted(rule.productFilter, state)}"  *ngFor="let state of rule.products" class="chip">

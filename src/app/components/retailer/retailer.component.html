@@ -44,6 +44,7 @@
             <th scope="col">Stripe</th>
             <th scope="col">In-House</th>
             <th scope="col">Shopify Location</th>
+            <th scope="col">Ratings</th>
             <th scope="col">Action</th>
             <!-- <th scope="col">Created At</th>
           <th scope="col">Updated At</th> -->
@@ -62,6 +63,7 @@
                 <small (click)=createAccountLink(list.accountId)>Resend Email</small>
               </a>
             </td>
+            
             <td>
               <a href="javascript:void(0)" *ngIf="list.inHouseBusiness" (click)="inHouseModal(inhousecontent,list)">
                 <span class="badge badge-success" placement="top" ngbTooltip="Click to change">true</span>
@@ -82,6 +84,12 @@
             </td>
             <td *ngIf="list.locationId">{{list.locationName}}({{list.locationId}})&nbsp;<a
                 href="javascript:void(0)"><span (click)=unlink(list.id)><u>Unassign</u></span></a></td>
+               
+                <td >
+                  <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
+    
+                   
+              </td>
             <td>
               <a href="javascript:void(0)" (click)="udpateModal(updateRetailerContent,list)">
                 <span class="icons edit_icon"></span>

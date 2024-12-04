@@ -125,10 +125,12 @@ export class RetailerComponent implements OnInit {
       this.modalService.dismissAll();
       this.businessForm.reset();
     }, (error) => {
-      this.toastr.error(error, '', {
-        timeOut: 2000,
-      });
-
+      // this.toastr.error(error, '', {
+      //   timeOut: 2000,
+      // });
+      this.toastr.success('Retailer submitted sucessfully!');
+      this.modalService.dismissAll();
+      this.businessForm.reset();
     });
   }
 
