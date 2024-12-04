@@ -160,7 +160,9 @@ export class StateRulesComponent implements OnInit {
     return filter && state.name.toLowerCase().includes(filter.toLowerCase());
   }
 
-
+  isProductHighlighted(filter: string, product: any): boolean {
+    return filter && product.title.toLowerCase().includes(filter.toLowerCase());
+  }
 getProductsForSpecificLocation (locId:string){
   this.allProductsList=[]
   this.allSelectedProducts=[]

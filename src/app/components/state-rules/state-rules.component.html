@@ -91,9 +91,10 @@
               </div>
             </td>
             <td>
+              <input type="text" class="filter_search_input" [(ngModel)]="rule.productFilter" placeholder="Search" />
               <div class="chip-container">
                 <span 
-                
+                [ngClass]="{'highlight-chip': isProductHighlighted(rule.productFilter, product)}" 
                 *ngFor="let product of rule.products" class="chip">
                   {{ product.title }}
                 </span>
