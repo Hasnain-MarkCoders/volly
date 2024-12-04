@@ -45,7 +45,7 @@
             </span> <label>Brands</label></a
         >
       </li>
-      <li (click)="isSelected('/location')" routerLinkActive="active">
+      <li (click)="isSelected('/location')"  routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/location">
           <span class="icons location_icon"></span> <label>Shipping</label>
         </a>
@@ -55,12 +55,12 @@
           <span class="icons retailers_icon"></span> <label>CMS Retailer</label>
         </a>
       </li>
-      <li (click)="isSelected('/payments')" routerLinkActive="active">
+      <li (click)="isSelected('/payments')" *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/payments">
           <span class="icons payment_icon"></span> <label>Payments</label>
         </a>
       </li>
-      <li (click)="isSelected('/fulfillments')" routerLinkActive="active">
+      <li (click)="isSelected('/fulfillments')" *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/fulfillments">
           <span class="icons edit_icon"></span> <label>Fulfillments</label>
         </a>

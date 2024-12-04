@@ -38,24 +38,53 @@
   <div class="data_container">
     <div class="table-responsive">
       <table class="table table_ui_1">
-        <thead>
+        <!-- <thead>
           <tr>
             <th scope="col">State <i class="fa fa-fw fa-sort" (click)="toggleSort()"></i></th>
             <th scope="col">Shopify Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i></th>
             <th scope="col">Product Name <i class="fa fa-fw fa-sort" (click)="sortProduct()"></i></th>
           </tr>
+        </thead> -->
+        <colgroup>
+          <col style="width: 60%;">
+          <col style="width: 20%;">
+          <col style="width: 20%;">
+          <col style="width: 20%;">
+
+        </colgroup>
+  
+        <thead>
+          <tr>
+            <th scope="col">
+              State <i class="fa fa-fw fa-sort" (click)="toggleSort()"></i>
+            </th>
+            <th scope="col">
+              Shopify Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i>
+            </th>
+            <th scope="col">
+              Rating 
+            </th>
+            <th scope="col">
+              Product Name <i class="fa fa-fw fa-sort" (click)="sortProduct()"></i>
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr *ngFor="let rule of rulesList;let i = index">
-            <td>{{rule['code']}}</td>
             <td>
               <div class="chip-container">
                 <!-- Loop through the locations and display each as a chip -->
-                <span *ngFor="let location of rule.locations" class="chip">
-                  {{ location.locationName }}
+                <span *ngFor="let state of rule.states" class="chip">
+                  {{ state.name }}
                 </span>
               </div>
             </td>
+            <td>{{rule['locationName']}} ({{rule['locationId']}})</td>
+            <td >
+              <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
+
+               
+          </td>
             <td>{{rule['productName']}} ({{rule['productId']}})</td>
             <td>
               <ul class="action_listing">
@@ -90,64 +119,56 @@
       <div class="modal-body">
         <div class="row m-0">
           <div class="form-group has-label col-md-12">
-            <label class="control-label" for="">State:</label>
-            <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="stateId" (change)="selectcode($event); getFilteredLocations(stateForm.get('stateId').value,stateForm.get('productId').value)">
-              <option value="">Choose State</option>
-              <option value="{{ state.id }}" *ngFor="let state of states; let i = index">{{ state.name }} </option>
-            </select>
-            <small
-              [hidden]="stateForm.get('stateId').valid && (! stateForm.submitted || stateForm.get('stateId').touched)"
-              class="text-danger">
-              State is Required.
-            </small>
-          </div>
-          
-
-          <div class="form-group has-label col-md-12">
             <label class="control-label" for="">Product:</label>
             <span class="star">*</span>
-            <select 
-            
-            [ngClass]="{'disabled-dropdown': !stateForm.get('stateId').valid}"
-            class="form-control mr-1" formControlName="productId" (change)="selectProduct($event); getFilteredLocations(stateForm.get('stateId').value,stateForm.get('productId').value)" >
+            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event);
+             getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Product</option>
               <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
               </option>
-            </select> 
+            </select>
             <small
               [hidden]="stateForm.get('productId').valid && (! stateForm.submitted || stateForm.get('productId').touched)"
               class="text-danger">
               Product is Required.
             </small>
           </div>
-          
           <div class="form-group has-label col-md-12">
-            <ng-multiselect-dropdown
-            formControlName="locationId"
-            allowRemoteDataSearch="true"
-            [settings]="state_dropdownSettings"
-            [placeholder]="'Shopify Locations'"
-            [data]="locations"
-            [(ngModel)]="selectedItems"
-            (onSelect)="onItemSelect($event)"
-            (onSelectAll)="onSelectAll($event)"
-            [ngClass]="{'disabled-dropdown': !stateForm.get('stateId').valid || !stateForm.get('productId').valid }"
-          >
-          </ng-multiselect-dropdown>
-
-<!-- <button (click)="resetSelectedItems()">Reset Selection</button> -->
-            <!-- <label class="control-label" for="">Shopify Location:</label> -->
-            <!-- <span class="star">*</span> -->
-            <!-- <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+            <label class="control-label" for="">Shopify Location:</label>
+            <span class="star">*</span>
+            <select
+            [ngClass]="{'disabled-dropdown':!stateForm.get('productId').valid }"
+            class="form-control mr-1" formControlName="locationId" (change)="selected($event);
+            getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
               <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
-            </select> -->
-            <!-- <small
+            </select>
+            <small
               [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
               class="text-danger">
               Shopify Location is Required.
-            </small> -->
+            </small>
+          </div>
+          <div class="form-group has-label col-md-12">
+            <label class="control-label" for="">State:</label>
+            <span class="star">*</span>
+              <ng-multiselect-dropdown
+              formControlName="stateId"
+            [settings]="AddStateRuleDropDownSetting"
+            [placeholder]="'States'"
+            [data]="allStatesList"
+            [(ngModel)]="allSelectedStates"
+            (onSelect)="onStateSelect($event)"
+            (onSelectAll)="onAllStatesSelect($event)"
+            [ngClass]="{'disabled-dropdown': !stateForm.get('locationId').valid || !stateForm.get('productId').valid }"
+          >
+          
+          </ng-multiselect-dropdown>
+          <small
+          [hidden]="stateForm.get('stateId').valid"
+          class="text-danger">
+          State is Required.
+        </small> 
           </div>
         </div>
       </div>
@@ -231,39 +252,9 @@
         <div class="row m-0">
 
           <div class="form-group has-label col-md-6">
-            <label class="control-label" for="">Product:</label>
-            <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event); getFilteredLocationsForProductRule(productForm.get('productId').value)">
-              <option value="">Choose Product</option>
-              <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
-              </option>
-            </select>
-            <small
-              [hidden]="productForm.get('productId').valid && (! productForm.submitted || productForm.get('productId').touched)"
-              class="text-danger">
-              Product is Required.
-            </small>
-          </div>
-
-          <!-- <div class="form-group has-label col-md-6">
-            <label class="control-label" for="">Variant:</label>
-            <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="variantId">
-              <option value="">Choose Variant</option>
-              <option value="{{ variant.id }}"
-                      *ngFor="let variant of variants; let i = index">{{ variant.title }} </option>
-            </select>
-            <small
-              [hidden]="productForm.get('variantId').valid && (! productForm.submitted || productForm.get('variantId').touched)"
-              class="text-danger">
-              Variant is Required.
-            </small>
-          </div> -->
-
-          <div class="form-group has-label col-md-6">
             <label class="control-label" for="">Shopify Location:</label>
             <span class="star">*</span>
-            <!-- <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event); getProductsForSpecificLocation(productForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
               <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
             </select>
@@ -271,19 +262,23 @@
               [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
               class="text-danger">
               Shopify Location is Required.
-            </small> -->
-            <ng-multiselect-dropdown
-            allowRemoteDataSearch="true"
-            [settings]="product_dropdownSettings"
-            [placeholder]="'Shopify Locations'"
-            [data]="locations"
-            [(ngModel)]="selectedItems"
-            (onSelect)="onItemSelect($event)"
-            (onSelectAll)="onSelectAll($event)"
-            [ngClass]="{'disabled-dropdown': !productForm.get('productId').valid }"
+            </small>
+          </div>
 
+          <div class="form-group has-label col-md-6">
+            <label class="control-label" for="">Product:</label>
+            <span class="star">*</span>
+            <ng-multiselect-dropdown
+            formControlName="productId"
+            [settings]="AddProductRuleDropDownSetting"
+            [placeholder]="'Products'"
+            [data]="allProductsList"
+            [(ngModel)]="allSelectedProducts"
+            (onSelect)="onSelectProduct($event)"
+            (onSelectAll)="onAllSelectProduct($event)"
           >
           </ng-multiselect-dropdown>
+
           </div>
         </div>
       </div>
@@ -310,51 +305,13 @@
     <form [formGroup]="stateForm" novalidate (ngSubmit)="updateStateRule()">
       <div class="modal-body">
         <div class="row m-0">
-          <div class="form-group has-label col-md-12">
-            <label class="control-label" for="">State:</label>
-            <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="stateId" (change)="selectcode($event)">
-              <option value="">Choose State</option>
-              <option value="{{ state.id }}" *ngFor="let state of states; let i = index">{{ state.name }} </option>
-            </select>
-            <small
-              [hidden]="stateForm.get('stateId').valid && (! stateForm.submitted || stateForm.get('stateId').touched)"
-              class="text-danger">
-              State is Required.
-            </small>
-          </div>
-
-          <div class="form-group has-label col-md-12">
-
-            <label class="control-label" for="">Shopify Location:</label>
-            <ng-multiselect-dropdown
-            formControlName="locationId"
-            [settings]="state_dropdownSettings"
-            [placeholder]="'Shopify Locations'"
-            [data]="locations_for_update"
-            [(ngModel)]="selectedItems"
-            (onSelect)="onItemSelect($event)"
-            (onSelectAll)="onSelectAll($event)"
-            [ngClass]="{'disabled-dropdown': !stateForm.get('stateId').valid || !stateForm.get('productId').valid }"
-          >
-          </ng-multiselect-dropdown>
-            <!-- <label class="control-label" for="">Shopify Location:</label>
-            <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
-              <option value="">Choose Shopify Location</option>
-              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
-            </select>
-            <small
-              [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
-              class="text-danger">
-              Shopify Location is Required.
-            </small> -->
-          </div>
           
+
           <div class="form-group has-label col-md-12">
             <label class="control-label" for="">Product:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event)">
+            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event);
+             getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Product</option>
               <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
               </option>
@@ -365,7 +322,48 @@
               Product is Required.
             </small>
           </div>
+          
+          <div class="form-group has-label col-md-12">
+       
+            <label class="control-label" for="">Shopify Location:</label>
+            <span class="star">*</span>
+            <select
+            
+            [ngClass]="{'disabled-dropdown':!stateForm.get('productId').valid }"
+            
+            class="form-control mr-1" formControlName="locationId" (change)="selected($event);
+            getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
+              <option value="">Choose Shopify Location</option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
+            </select>
+            <small
+              [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
+              class="text-danger">
+              Shopify Location is Required.
+            </small>
+          </div>
 
+          <div class="form-group has-label col-md-12">
+            <label class="control-label" for="">State:</label>
+            <span class="star">*</span>
+              <ng-multiselect-dropdown
+              formControlName="stateId"
+            [settings]="AddStateRuleDropDownSetting"
+            [placeholder]="'States'"
+            [data]="allStates"
+            [(ngModel)]="allSelectedStates"
+            (onSelect)="onStateSelect($event)"
+            (onSelectAll)="onAllStatesSelect($event)"
+            [ngClass]="{'disabled-dropdown': !stateForm.get('locationId').valid || !stateForm.get('productId').valid }"
+
+          >
+          </ng-multiselect-dropdown>
+          <small
+          [hidden]="stateForm.get('stateId').valid"
+          class="text-danger">
+          State is Required.
+        </small> 
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -406,24 +404,10 @@
               Product is Required.
             </small>
           </div>
-          <!-- <div class="form-group has-label col-md-6">
-            <label class="control-label" for="">Variant:</label>
-            <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="variantId">
-              <option value="">Choose Variant</option>
-              <option value="{{ variant.id }}"
-                      *ngFor="let variant of variants; let i = index">{{ variant.title }} </option>
-            </select>
-            <small
-              [hidden]="productForm.get('variantId').valid && (! productForm.submitted || productForm.get('variantId').touched)"
-              class="text-danger">
-              Variant is Required.
-            </small>
-          </div> -->
           <div class="form-group has-label col-md-6">
             <label class="control-label" for="">Shopify Location:</label>
             <span class="star">*</span>
-            <!-- <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+            <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
               <option value="">Choose Shopify Location</option>
               <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
             </select>
@@ -431,8 +415,7 @@
               [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
               class="text-danger">
               Shopify Location is Required.
-            </small> -->
-            
+            </small>
           </div>
         </div>
       </div>

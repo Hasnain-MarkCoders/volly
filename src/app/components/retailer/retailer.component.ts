@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HelperService } from '../../services/helper.service';
 import { ToastrService } from 'ngx-toastr';
+import { AccountsService } from 'src/app/services/accounts.service';
 
 @Component({
   selector: 'app-retailer',
@@ -13,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RetailerComponent implements OnInit {
 
+  currentUserValue: any = null;
   businessForm: FormGroup;
   updateBusinessForm: FormGroup;
   locationForm: FormGroup;
@@ -27,7 +29,7 @@ export class RetailerComponent implements OnInit {
   URL_REGEX = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
   sortToggle = false;
 
-  constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute, private helperService: HelperService, private toastr: ToastrService) {
+  constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute, private helperService: HelperService, private toastr: ToastrService, private accountsService: AccountsService) {
   }
 
   ngOnInit(): void {
@@ -61,6 +63,10 @@ export class RetailerComponent implements OnInit {
     this.helperService.getLocations().subscribe((resp: any) => {
       this.locations = resp;
     });
+    this.accountsService.currentUser.subscribe(user => {
+      this.currentUserValue = user;
+
+    })
   }
 
   list() {
@@ -96,6 +102,40 @@ export class RetailerComponent implements OnInit {
 
     });
   }
+
+  request_cms_retailer() {
+    this.submitted = true;
+    if (this.businessForm.invalid) {
+      return;
+    }
+    let contactNumber =
+      `${this.businessForm.value.contact.dialCode} ${this.businessForm.value.contact.number.replace(/ /g, '')
+        .replace(this.businessForm.value.contact.dialCode, '')}`;
+    const body = {
+      businessName: this.businessForm.value.businessName,
+      email: this.businessForm.value.email,
+      contact: contactNumber,
+      website: this.businessForm.value.website,
+      stripe: this.businessForm.value.stripe,
+      inHouseBusiness: this.businessForm.value.inHouseBusiness
+    };
+    this.helperService.request_cms_retailer(body).subscribe((response) => {
+      this.toastr.success('Retailer submitted sucessfully!');
+      this.list();
+      this.modalService.dismissAll();
+      this.businessForm.reset();
+    }, (error) => {
+      this.toastr.error(error, '', {
+        timeOut: 2000,
+      });
+
+    });
+  }
+
+
+
+
+
 
   save() {
     this.submitted = true;

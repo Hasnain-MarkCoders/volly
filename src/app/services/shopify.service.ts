@@ -12,8 +12,8 @@ export class ShopifyService {
   constructor(private http: HttpClient) {
   }
 
-  saveShopifyInfo(STORE_URL:string, STORE_PASSWORD:string, STORE_ACCESS_ID:string) {
-    return this.http.post<any>(`${environment.apiUrl}/public/brand/save-shopify-info`, { STORE_URL, STORE_PASSWORD , STORE_ACCESS_ID})
+  saveShopifyInfo(STORE_URL:string, STORE_PASSWORD:string, STORE_ACCESS_ID:string, API_VERSION:string) {
+    return this.http.post<any>(`${environment.apiUrl}/public/brand/save-shopify-info`, { STORE_URL, STORE_PASSWORD , STORE_ACCESS_ID, API_VERSION})
     .pipe(map(response => {
        return response
     }));

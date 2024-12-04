@@ -32,6 +32,13 @@ export class LocationsComponent implements OnInit {
   state_dropdownSettings={};
   product_dropdownSettings={};
   dropdownSettings = {};
+  AddStateRuleDropDownSetting = {}
+  allStates = []
+  allStatesList = []
+  allSelectedStates = []
+  AddProductRuleDropDownSetting = {}
+  allProductsList = []
+  allSelectedProducts = []
 
   ngOnInit(): void {
     this.helperService.getLocations().subscribe((res: any) => {
@@ -39,9 +46,9 @@ export class LocationsComponent implements OnInit {
       this.locationTableData = res;
     });
     this.stateForm = new FormGroup({
-      stateId: new FormControl('', [Validators.required]),
+      stateId: new FormControl([],  [Validators.required]),
       productId: new FormControl('', [Validators.required]),
-      
+      locationId: new FormControl('', [Validators.required]),
     });
 
     this.zipForm = new FormGroup({
@@ -57,6 +64,7 @@ export class LocationsComponent implements OnInit {
 
     this.helperService.getState().subscribe((resp: any) => {
       this.states = resp;
+      this.allStates = resp?.map(item=>({id:item?.id, name:item?.name}))
     });
 
     this.helperService.getProducts().subscribe((resp: any) => {
@@ -65,7 +73,6 @@ export class LocationsComponent implements OnInit {
 
 
     this.dropdownSettings = {
-      noDataAvailablePlaceholderText:"All locations already have a state rule.",
       singleSelection: false,
       idField: 'id',    // Correct field name for item ID
       textField: 'name', // Correct field name for item text
@@ -74,30 +81,26 @@ export class LocationsComponent implements OnInit {
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
-    
-    this.state_dropdownSettings = {
-      noDataAvailablePlaceholderText:
-        'All locations already have a state rule.',
+    this.AddStateRuleDropDownSetting={
       singleSelection: false,
-      idField: 'id', // Correct field name for item ID
+      idField: 'id',    // Correct field name for item ID
       textField: 'name', // Correct field name for item text
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
-      allowSearchFilter: true,
-    };
+      allowSearchFilter: true
+    }
 
-    this.product_dropdownSettings = {
-      noDataAvailablePlaceholderText:
-        'All locations already have a product rule.',
+    this.AddProductRuleDropDownSetting={
       singleSelection: false,
-      idField: 'id', // Correct field name for item ID
-      textField: 'name', // Correct field name for item text
+      idField: 'id',    // Correct field name for item ID
+      textField: 'title', // Correct field name for item text
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
-      allowSearchFilter: true,
-    };
+      allowSearchFilter: true
+    }
+  
 
   }
 
@@ -141,6 +144,37 @@ export class LocationsComponent implements OnInit {
     this.selectedItems = items.map(item => ({ locationName: item?.name?.toString(), locationId: item?.id?.toString() }));
     console.log("this.selectedItems", this.selectedItems)
   }
+
+
+
+
+  getProductsForSpecificLocation (locId:string){
+    this.allProductsList = []
+    this.allSelectedProducts = []
+    this.helperService.getProductsForSpecificLocation(locId).subscribe((resp: any) => {
+      this.allProductsList = resp;
+    });
+  
+  }
+    getStatesForSpecificProductAndLocation(prodId:string, locId:string){
+      this.helperService.getStatesForSpecificProductAndLocation(prodId, locId).subscribe((resp: any) => {
+        this.allStatesList = resp
+      });
+    }
+  
+    onSelectProduct(item:any){
+  
+    }
+    onAllSelectProduct(items:any){
+  
+    }
+    onStateSelect(item: any) {
+      console.log(item);
+    }
+    onAllStatesSelect(items: any) {
+      console.log(items);
+    }
+
   selected(event) {
     for (let i = 0; i < this.locationData.length; i++) {
       if (event.target.value == this.locationData[i].id) {
@@ -166,6 +200,7 @@ export class LocationsComponent implements OnInit {
   }
 
   state(content) {
+    this.allSelectedStates=[]
     this.modal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
     this.modal.result.then((result) => {
       this.modal = null;
@@ -194,13 +229,12 @@ export class LocationsComponent implements OnInit {
     }
 
     const body = {
-      stateId: JSON.parse(this.stateForm.value.stateId),
+      states: this.stateForm.value.stateId,
       productId: this.stateForm.value.productId,
+      locationId: this.stateForm.value.locationId,
       code: this.code,
-      locations:this.selectedItems,
-      // locationName: this.locationName,
-      // locationId: this.stateForm.value.locationId,
-      productName: this.productName
+      productName: this.productName,
+      locationName: this.locationName,
     }
     this.ruleService.addStateRule(body).subscribe((response) => {
       this.toastr.success('State Rule Added sucessfully!', '', {
@@ -208,6 +242,8 @@ export class LocationsComponent implements OnInit {
       });
       this.modal.close();
       this.modal = null;
+      this.allStatesList = []
+      this.allSelectedStates = []
       this.stateForm.reset();
     }, (error) => {
       this.toastr.error( error?.error?error?.error:error?.error?.message? error?.error?.message:error ? error :"Something went wrong!", 'Error',{
@@ -270,21 +306,19 @@ export class LocationsComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     }
-    this.getAllLocations();
-    const keyMapping = {
-       'id':"locationId",
-       'name':"locationName",
-    };
-    let data = this.updateDataKeys(this.selectedItems, keyMapping);
-
-    const body = {
-      productId: this.productForm.value.productId,
-      // locationName: this.locationName,
-      productName: this.productName,
-      // locationId: this.productForm.value.locationId
-      locations: this.selectedItems
+    this.submitted = true;
+    if (this.productForm.invalid) {
+      return;
     }
 
+    const body = {
+      // productId: this.productForm.value.productId,
+      // variantId: this.productForm.value.variantId,
+      // productName: this.productName,
+      locationName: this.locationName,
+      locationId: this.productForm.value.locationId,
+      products:this.productForm.value.productId
+    };
     this.ruleService.addProductRule(body).subscribe((response) => {
       this.toastr.success('Product Rule Added sucessfully!', '', {
         timeOut: 2000,
@@ -292,7 +326,10 @@ export class LocationsComponent implements OnInit {
       this.ngOnInit();
       this.modal.close();
       this.modal = null;
-
+      this.locationName = null;
+      this.productName = null;
+      this.allProductsList = []
+      this.allSelectedProducts = []
       this.productForm.reset();
       this.selectedItems = [];
     }, (error) => {

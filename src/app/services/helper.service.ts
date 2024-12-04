@@ -23,6 +23,16 @@ export class HelperService {
     return this.http.get(`${environment.apiUrl}/rule/available-locations?stateId=${stateId}&productId=${productId}`);
 
   }
+
+  getProductsForSpecificLocation(locId:string,) {
+    return this.http.get(`${environment.apiUrl}/rule/available-products?locationId=${locId}`);
+
+  }
+
+  getStatesForSpecificProductAndLocation(prodId:string, locId:string,) {
+    return this.http.get(`${environment.apiUrl}/rule/available-states?locationId=${locId}&productId=${prodId}`);
+
+  }
   getFilteredLocationsForProductRule(productId:string) {
     return this.http.get(`${environment.apiUrl}/rule/available-locations2?productId=${productId}`);
 
@@ -55,6 +65,21 @@ export class HelperService {
 
   addBusiness(body: any) {
     return this.http.post<any>(`${environment.apiUrl}/stripe/create-account`, body)
+      .pipe(
+        map(response => {
+          return response;
+        },
+          catchError(err => {
+            // console.log('Handling error locally and rethrowing it...', err);
+            return JSON.parse(err.message);
+          })
+        ));
+  }
+
+
+  
+  request_cms_retailer(body: any) {
+    return this.http.post<any>(`${environment.apiUrl}/request-cms-retailer`, body)
       .pipe(
         map(response => {
           return response;

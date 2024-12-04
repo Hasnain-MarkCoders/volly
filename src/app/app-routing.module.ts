@@ -55,22 +55,22 @@ const routes: Routes = [
         path: 'retailer',
         component: RetailerComponent,
       },
-      {
-        path: 'payments',
-        component: PaymentsComponent,
-      },
-      {
-        path: 'balances',
-        component: BalancesComponent,
-      },
+      // {
+      //   path: 'payments',
+      //   component: PaymentsComponent,
+      // },
+      // {
+      //   path: 'balances',
+      //   component: BalancesComponent,
+      // },
       // {
       //   path: 'staff',
       //   component: StaffComponent,
       // },
-      {
-        path: 'fulfillments',
-        component: FulfillmentsComponent,
-      },
+      // {
+      //   path: 'fulfillments',
+      //   component: FulfillmentsComponent,
+      // },
       // {
       //   path: 'brands',
       //   component: BrandsComponent
@@ -98,6 +98,18 @@ const routes: Routes = [
       {
         path: 'staff',
         component: StaffComponent,
+      },
+      {
+        path: 'fulfillments',
+        component: FulfillmentsComponent,
+      },
+      {
+        path: 'payments',
+        component: PaymentsComponent,
+      },
+      {
+        path: 'balances',
+        component: BalancesComponent,
       },
     ],
 

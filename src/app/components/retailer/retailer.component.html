@@ -6,7 +6,9 @@
 
     <ul class="buttons_listing">
       <li>
-        <button class="btn btn_1" (click)="open(content)"><span class="icons"></span>Add New CMS Retailer</button>
+        <button *ngIf="currentUserValue && currentUserValue.roleId < 3" class="btn btn_1" (click)="open(content)"><span class="icons"></span>Add New CMS Retailer</button>
+        <button *ngIf="currentUserValue && currentUserValue.roleId > 2" class="btn btn_1" (click)="open(request_cms_retailer_content)"><span class="icons"></span>Request CMS Retailer</button>
+
       </li>
     </ul>
   </div>
@@ -221,6 +223,134 @@
     </form>
   </div>
 </ng-template>
+
+
+
+<!-- request cms retailer -->
+
+
+<ng-template #request_cms_retailer_content let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Request CMS Retailer</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="businessForm" novalidate (ngSubmit)="request_cms_retailer()">
+      <div class="modal-body">
+        <!-- <div class="row m-0"> -->
+        <div class="form-group has-label col-12">
+          <label class="control-label" for="">CMS Retailer Name:
+            <span class="star">*</span>
+          </label>
+          <input type="text" class="form-control" formControlName="businessName">
+          <small
+            [hidden]="businessForm.get('businessName').valid && (! submitted || businessForm.get('businessName').touched)"
+            class="text-danger">
+            CMS Retailer Name is Required.
+          </small>
+        </div>
+        <div class="form-group has-label col-12">
+          <label class="control-label" for="">Contact Number:
+            <span class="star">*</span>
+          </label>
+          <div>
+            <ngx-intl-tel-input [cssClass]="'form-control w-100'" [enableAutoCountrySelect]="true"
+              [enablePlaceholder]="true" [searchCountryFlag]="true"
+              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+              [selectedCountryISO]="CountryISO.UnitedStates" [maxLength]="15"
+              [phoneValidation]="true" name="contactNumber" formControlName="contact">
+            </ngx-intl-tel-input>
+          </div>
+          <small [hidden]="businessForm.get('contact').valid && (! submitted || businessForm.get('contact').touched)"
+            class="text-danger">
+            Contact number is required.
+          </small>
+        </div>
+        <div class="form-group has-label col-12">
+          <label class="control-label" for="">Email:
+            <span class="star">*</span>
+          </label>
+          <input type="text" class="form-control" formControlName="email">
+          <small [hidden]="businessForm.get('email').valid && (! submitted || businessForm.get('email').touched)"
+            class="text-danger">
+            Email is required and format should be <i>john@doe.com</i>.
+          </small>
+        </div>
+        <div class="form-group has-label col-12">
+          <label class="control-label" for="">Website:
+            <span class="star">*</span>
+          </label>
+          <input type="text" class="form-control" formControlName="website">
+          <small [hidden]="businessForm.get('website').valid && (! submitted || businessForm.get('website').touched)"
+            class="text-danger">
+            Website is requried and format should be <i>https://www.example.com</i>.
+          </small>
+        </div>
+        <div class="form-group has-label col-12">
+          <label class="control-label" for="">Stripe:
+            <span class="star">*</span>
+          </label><br>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
+                formControlName="stripe" id="stripe-true" value=true> Yes
+            </label>
+          </div>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
+                formControlName="stripe" id="stripe-false" value=false> No
+            </label>
+          </div>
+
+          <div>
+            <small class="text-danger">
+              <!-- [hidden]="businessForm.get('website').valid && (! submitted || businessForm.get('website').touched)" -->
+              Click whether retailer have their stripe account or not
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group has-label col-12">
+          <label class="control-label" for="">
+            In House Business:
+            <span class="star">*</span>
+          </label><br>
+
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
+                formControlName="inHouseBusiness" id="inHouseBusiness-true" value=true> Yes
+            </label>
+          </div>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
+                formControlName="inHouseBusiness" id="inHouseBusiness-false" value=false> No
+            </label>
+          </div>
+
+          <div>
+            <small class="text-danger">
+              Checked 'Yes' if business is InHouse. (Stripe transfer will be not perform for this business)
+            </small>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Request</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- request cms retailer -->
 <!-- Add New Retailer Modal End -->
 
 <!-- Update Retailer Modal Open -->
