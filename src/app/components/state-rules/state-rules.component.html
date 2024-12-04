@@ -46,10 +46,12 @@
           </tr>
         </thead> -->
         <colgroup>
-          <col style="width: 60%;">
+          <col style="width: 30%;">
+          <col style="width: 30%;">
           <col style="width: 20%;">
           <col style="width: 20%;">
           <col style="width: 20%;">
+
 
         </colgroup>
   
@@ -59,13 +61,18 @@
               State <i class="fa fa-fw fa-sort" (click)="toggleSort()"></i>
             </th>
             <th scope="col">
+              Product Name <i class="fa fa-fw fa-sort" (click)="sortProduct()"></i>
+            </th>
+            <th scope="col">
               Shopify Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i>
             </th>
             <th scope="col">
               Rating 
             </th>
+          
+
             <th scope="col">
-              Product Name <i class="fa fa-fw fa-sort" (click)="sortProduct()"></i>
+              Action 
             </th>
           </tr>
         </thead>
@@ -83,13 +90,23 @@
                 </span>
               </div>
             </td>
+            <td>
+              <div class="chip-container">
+                <span 
+                
+                *ngFor="let product of rule.products" class="chip">
+                  {{ product.title }}
+                </span>
+              </div>
+            </td>
             <td>{{rule['locationName']}} ({{rule['locationId']}})</td>
             <td >
               <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
 
                
           </td>
-            <td>{{rule['productName']}} ({{rule['productId']}})</td>
+            <!-- <td>{{rule['productName']}} ({{rule['productId']}})</td> -->
+           
             <td>
               <ul class="action_listing">
                 <li>
@@ -125,12 +142,24 @@
           <div class="form-group has-label col-md-12">
             <label class="control-label" for="">Product:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event);
+            <!-- <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event);
              getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Product</option>
               <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
               </option>
-            </select>
+            </select> -->
+
+
+            <ng-multiselect-dropdown
+            formControlName="productId"
+          [settings]="AddProductRuleDropDownSetting1"
+          [placeholder]="'Products'"
+          [data]="allProductsList1"
+          [(ngModel)]="allSelectedProducts1"
+          (onSelect)="onStateSelect($event)"
+          (onSelectAll)="onAllStatesSelect($event)"
+        >
+        </ng-multiselect-dropdown>
             <small
               [hidden]="stateForm.get('productId').valid && (! stateForm.submitted || stateForm.get('productId').touched)"
               class="text-danger">
@@ -140,8 +169,14 @@
           <div class="form-group has-label col-md-12">
             <label class="control-label" for="">Shopify Location:</label>
             <span class="star">*</span>
-            <select
+            <!-- <select
             [ngClass]="{'disabled-dropdown':!stateForm.get('productId').valid }"
+            class="form-control mr-1" formControlName="locationId" (change)="selected($event);
+            getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
+              <option value="">Choose Shopify Location</option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}}</option>
+            </select> -->
+            <select
             class="form-control mr-1" formControlName="locationId" (change)="selected($event);
             getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
@@ -314,12 +349,22 @@
           <div class="form-group has-label col-md-12">
             <label class="control-label" for="">Product:</label>
             <span class="star">*</span>
-            <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event);
+            <!-- <select class="form-control mr-1" formControlName="productId" (change)="selectProduct($event);
              getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Product</option>
               <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
               </option>
-            </select>
+            </select> -->
+            <ng-multiselect-dropdown
+            formControlName="productId"
+          [settings]="AddProductRuleDropDownSetting1"
+          [placeholder]="'Products'"
+          [data]="allProducts"
+          [(ngModel)]="allSelectedProducts1"
+          (onSelect)="onStateSelect($event)"
+          (onSelectAll)="onAllStatesSelect($event)"
+        >
+        </ng-multiselect-dropdown>
             <small
               [hidden]="stateForm.get('productId').valid && (! stateForm.submitted || stateForm.get('productId').touched)"
               class="text-danger">

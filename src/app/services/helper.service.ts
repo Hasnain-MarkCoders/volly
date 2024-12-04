@@ -30,7 +30,7 @@ export class HelperService {
   }
 
   getStatesForSpecificProductAndLocation(prodId:string, locId:string,) {
-    return this.http.get(`${environment.apiUrl}/rule/available-states?locationId=${locId}&productId=${prodId}`);
+    return this.http.get(`${environment.apiUrl}/rule/available-states?locationId=${locId}&productIds=${JSON.stringify(prodId)}`);
 
   }
   getFilteredLocationsForProductRule(productId:string) {

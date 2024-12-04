@@ -37,6 +37,10 @@ export class StateRulesComponent implements OnInit {
   AddProductRuleDropDownSetting = {}
   allProductsList = []
   allSelectedProducts = []
+  AddProductRuleDropDownSetting1 = {}
+  allProducts = []
+  allProductsList1 = []
+  allSelectedProducts1 = []
   
   constructor(
     private modalService: NgbModal,
@@ -87,9 +91,9 @@ export class StateRulesComponent implements OnInit {
     });
 
     this.helperService.getProducts().subscribe((resp: any) => {
-      
-      console.log("<==============================resp.products=================================>", resp.products)
       this.products = resp.products;
+    this.allProductsList1 = resp.products
+      this.allProducts = resp.products
     });
 
     this.list();
@@ -122,7 +126,15 @@ export class StateRulesComponent implements OnInit {
       itemsShowLimit: 3,
       allowSearchFilter: true
     }
-  
+    this.AddProductRuleDropDownSetting1={
+      singleSelection: false,
+      idField: 'id',    // Correct field name for item ID
+      textField: 'title', // Correct field name for item text
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    }
   
     // this.ruleService.getRuleList().subscribe((data: any) => {
     //   console.log(data);
@@ -153,17 +165,20 @@ getProductsForSpecificLocation (locId:string){
   this.allProductsList=[]
   this.allSelectedProducts=[]
   this.helperService.getProductsForSpecificLocation(locId).subscribe((resp: any) => {
-    console.log(resp.products)
     this.allProductsList = resp;
   });
 
 }
 
 
-  getStatesForSpecificProductAndLocation(prodId:string, locId:string){
+  getStatesForSpecificProductAndLocation(prodId:any, locId:string){
     this.allStatesList=[]
     this.allSelectedStates=[]
-    this.helperService.getStatesForSpecificProductAndLocation(prodId, locId).subscribe((resp: any) => {
+    let productIds = prodId.map(item=>item?.id)
+
+
+    console.log("<========================productIds====================================>", productIds)
+    this.helperService.getStatesForSpecificProductAndLocation(productIds, locId).subscribe((resp: any) => {
       this.allStatesList = resp
     });
   }
@@ -214,6 +229,7 @@ getProductsForSpecificLocation (locId:string){
 
   state(content) {
     this.allSelectedStates=[]
+    this.allSelectedProducts1=[]
 
     this.stateForm.patchValue({
       stateId: [],
@@ -248,17 +264,17 @@ getProductsForSpecificLocation (locId:string){
 
   saveState() {
     this.submitted = true;
-    console.log("<===================>stateForm==========================>")
     if (this.stateForm.invalid) {
       return;
     }
 
     const body = {
       states: this.stateForm.value.stateId,
-      productId: this.stateForm.value.productId,
+      // productId: this.stateForm.value.productId,
+      products :this.stateForm.value.productId,
       locationId: this.stateForm.value.locationId,
       code: this.code,
-      productName: this.productName,
+      // productName: JSON.stringify(this.stateForm.value.productId.join(",")),
       locationName: this.locationName,
     };
     this.ruleService.addStateRule(body).subscribe(
@@ -345,6 +361,7 @@ getProductsForSpecificLocation (locId:string){
 
   stateRule(content, rule) {
     this.allSelectedStates=rule.states
+    this.allSelectedProducts1 = rule.products
     this.stateForm.patchValue({
       stateId: rule.states,
       locationId: rule.locationId,
@@ -368,7 +385,6 @@ getProductsForSpecificLocation (locId:string){
     //     this.variants = this.products[i].variants;
     //   }
     // }
-    console.log("<==================================>rule.locationId<=====================================>", rule.locationId)
     this.productForm.patchValue({
       productId: rule.productId,
       // variantId: rule.variantId,
@@ -411,9 +427,11 @@ getProductsForSpecificLocation (locId:string){
       id: this.stateId,
       states: this.stateForm.value.stateId,
       locationId: this.stateForm.value.locationId,
-      productId: this.stateForm.value.productId,
+      // productId: this.stateForm.value.productId,
+      products: this.stateForm.value.productId,
+      
       code: this.code,
-      productName: this.productName,
+      // productName: this.productName,
       locationName: this.locationName,
     };
     this.ruleService.updateState(body).subscribe(
