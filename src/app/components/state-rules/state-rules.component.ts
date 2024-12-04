@@ -37,7 +37,7 @@ export class StateRulesComponent implements OnInit {
   AddProductRuleDropDownSetting = {}
   allProductsList = []
   allSelectedProducts = []
-
+  
   constructor(
     private modalService: NgbModal,
     private ruleService: RuleService,
@@ -144,7 +144,9 @@ export class StateRulesComponent implements OnInit {
 
 
 
-
+  isChipHighlighted(filter: string, state: any): boolean {
+    return filter && state.name.toLowerCase().includes(filter.toLowerCase());
+  }
 
 
 getProductsForSpecificLocation (locId:string){

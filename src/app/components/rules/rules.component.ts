@@ -99,7 +99,9 @@ export class RulesComponent implements OnInit {
 
 
 
-
+  isProductHighlighted(filter: string, product: any): boolean {
+    return filter && product.title.toLowerCase().includes(filter.toLowerCase());
+  }
 
 
   getProductsForSpecificLocation (locId:string){

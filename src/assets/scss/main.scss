@@ -74,3 +74,17 @@ button:focus {
 .wrapper {
   padding-top: 66px;
 }
+.highlight-chip {
+  background-color: #ffeb3b; /* Change to your desired highlight color */
+}
+
+.filter_search_input {
+  padding: 8px 30px 8px 10px; /* Adjust padding to make space for the icon */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+}
