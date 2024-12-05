@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CountryISO, SearchCountryField } from 'ngx-intl-tel-input';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,12 +28,17 @@ export class RetailerComponent implements OnInit {
   locationName: any;
   URL_REGEX = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
   sortToggle = false;
-
-  constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute, private helperService: HelperService, private toastr: ToastrService, private accountsService: AccountsService) {
+  ratingForm: FormGroup;
+  communicationRating: number = 0;
+  speedRating: number = 0;
+  priceRating: number = 0;
+  stars: boolean[] = [true, true, true, true, true]; // 5 stars
+  retailerId: string;
+  constructor(private modalService: NgbModal,private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private helperService: HelperService, private toastr: ToastrService, private accountsService: AccountsService) {
   }
 
   ngOnInit(): void {
-
+    this.initializeRatingForm();
     this.list();
 
     this.businessForm = new FormGroup({
@@ -68,6 +73,70 @@ export class RetailerComponent implements OnInit {
 
     })
   }
+
+  initializeRatingForm(): void {
+    this.ratingForm = this.fb.group({
+      communication: [1, Validators.required],
+      speed: [1, Validators.required],
+      price: [1, Validators.required]
+    });
+  }
+
+  // Open Rating Modal
+  openRatingModal(content, retailer) {
+    this.retailerId = retailer?.id;  // retailer object with id and other details
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
+  // Set rating on click (1-5 stars)
+  setRating(type: string, rating: number): void {
+    if (type === 'communication') {
+      this.communicationRating = rating;
+    } else if (type === 'speed') {
+      this.speedRating = rating;
+    } else if (type === 'price') {
+      this.priceRating = rating;
+    }
+  }
+
+
+  submitRating(): void {
+    if (this.ratingForm.invalid) {
+      return;
+    }
+
+    const ratingData = {
+      retailerId: this.retailerId,
+      communicationRating: this.communicationRating,
+      speedRating: this.speedRating,
+      priceRating: this.priceRating
+    };
+
+    // Call the backend service to save ratings
+    this.saveRatings(ratingData);
+  }
+
+  // Example function to save ratings (call your API here)
+  saveRatings(ratingData: any): void {
+    console.log("<============================ratingData==============================>", ratingData)
+    // API call to save the ratings
+    // this.ratingService.saveRatings(ratingData).subscribe(response => {
+    //   this.toastr.success('Ratings saved successfully!');
+    //   this.modalService.dismissAll();
+    // }, error => {
+    //   this.toastr.error('Failed to save ratings');
+    // });
+
+    // For now, just simulate success:
+    this.toastr.success('Ratings saved successfully!');
+    this.modalService.dismissAll();
+  }
+
+
+
+
+
+
 
   list() {
     this.helperService.getRetailer().subscribe((data: any) => {

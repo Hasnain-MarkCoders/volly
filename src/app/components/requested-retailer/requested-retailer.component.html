@@ -43,8 +43,8 @@
               <th scope="col">Website</th>
               <th scope="col">Stripe</th>
               <th scope="col">In-House</th>
+              <th scope="col">Status</th>
               <th scope="col">Shopify Location</th>
-              <th scope="col">Ratings</th>
               <!-- <th scope="col">Action</th> -->
               <!-- <th scope="col">Created At</th>
             <th scope="col">Updated At</th> -->
@@ -59,37 +59,43 @@
               <td>
                 <span class="badge badge-success" *ngIf="list.isActivated" placement="top" ngbTooltip="Stripe Account ID: {{list.accountId}}">true</span>
                 <span class="badge badge-danger" *ngIf="!list.isActivated">false</span>
-                <a *ngIf="!list.isActivated" href="javascript:void(0)">
+                <!-- <a *ngIf="!list.isActivated" href="javascript:void(0)">
                   <small (click)=createAccountLink(list.accountId)>Resend Email</small>
-                </a>
+                </a> -->
               </td>
               
               <td>
-                <a href="javascript:void(0)" *ngIf="list.inHouseBusiness" (click)="inHouseModal(inhousecontent,list)">
-                  <span class="badge badge-success" placement="top" ngbTooltip="Click to change">true</span>
-                </a>
-                <a href="javascript:void(0)" *ngIf="!list.inHouseBusiness" (click)="inHouseModal(inhousecontent,list)">
-                  <span class="badge badge-danger" placement="top" ngbTooltip="Click to change">false</span>
-                </a>
-                <!-- <span class="badge badge-success" *ngIf="list.inHouseBusiness">true</span>
-                <span class="badge badge-danger" *ngIf="!list.inHouseBusiness">false</span> -->
-              </td>
+                <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && list.inHouseBusiness" (click)="inHouseModal(inhousecontent, list)">
+                    <span class="badge badge-success" placement="top" ngbTooltip="Click to change">true</span>
+                  </a>
+                  <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && !list.inHouseBusiness" (click)="inHouseModal(inhousecontent, list)">
+                    <span class="badge badge-danger" placement="top" ngbTooltip="Click to change">false</span>
+                  </a>
+                  
+                  <span *ngIf="currentUserValue && currentUserValue.roleId >= 3" class="badge" [ngClass]="{'badge-success': list.inHouseBusiness, 'badge-danger': !list.inHouseBusiness}" placement="top">
+                    {{ list.inHouseBusiness ? 'true' : 'false' }}
+                  </span>
+
+            </td>
               <!-- <td>{{list.createdAt}}</td>
               <td>{{list.updatedAt}}</td> -->
               <!-- <td> -->
-              <td *ngIf="!list.locationId">
-                <a href="javascript:void(0)" (click)="locationContent(locationcontent, list)">
-                  <span><u>Assign Shopify Location</u></span>
-                </a>
-              </td>
-              <td *ngIf="list.locationId">{{list.locationName}}({{list.locationId}})&nbsp;<a
-                  href="javascript:void(0)"><span (click)=unlink(list.id)><u>Unassign</u></span></a></td>
-                 
-                  <td >
-                    <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
-      
-                     
+                <td>
+                    <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && list.inHouseBusiness" (click)="inHouseModal(inhousecontent, list)">
+                        <span class="badge badge-success" placement="top" ngbTooltip="Click to change">true</span>
+                      </a>
+                      <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && !list.inHouseBusiness" (click)="inHouseModal(inhousecontent, list)">
+                        <span class="badge badge-danger" placement="top" ngbTooltip="Click to change">false</span>
+                      </a>
+                      
+                      <span *ngIf="currentUserValue && currentUserValue.roleId >= 3" class="badge" [ngClass]="{'badge-success': list.inHouseBusiness, 'badge-danger': !list.inHouseBusiness}" placement="top">
+                        {{ list.inHouseBusiness ? 'Approved' : 'Rejected' }}
+                      </span>
+
                 </td>
+              <td >
+                {{list.Shopify_location?list.Shopify_location:"N/A"}}
+              </td>
               <!-- <td>
                 <a href="javascript:void(0)" (click)="udpateModal(updateRetailerContent,list)">
                   <span class="icons edit_icon"></span>
@@ -486,3 +492,4 @@
     </div>
   </ng-template>
   <!-- In House Change Confirmation Modal End -->
+   

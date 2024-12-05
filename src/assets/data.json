@@ -1,0 +1,313 @@
+{
+    "brands": [
+      {
+        "id": "B1",
+        "name": "Bolley",
+        "category": "Apparel",
+        "annualRevenue": 500000,
+        "growthRate": 5.2,
+        "salesOverYears": [
+          { "year": 2019, "sales": 400000 },
+          { "year": 2020, "sales": 420000 },
+          { "year": 2021, "sales": 440000 },
+          { "year": 2022, "sales": 460000 },
+          { "year": 2023, "sales": 500000 }
+        ]
+      },
+      {
+        "id": "B2",
+        "name": "Golly",
+        "category": "Electronics",
+        "annualRevenue": 750000,
+        "growthRate": 7.8,
+        "salesOverYears": [
+          { "year": 2019, "sales": 600000 },
+          { "year": 2020, "sales": 630000 },
+          { "year": 2021, "sales": 660000 },
+          { "year": 2022, "sales": 700000 },
+          { "year": 2023, "sales": 750000 }
+        ]
+      },
+      {
+        "id": "B3",
+        "name": "Rolly",
+        "category": "Home Goods",
+        "annualRevenue": 300000,
+        "growthRate": 4.5,
+        "salesOverYears": [
+          { "year": 2019, "sales": 250000 },
+          { "year": 2020, "sales": 255000 },
+          { "year": 2021, "sales": 260000 },
+          { "year": 2022, "sales": 275000 },
+          { "year": 2023, "sales": 300000 }
+        ]
+      },
+      {
+        "id": "B4",
+        "name": "Nolly",
+        "category": "Beauty",
+        "annualRevenue": 450000,
+        "growthRate": 6.1,
+        "salesOverYears": [
+          { "year": 2019, "sales": 350000 },
+          { "year": 2020, "sales": 370000 },
+          { "year": 2021, "sales": 390000 },
+          { "year": 2022, "sales": 420000 },
+          { "year": 2023, "sales": 450000 }
+        ]
+      },
+      {
+        "id": "B5",
+        "name": "Polly",
+        "category": "Sports",
+        "annualRevenue": 600000,
+        "growthRate": 8.3,
+        "salesOverYears": [
+          { "year": 2019, "sales": 480000 },
+          { "year": 2020, "sales": 500000 },
+          { "year": 2021, "sales": 520000 },
+          { "year": 2022, "sales": 560000 },
+          { "year": 2023, "sales": 600000 }
+        ]
+      },
+      {
+        "id": "B6",
+        "name": "Volly",
+        "category": "Automotive",
+        "annualRevenue": 850000,
+        "growthRate": 9.0,
+        "salesOverYears": [
+          { "year": 2019, "sales": 700000 },
+          { "year": 2020, "sales": 740000 },
+          { "year": 2021, "sales": 780000 },
+          { "year": 2022, "sales": 820000 },
+          { "year": 2023, "sales": 850000 }
+        ]
+      },
+      {
+        "id": "B7",
+        "name": "Zolly",
+        "category": "Food & Beverage",
+        "annualRevenue": 400000,
+        "growthRate": 5.5,
+        "salesOverYears": [
+          { "year": 2019, "sales": 320000 },
+          { "year": 2020, "sales": 340000 },
+          { "year": 2021, "sales": 360000 },
+          { "year": 2022, "sales": 380000 },
+          { "year": 2023, "sales": 400000 }
+        ]
+      }
+    ],
+    "retailers": [
+      {
+        "id": "R1",
+        "name": "Dolly's Depot",
+        "location": "New York",
+        "annualSales": 1200000,
+        "growthRate": 4.2,
+        "salesOverYears": [
+          { "year": 2019, "sales": 1000000 },
+          { "year": 2020, "sales": 1020000 },
+          { "year": 2021, "sales": 1050000 },
+          { "year": 2022, "sales": 1100000 },
+          { "year": 2023, "sales": 1200000 }
+        ]
+      },
+      {
+        "id": "R2",
+        "name": "Luna Mart",
+        "location": "Los Angeles",
+        "annualSales": 950000,
+        "growthRate": 5.0,
+        "salesOverYears": [
+          { "year": 2019, "sales": 800000 },
+          { "year": 2020, "sales": 820000 },
+          { "year": 2021, "sales": 850000 },
+          { "year": 2022, "sales": 900000 },
+          { "year": 2023, "sales": 950000 }
+        ]
+      },
+      {
+        "id": "R3",
+        "name": "Penny's Place",
+        "location": "Chicago",
+        "annualSales": 780000,
+        "growthRate": 3.8,
+        "salesOverYears": [
+          { "year": 2019, "sales": 700000 },
+          { "year": 2020, "sales": 720000 },
+          { "year": 2021, "sales": 740000 },
+          { "year": 2022, "sales": 760000 },
+          { "year": 2023, "sales": 780000 }
+        ]
+      },
+      {
+        "id": "R4",
+        "name": "Sunny Supplies",
+        "location": "Houston",
+        "annualSales": 660000,
+        "growthRate": 4.5,
+        "salesOverYears": [
+          { "year": 2019, "sales": 550000 },
+          { "year": 2020, "sales": 570000 },
+          { "year": 2021, "sales": 590000 },
+          { "year": 2022, "sales": 630000 },
+          { "year": 2023, "sales": 660000 }
+        ]
+      },
+      {
+        "id": "R5",
+        "name": "Maple Market",
+        "location": "Phoenix",
+        "annualSales": 830000,
+        "growthRate": 6.0,
+        "salesOverYears": [
+          { "year": 2019, "sales": 700000 },
+          { "year": 2020, "sales": 750000 },
+          { "year": 2021, "sales": 780000 },
+          { "year": 2022, "sales": 810000 },
+          { "year": 2023, "sales": 830000 }
+        ]
+      },
+      {
+        "id": "R6",
+        "name": "Oakwood Outlet",
+        "location": "Philadelphia",
+        "annualSales": 710000,
+        "growthRate": 3.5,
+        "salesOverYears": [
+          { "year": 2019, "sales": 600000 },
+          { "year": 2020, "sales": 620000 },
+          { "year": 2021, "sales": 640000 },
+          { "year": 2022, "sales": 680000 },
+          { "year": 2023, "sales": 710000 }
+        ]
+      },
+      {
+        "id": "R7",
+        "name": "Silver Store",
+        "location": "San Antonio",
+        "annualSales": 880000,
+        "growthRate": 5.7,
+        "salesOverYears": [
+          { "year": 2019, "sales": 750000 },
+          { "year": 2020, "sales": 770000 },
+          { "year": 2021, "sales": 800000 },
+          { "year": 2022, "sales": 840000 },
+          { "year": 2023, "sales": 880000 }
+        ]
+      }
+    ],
+    "brandRetailerSales": [
+      {
+        "brandId": "B1",
+        "retailerId": "R1",
+        "annualSales": 150000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 120000 },
+          { "year": 2020, "sales": 125000 },
+          { "year": 2021, "sales": 130000 },
+          { "year": 2022, "sales": 140000 },
+          { "year": 2023, "sales": 150000 }
+        ]
+      },
+      {
+        "brandId": "B2",
+        "retailerId": "R2",
+        "annualSales": 200000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 160000 },
+          { "year": 2020, "sales": 170000 },
+          { "year": 2021, "sales": 180000 },
+          { "year": 2022, "sales": 190000 },
+          { "year": 2023, "sales": 200000 }
+        ]
+      },
+      {
+        "brandId": "B3",
+        "retailerId": "R3",
+        "annualSales": 90000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 70000 },
+          { "year": 2020, "sales": 75000 },
+          { "year": 2021, "sales": 80000 },
+          { "year": 2022, "sales": 85000 },
+          { "year": 2023, "sales": 90000 }
+        ]
+      },
+      {
+        "brandId": "B4",
+        "retailerId": "R4",
+        "annualSales": 120000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 100000 },
+          { "year": 2020, "sales": 105000 },
+          { "year": 2021, "sales": 110000 },
+          { "year": 2022, "sales": 115000 },
+          { "year": 2023, "sales": 120000 }
+        ]
+      },
+      {
+        "brandId": "B5",
+        "retailerId": "R5",
+        "annualSales": 180000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 150000 },
+          { "year": 2020, "sales": 160000 },
+          { "year": 2021, "sales": 170000 },
+          { "year": 2022, "sales": 175000 },
+          { "year": 2023, "sales": 180000 }
+        ]
+      },
+      {
+        "brandId": "B6",
+        "retailerId": "R6",
+        "annualSales": 210000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 180000 },
+          { "year": 2020, "sales": 190000 },
+          { "year": 2021, "sales": 200000 },
+          { "year": 2022, "sales": 205000 },
+          { "year": 2023, "sales": 210000 }
+        ]
+      },
+      {
+        "brandId": "B7",
+        "retailerId": "R7",
+        "annualSales": 160000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 130000 },
+          { "year": 2020, "sales": 140000 },
+          { "year": 2021, "sales": 145000 },
+          { "year": 2022, "sales": 150000 },
+          { "year": 2023, "sales": 160000 }
+        ]
+      },
+      {
+        "brandId": "B1",
+        "retailerId": "R2",
+        "annualSales": 80000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 70000 },
+          { "year": 2020, "sales": 72000 },
+          { "year": 2021, "sales": 75000 },
+          { "year": 2022, "sales": 78000 },
+          { "year": 2023, "sales": 80000 }
+        ]
+      },
+      {
+        "brandId": "B2",
+        "retailerId": "R1",
+        "annualSales": 90000,
+        "salesOverYears": [
+          { "year": 2019, "sales": 80000 },
+          { "year": 2020, "sales": 82000 },
+          { "year": 2021, "sales": 85000 },
+          { "year": 2022, "sales": 88000 },
+          { "year": 2023, "sales": 90000 }
+        ]
+      }
+    ]
+  }
+  

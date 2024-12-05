@@ -22,6 +22,7 @@ import { RegisterBrandComponent } from './components/register-brand/register-bra
 import { BrandsComponent } from './components/brands/brands.component';
 import { CredentialsComponent } from './components/credentials/credentials.component';
 import { RequestedRetailerComponent } from './components/requested-retailer/requested-retailer.component';
+import { InsightsComponent } from './components/insights/insights.component';
 
 const routes: Routes = [
   { path: 'add-tracking/:id', component: AddTrackingComponent },
@@ -115,6 +116,10 @@ const routes: Routes = [
       {
         path: 'balances',
         component: BalancesComponent,
+      },
+      {
+        path: 'kpis-across-brands',
+        component: InsightsComponent,
       },
     ],
 

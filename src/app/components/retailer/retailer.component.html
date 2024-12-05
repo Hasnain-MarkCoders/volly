@@ -84,11 +84,14 @@
             </td>
             <td *ngIf="list.locationId">{{list.locationName}}({{list.locationId}})&nbsp;<a
                 href="javascript:void(0)"><span (click)=unlink(list.id)><u>Unassign</u></span></a></td>
-               
                 <td >
-                  <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
-    
-                   
+                  <a href="javascript:void(0)" 
+                  (click)="openRatingModal(ratingModal, retailer)"
+                  [attr.title]="'Give Rating'" 
+                  data-toggle="tooltip" 
+                  data-placement="top">
+                 <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
+               </a>
               </td>
             <td>
               <a href="javascript:void(0)" (click)="udpateModal(updateRetailerContent,list)">
@@ -486,3 +489,61 @@
   </div>
 </ng-template>
 <!-- In House Change Confirmation Modal End -->
+
+<!-- rating modal -->
+<ng-template #ratingModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Rate Retailer</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="ratingForm" novalidate (ngSubmit)="submitRating()">
+      <div class="modal-body">
+        <!-- Communication Rating -->
+        <div class="form-group col-12">
+          <label class="control-label">Rating on Communication: <span class="star">*</span></label>
+          <div class="rating">
+            <span *ngFor="let star of stars; let i = index" 
+              (click)="setRating('communication', i + 1)" 
+              [class.filled]="communicationRating >= (i + 1)">
+              &#9733;
+            </span>
+          </div>
+        </div>
+
+        <!-- Speed Rating -->
+        <div class="form-group col-12">
+          <label class="control-label">Rating on Speed: <span class="star">*</span></label>
+          <div class="rating">
+            <span *ngFor="let star of stars; let i = index" 
+              (click)="setRating('speed', i + 1)" 
+              [class.filled]="speedRating >= (i + 1)">
+              &#9733;
+            </span>
+          </div>
+        </div>
+
+        <!-- Price Rating -->
+        <div class="form-group col-12">
+          <label class="control-label">Rating on Price: <span class="star">*</span></label>
+          <div class="rating">
+            <span *ngFor="let star of stars; let i = index" 
+              (click)="setRating('price', i + 1)" 
+              [class.filled]="priceRating >= (i + 1)">
+              &#9733;
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close Clicked')">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Save Rating</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

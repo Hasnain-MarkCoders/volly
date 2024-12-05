@@ -82,6 +82,13 @@
           <span class="material-symbols-outlined"> lock </span> <label>Credentials</label></a
         >
       </li>
+      <li (click)="isSelected('/kpis-across-brands')" routerLinkActive="active">
+        <a href="javascript:void(0)"  *ngIf="currentUserValue && currentUserValue.roleId < 3" class="custom_tab_icon_style" routerLink="/kpis-across-brands">
+          <span class="material-symbols-outlined">
+            monitoring
+            </span><label>Insights</label></a
+        >
+      </li>
     </ul>
   </aside>
   <div class="w_side">

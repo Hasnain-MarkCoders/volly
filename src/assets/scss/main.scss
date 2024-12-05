@@ -88,3 +88,36 @@ button:focus {
   display: block;
   margin-left: auto;
 }
+.rating span{
+  cursor: pointer;
+}
+
+.rating {
+  font-size: 24px;
+  color: #ddd;
+}
+
+.rating .filled {
+  color: gold;
+
+}
+
+.star {
+  color: red;
+
+}
+
+button {
+  margin-top: 10px;
+}
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-data-message {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
