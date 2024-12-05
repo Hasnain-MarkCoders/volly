@@ -66,7 +66,7 @@
               Shopify Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i>
             </th>
             <th scope="col">Ratings</th>
-            <th scope="col">Action</th>
+            <th scope="col"  style="min-width: 100px">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -127,13 +127,23 @@
           <div class="form-group has-label col-md-12">
             <label class="control-label" for="">Product:</label>
             <span class="star">*</span>
-            <select 
+            <!-- <select 
             
             class="form-control mr-1" formControlName="productId" (change)="selectProduct($event); getStatesForSpecificProductAndLocation(stateForm.get('locationId').value,stateForm.get('productId').value)">
               <option value="">Choose Product</option>
               <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
               </option>
-            </select>
+            </select> -->
+            <ng-multiselect-dropdown
+            formControlName="productId"
+          [settings]="AddProductRuleDropDownSetting1"
+          [placeholder]="'Products'"
+          [data]="allProductsList1"
+          [(ngModel)]="allSelectedProducts1"
+          (onSelect)="onStateSelect($event)"
+          (onSelectAll)="onAllStatesSelect($event)"
+        >
+        </ng-multiselect-dropdown>
             <small
               [hidden]="stateForm.get('productId').valid && (! stateForm.submitted || stateForm.get('productId').touched)"
               class="text-danger">

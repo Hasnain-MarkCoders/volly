@@ -8,11 +8,11 @@ import { ToastrService } from 'ngx-toastr';
 import { AccountsService } from 'src/app/services/accounts.service';
 
 @Component({
-  selector: 'app-retailer',
-  templateUrl: './retailer.component.html',
-  styleUrls: ['./retailer.component.scss']
+  selector: 'app-requested-retailer',
+  templateUrl: './requested-retailer.component.html',
+  styleUrls: ['./requested-retailer.component.scss']
 })
-export class RetailerComponent implements OnInit {
+export class RequestedRetailerComponent implements OnInit {
 
   currentUserValue: any = null;
   businessForm: FormGroup;
@@ -70,9 +70,9 @@ export class RetailerComponent implements OnInit {
   }
 
   list() {
-    this.helperService.getRetailer().subscribe((data: any) => {
+    this.helperService.get_cms_retailers().subscribe((data: any) => {
       // console.log(data);
-      this.retailerList = data.account;
+      this.retailerList = data;
     });
   }
 

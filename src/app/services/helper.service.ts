@@ -132,6 +132,10 @@ export class HelperService {
     return this.http.get(`${environment.apiUrl}/account/list`);
 
   }
+  get_cms_retailers() {
+    return this.http.get(`${environment.apiUrl}/get-cms-retailers`);
+
+  }
 
   unassignLocation(id) {
     return this.http.put(`${environment.apiUrl}/account/unlink`, { id });

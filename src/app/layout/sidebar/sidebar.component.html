@@ -70,6 +70,13 @@
           <span class="icons setting_icon"></span> <label>Settings</label>
         </a>
       </li>
+      <li (click)="isSelected('/requested-retailers')"  routerLinkActive="active">
+        <a href="javascript:void(0)"  class="custom_tab_icon_style" routerLink="/requested-retailers">
+          <span class="material-symbols-outlined">
+            approval_delegation
+            </span> <label>Requested Retailers</label>
+        </a>
+      </li>
       <li (click)="isSelected('/credentials')" routerLinkActive="active">
         <a href="javascript:void(0)" class="custom_tab_icon_style" routerLink="/credentials">
           <span class="material-symbols-outlined"> lock </span> <label>Credentials</label></a

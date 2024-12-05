@@ -34,6 +34,11 @@ export class RulesComponent implements OnInit {
   allProductsList = []
   allSelectedProducts = []
   allProducts = []
+  AddProductRuleDropDownSetting1 = {}
+  allProducts1 = []
+  allProductsList1 = []
+  allSelectedProducts1 = []
+  
 
   constructor(private modalService: NgbModal, private ruleService: RuleService, private helperService: HelperService, private toastr: ToastrService) { }
 
@@ -67,6 +72,8 @@ export class RulesComponent implements OnInit {
     this.helperService.getProducts().subscribe((resp: any) => {
       this.products = resp.products;
       this.allProducts = resp?.products?.map(item=>({id:item?.id, title:item?.title}))
+      this.allProducts1 = resp.products
+      this.allProductsList1 = resp.products
     });
 
     this.list();
@@ -93,6 +100,16 @@ export class RulesComponent implements OnInit {
       itemsShowLimit: 3,
       allowSearchFilter: true
     }
+    this.AddProductRuleDropDownSetting1={
+      singleSelection: false,
+      idField: 'id',    // Correct field name for item ID
+      textField: 'title', // Correct field name for item text
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    }
+  
   }
 
 
@@ -107,13 +124,18 @@ export class RulesComponent implements OnInit {
   getProductsForSpecificLocation (locId:string){
     this.allProductsList=[]
     this.allSelectedProducts=[]
+    
     this.helperService.getProductsForSpecificLocation(locId).subscribe((resp: any) => {
       this.allProductsList = resp;
     });
   
   }
-    getStatesForSpecificProductAndLocation(prodId:string, locId:string){
-      this.helperService.getStatesForSpecificProductAndLocation(prodId, locId).subscribe((resp: any) => {
+    getStatesForSpecificProductAndLocation(locId:string, prodId:any, ){
+      this.allStatesList=[]
+      this.allSelectedStates=[]
+      let productIds = prodId.map(item=>item?.id)
+      console.log("prodId=========================>",prodId)
+      this.helperService.getStatesForSpecificProductAndLocation(productIds, locId).subscribe((resp: any) => {
         this.allStatesList = resp
       });
     }
@@ -163,7 +185,8 @@ export class RulesComponent implements OnInit {
   }
 
   state(content) {
-
+    this.allSelectedStates=[]
+    this.allSelectedProducts1=[]
     this.modal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
     this.modal.result.then((result) => {
       // console.log("state", result);
@@ -196,10 +219,12 @@ export class RulesComponent implements OnInit {
 
     const body = {
       states: this.stateForm.value.stateId,
-      productId: this.stateForm.value.productId,
+      // productId: this.stateForm.value.productId,
+      products: this.stateForm.value.productId,
+
       locationId: this.stateForm.value.locationId,
       code: this.code,
-      productName: this.productName,
+      // productName: this.productName,
       locationName:this.locationName
     }
     this.ruleService.addStateRule(body).subscribe((response) => {
@@ -299,6 +324,7 @@ export class RulesComponent implements OnInit {
 
   productRule(content, rule) {
     this.allSelectedProducts = rule?.products
+    this.allSelectedProducts1 = rule.products
     // for (let i = 0; i < this.products.length; i++) {
     //   if (rule.productId == this.products[i].id) {
     //     this.variants = this.products[i].variants;

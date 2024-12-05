@@ -21,6 +21,7 @@ import { LoginBrandComponent } from './components/login-brand/login-brand.compon
 import { RegisterBrandComponent } from './components/register-brand/register-brand.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { CredentialsComponent } from './components/credentials/credentials.component';
+import { RequestedRetailerComponent } from './components/requested-retailer/requested-retailer.component';
 
 const routes: Routes = [
   { path: 'add-tracking/:id', component: AddTrackingComponent },
@@ -54,6 +55,10 @@ const routes: Routes = [
       {
         path: 'retailer',
         component: RetailerComponent,
+      },
+      {
+        path: 'requested-retailers',
+        component: RequestedRetailerComponent,
       },
       // {
       //   path: 'payments',
