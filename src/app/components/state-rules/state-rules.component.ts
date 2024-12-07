@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RuleService } from '../../services/rule.service';
 import { HelperService } from '../../services/helper.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-state-rules',
   templateUrl: './state-rules.component.html',
@@ -151,7 +151,12 @@ export class StateRulesComponent implements OnInit {
 
 
 
-
+  onMouseLeave(data){
+    console.log("data==========================exit,",data)
+  }
+  onMouseEnter(data){
+    console.log("data=========================>enter", data)
+  }
 
 
 

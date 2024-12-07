@@ -23,13 +23,13 @@
     <div class="col-11">
       <ul class="nav nav-tabs" style="width: 109%;">
         <li class="nav-item">
-          <a class="nav-link " routerLink="/location">Shopify Location</a>
+          <a class="nav-link " routerLink="/location"> Active Retailers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/location/product-rules">Volley Merchandise</a>
+          <a class="nav-link" routerLink="/location/product-rules"> Merchandise</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="javascript:void(0)">Volley Product</a>
+          <a class="nav-link active" href="javascript:void(0)"> Product</a>
         </li>
       </ul>
     </div>
@@ -58,14 +58,17 @@
         <thead>
           <tr>
             <th scope="col">
+              Shopify Location Name 
+            </th>
+            <th scope="col">
               State
             </th>
             <th scope="col">
               Product Name 
             </th>
-            <th scope="col">
-              Shopify Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i>
-            </th>
+            <!-- <th scope="col">
+              Shopify Location Name 
+            </th> -->
             <th scope="col">
               Rating 
             </th>
@@ -78,6 +81,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let rule of rulesList;let i = index">
+            <td>{{rule['locationName']}} ({{rule['locationId']}})</td>
+
             <td>
               <input type="text" class="filter_search_input" [(ngModel)]="rule.chipFilter" placeholder="Search" />
               <div class="chip-container">
@@ -100,7 +105,7 @@
                 </span>
               </div>
             </td>
-            <td>{{rule['locationName']}} ({{rule['locationId']}})</td>
+            <!-- <td>{{rule['locationName']}} ({{rule['locationId']}})</td> -->
             <td >
               <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
 
@@ -178,10 +183,13 @@
               <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}}</option>
             </select> -->
             <select
+            [ngClass]="{'disabled-dropdown':  !stateForm.get('productId').valid }"
             class="form-control mr-1" formControlName="locationId" (change)="selected($event);
             getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
-              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}}</option>
+              <option
+              value="{{ loc.id }}" 
+               *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}}</option>
             </select>
             <small
               [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"

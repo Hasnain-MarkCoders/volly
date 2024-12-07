@@ -32,6 +32,8 @@
               <th scope="col">Email</th>
               <th scope="col">Commission</th>
               <th scope="col">Active</th>
+              <!-- <th scope="col">Action</th> -->
+
 
             </tr>
           </thead>
@@ -43,8 +45,8 @@
                 <span *ngIf="!data.website">N/A</span>
               </td>
               <td>{{data.contact?data.contact:"N/A"}}</td>
-              <td>{{data.email?data.email:"N/A"}}</td>
-              <td>{{"50%"}}
+              <td>{{data.email?data.id:"N/A"}}</td>
+              <td>{{data?.commission?data?.commission:"N/A"}}
                 <span  (click)="openEditCommissionModal(data, editCommissionModal)" class="icons edit_icon"></span>
               </td>
 
@@ -52,6 +54,12 @@
                 <span class="badge badge-success" style="padding:7px" *ngIf="data.isActivated">SUCCESS</span>
                 <span class="badge badge-danger" style="padding:7px" *ngIf="!data.isActivated">PENDING</span>
               </td>
+              <!-- <td>
+              <span (click) = "openEditBrandModal(data, editBrandModal)" class="material-symbols-outlined">
+                edit
+                </span>
+            </td> -->
+
             </tr>
           </tbody>
           <tbody *ngIf="!loading && payoutData?.length == 0">
@@ -162,6 +170,70 @@
             <small *ngIf="commissionForm.get('commission').invalid && commissionForm.get('commission').touched" class="text-danger">
               Please enter a valid commission (e.g., 10%, 50%).
             </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modal.close('Close Clicked')">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #editBrandModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header" id="modal-basic-title">
+        <h5 class="modal-title">Edit Brand</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="editForm" novalidate (ngSubmit)="handleSubmitEditBrand()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="control-label" for="brandName">Brand Name: <span class="star">*</span></label>
+            <input type="text" class="form-control" formControlName="brandName" id="brandName" placeholder="Enter Brand Name" />
+            <small *ngIf="editForm.get('brandName').invalid && editForm.get('brandName').touched" class="text-danger">
+              Please enter a valid Brand name.
+            </small>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="email">Brand Name: <span class="star">*</span></label>
+            <input type="text" class="form-control" formControlName="email" id="email" placeholder="Enter Email" />
+            <small *ngIf="editForm.get('email').invalid && editForm.get('email').touched" class="text-danger">
+              Please enter a valid Email.
+            </small>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="website">Website: <span class="star">*</span></label>
+            <input type="text" class="form-control" formControlName="website" id="website" placeholder="Enter website" />
+            <small *ngIf="editForm.get('website').invalid && editForm.get('website').touched" class="text-danger">
+              Please enter a valid Website.
+            </small>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="contact">Phone number: <span class="star">*</span></label>
+            <input type="text" class="form-control" formControlName="contact" id="contact" placeholder="Enter contact" />
+            <small *ngIf="editForm.get('contact').invalid && editForm.get('contact').touched" class="text-danger">
+              Please enter a valid Phone number.
+            </small>
+          </div>
+          <div class="form-group has-label col-12">
+            <label class="control-label" for="">isActivated:
+              <span class="star">*</span>
+            </label><br>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
+                  formControlName="isActivated" id="isActivated-true"  value=true> Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
+                  formControlName="isActivated" id="isActivated-false" value=false> No
+              </label>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

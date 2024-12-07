@@ -33,6 +33,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { CredentialsComponent } from './components/credentials/credentials.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RequestedRetailerComponent } from './components/requested-retailer/requested-retailer.component';
+import { BrandProfileComponent } from './components/brand-profile/brand-profile.component';
 enableProdMode();
 
 
@@ -58,6 +59,7 @@ enableProdMode();
     BrandsComponent,
     CredentialsComponent,
     RequestedRetailerComponent,
+    BrandProfileComponent,
   ],
   imports: [
     NgMultiSelectDropDownModule.forRoot(),

@@ -19,5 +19,29 @@ export class BrandsService {
     return this.http.get(url);
   }
 
- 
+ updateCommision (body:any){
+
+  return this.http.post<any>(`${environment.apiUrl}/public/brand/handle-commission`, body)
+  .pipe(
+    map(response => {
+      return response;
+    },
+      catchError(err => {
+        // console.log('Handling error locally and rethrowing it...', err);
+        return JSON.parse(err.message);
+      })
+    ));
+ }
+ updateBrand (body:any){
+  return this.http.post<any>(`${environment.apiUrl}/public/brand/update-details`, body)
+  .pipe(
+    map(response => {
+      return response;
+    },
+      catchError(err => {
+        // console.log('Handling error locally and rethrowing it...', err);
+        return JSON.parse(err.message);
+      })
+    ));
+ }
 }

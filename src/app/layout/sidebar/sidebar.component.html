@@ -47,7 +47,7 @@
       </li>
       <li (click)="isSelected('/location')"  routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/location">
-          <span class="icons location_icon"></span> <label>Shipping</label>
+          <span class="icons location_icon"></span> <label> Order Logic</label>
         </a>
       </li>
       <li (click)="isSelected('/retailer')" routerLinkActive="active">
@@ -82,6 +82,13 @@
           <span class="material-symbols-outlined"> lock </span> <label>Credentials</label></a
         >
       </li>
+      <li (click)="isSelected('/brand-profile')" *ngIf="currentUserValue && currentUserValue.roleId >= 2" routerLinkActive="active">
+        <a href="javascript:void(0)"   class="custom_tab_icon_style" routerLink="/brand-profile">
+          <span class="material-symbols-outlined">
+            manage_accounts
+            </span><label>Edit Profile</label></a
+        >
+      </li>
       <li (click)="isSelected('/kpis-across-brands')" routerLinkActive="active">
         <a href="javascript:void(0)"  *ngIf="currentUserValue && currentUserValue.roleId < 3" class="custom_tab_icon_style" routerLink="/kpis-across-brands">
           <span class="material-symbols-outlined">
@@ -89,6 +96,7 @@
             </span><label>Insights</label></a
         >
       </li>
+      
     </ul>
   </aside>
   <div class="w_side">

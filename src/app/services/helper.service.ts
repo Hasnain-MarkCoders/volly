@@ -19,6 +19,11 @@ export class HelperService {
 
   }
 
+  getAllStates() {
+    return this.http.get(`${environment.apiUrl}/states/all`);
+
+  }
+
   getFilteredLocations(stateId:string,productId:string) {
     return this.http.get(`${environment.apiUrl}/rule/available-locations?stateId=${stateId}&productId=${productId}`);
 
@@ -90,10 +95,34 @@ export class HelperService {
           })
         ));
   }
+  saveRatings(body: any) {
+    return this.http.post<any>(`${environment.apiUrl}/public/brand/rate-retailer`, body)
+      .pipe(
+        map(response => {
+          return response;
+        },
+          catchError(err => {
+            // console.log('Handling error locally and rethrowing it...', err);
+            return JSON.parse(err.message);
+          })
+        ));
+  }
 
   // Update Retailer
   updateBusiness(body: any) {
-    return this.http.put<any>(`${environment.apiUrl}/account/update`, body).pipe(
+
+    return this.http.put<any>(`${environment.apiUrl}/account/edit`, body).pipe(
+      map(response => {
+        return response;
+      }, catchError(err => {
+        return JSON.parse(err.message);
+      })
+    ));
+  }
+
+  updateRequestedRetailer(body: any) {
+
+    return this.http.post<any>(`${environment.apiUrl}/update-retailer-request`, body).pipe(
       map(response => {
         return response;
       }, catchError(err => {
@@ -144,6 +173,12 @@ export class HelperService {
 
   deleteBusinsess(id) {
     return this.http.post(`${environment.apiUrl}/account/delete`, { id });
+  }
+  deleteRequestedRetailer(id) {
+    return this.http.delete(`${environment.apiUrl}/delete-retailer-request?id=${id}`);
+  }
+  requestedRetailerStatusToggle(id:number){
+    return this.http.post(`${environment.apiUrl}/toggle-retailer-status`, { id });
   }
 
   fetchTrackingInfo(fulfillmentId) {

@@ -24,6 +24,7 @@ export class BrandsComponent implements OnInit {
   payoutData: any;
   loading = true;
   commissionForm: FormGroup;
+  editForm: FormGroup;
   currentBrandId: string;
   constructor(
     private modalService: NgbModal,
@@ -31,7 +32,7 @@ export class BrandsComponent implements OnInit {
     private route: ActivatedRoute,
     private helperService: BrandsService,
     private toastr: ToastrService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -39,11 +40,16 @@ export class BrandsComponent implements OnInit {
     this.initializeCommissionForm();
   }
 
-
-
   initializeCommissionForm(): void {
     this.commissionForm = this.fb.group({
-      commission: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?%$/)]], // Validate percentage like 50% or 10.5%
+      commission: ['', [Validators.required, Validators.pattern(/^\d{2}$/)]], // Validate percentage like 50% or 10.5%
+    });
+    this.editForm = this.fb.group({
+      brandName: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      contact: ['', [Validators.required]],
+      website: ['', [Validators.required]],
+      isActivated: [true, [Validators.required, Boolean]],
     });
   }
 
@@ -51,7 +57,7 @@ export class BrandsComponent implements OnInit {
   openEditCommissionModal(data, content) {
     this.currentBrandId = data?.id; // Get the ID of the brand
     this.commissionForm.patchValue({
-      commission: data.commission || '' // Pre-fill the commission input
+      commission: data.commission || '', // Pre-fill the commission input
     });
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
@@ -64,7 +70,7 @@ export class BrandsComponent implements OnInit {
 
     const updatedCommission = this.commissionForm.value.commission;
     const updatedData = {
-      id: this.currentBrandId,
+      brand_id: this.currentBrandId?.toString(),
       commission: updatedCommission,
     };
 
@@ -74,25 +80,57 @@ export class BrandsComponent implements OnInit {
 
   // Simulated API call to save the commission
   saveCommission(data): void {
-    // Simulating backend call success:
-    // In your actual implementation, call the backend service to save the updated commission
-    this.toastr.success('Commission updated successfully!');
-    // Update the corresponding brand in payoutData array
-    const index = this.payoutData.findIndex((item) => item.id === this.currentBrandId);
-    if (index !== -1) {
-      this.payoutData[index].commission = data.commission;
-    }
-    this.modalService.dismissAll();
+    this.helperService.updateCommision(data).subscribe(
+      (response) => {
+        this.modalService.dismissAll();
+        this.commissionForm.reset();
+        this.fetchData(false);
+      },
+      (error) => {
+        this.toastr.error(error, '', {
+          timeOut: 2000,
+        });
+      }
+    );
   }
 
+  openEditBrandModal(data: any, content) {
 
+    this.editForm.patchValue({
+      brandName: data?.brandName,
+      email: data?.email,
+      contact: data?.contact,
+      website: data?.website,
+      isActivated: data.isActivated,
+    });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+   
+  }
+  handleSubmitEditBrand() {
+    const payload = {
+      brandName: this.editForm.value?.brandName,
+      email: this.editForm.value?.email,
+      contact: this.editForm.value?.contact,
+      website: this.editForm.value?.website,
+      isActivated: this.editForm.value.isActivated,
+    };
+    this.saveEditFormData(payload)
+  }
 
-
-
-
-
-
-
+  saveEditFormData(data: any) {
+    this.helperService.updateBrand(data).subscribe(
+      (response) => {
+        this.modalService.dismissAll();
+        this.editForm.reset();
+        this.fetchData(false);
+      },
+      (error) => {
+        this.toastr.error(error, '', {
+          timeOut: 2000,
+        });
+      }
+    );
+  }
 
   navigateToPage(idx) {
     this.pageNumber = idx;
@@ -104,7 +142,6 @@ export class BrandsComponent implements OnInit {
   fetchData(isSearch: boolean) {
     this.loading = true;
     this.payoutData = [];
-
 
     this.helperService
       .getFulfillments(this.pageSize, this.pageNumber)

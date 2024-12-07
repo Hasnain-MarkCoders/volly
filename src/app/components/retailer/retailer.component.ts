@@ -34,6 +34,10 @@ export class RetailerComponent implements OnInit {
   priceRating: number = 0;
   stars: boolean[] = [true, true, true, true, true]; // 5 stars
   retailerId: string;
+  fulfillment_id: string;
+  allStates = []
+  allSelectedStates = []
+  stateSetting={}
   constructor(private modalService: NgbModal,private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private helperService: HelperService, private toastr: ToastrService, private accountsService: AccountsService) {
   }
 
@@ -47,7 +51,9 @@ export class RetailerComponent implements OnInit {
       contact: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required, Validators.pattern(this.URL_REGEX)]),
       stripe: new FormControl('false', [Validators.required]),
-      inHouseBusiness: new FormControl('false', [Validators.required])
+      inHouseBusiness: new FormControl('false', [Validators.required]),
+      states: new FormControl([]),
+
     });
 
     this.updateBusinessForm = new FormGroup({
@@ -55,6 +61,7 @@ export class RetailerComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       contact: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required, Validators.pattern(this.URL_REGEX)]),
+      states: new FormControl([]),
     });
 
     this.locationForm = new FormGroup({
@@ -72,6 +79,15 @@ export class RetailerComponent implements OnInit {
       this.currentUserValue = user;
 
     })
+    this.stateSetting={
+      singleSelection: false,
+      idField: 'id',    // Correct field name for item ID
+      textField: 'name', // Correct field name for item text
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    }
   }
 
   initializeRatingForm(): void {
@@ -82,9 +98,17 @@ export class RetailerComponent implements OnInit {
     });
   }
 
+  onAllStatesSelect(){
+
+  }
+  onStateSelect (){
+
+  }
   // Open Rating Modal
   openRatingModal(content, retailer) {
+    console.log("retailer", retailer)
     this.retailerId = retailer?.id;  // retailer object with id and other details
+    this.fulfillment_id = retailer.accountId
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
@@ -106,10 +130,11 @@ export class RetailerComponent implements OnInit {
     }
 
     const ratingData = {
-      retailerId: this.retailerId,
-      communicationRating: this.communicationRating,
-      speedRating: this.speedRating,
-      priceRating: this.priceRating
+      retailer_id: this.retailerId,
+      comm_rating: this.communicationRating,
+      speed_rating: this.speedRating,
+      price_rating: this.priceRating,
+      fulfillment_id:this.fulfillment_id
     };
 
     // Call the backend service to save ratings
@@ -118,18 +143,18 @@ export class RetailerComponent implements OnInit {
 
   // Example function to save ratings (call your API here)
   saveRatings(ratingData: any): void {
-    console.log("<============================ratingData==============================>", ratingData)
+    console.log(ratingData)
     // API call to save the ratings
-    // this.ratingService.saveRatings(ratingData).subscribe(response => {
-    //   this.toastr.success('Ratings saved successfully!');
-    //   this.modalService.dismissAll();
-    // }, error => {
-    //   this.toastr.error('Failed to save ratings');
-    // });
+    this.helperService.saveRatings(ratingData).subscribe(response => {
+      this.toastr.success(response?.message);
+      this.modalService.dismissAll();
+    }, error => {
+      this.toastr.error('Failed to save ratings');
+    });
 
     // For now, just simulate success:
-    this.toastr.success('Ratings saved successfully!');
-    this.modalService.dismissAll();
+    // this.toastr.success('Ratings saved successfully!');
+    // this.modalService.dismissAll();
   }
 
 
@@ -142,6 +167,10 @@ export class RetailerComponent implements OnInit {
     this.helperService.getRetailer().subscribe((data: any) => {
       // console.log(data);
       this.retailerList = data.account;
+    });
+    this.helperService.getAllStates().subscribe((data: any) => {
+      this.allStates = data.states.map(item=>({id:item.id, name : item.name, }));
+      console.log("this.allStates==============================================>",this.allStates)
     });
   }
 
@@ -164,6 +193,7 @@ export class RetailerComponent implements OnInit {
   }
 
   locationContent(content, list) {
+    console.log(list.states)
     this.id = list.id;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
 
@@ -239,6 +269,8 @@ export class RetailerComponent implements OnInit {
 
   // Start - Added By Sigma Solve(Rajendra) 10-March-2021
   udpateModal(content, account) {
+    this.allSelectedStates = account.states.map(item=>({id:item.id, name:item?.name}));
+    console.log(account)
     this.id = account.id;
 
     this.updateBusinessForm.patchValue({
@@ -258,6 +290,7 @@ export class RetailerComponent implements OnInit {
     if (this.updateBusinessForm.invalid) {
       return;
     }
+    const statesIds = this.updateBusinessForm?.value?.states?.map(item=>item?.id)
     
     let contactNumber = `${this.updateBusinessForm.value.contact.dialCode} ${this.updateBusinessForm.value.contact.number.replace(/ /g, '').replace(this.updateBusinessForm.value.contact.dialCode, '')}`;
     
@@ -267,6 +300,7 @@ export class RetailerComponent implements OnInit {
       email: this.updateBusinessForm.value.email,
       contact: contactNumber,
       website: this.updateBusinessForm.value.website,
+      states:statesIds
     };
     this.helperService.updateBusiness(body).subscribe((response) => {
       this.toastr.success('Retailer Updated sucessfully!');

@@ -69,7 +69,7 @@ button:focus {
 }
 /* Containers */
 .mw_1440 {
-  max-width: 1440px;
+  max-width: 100%;
 }
 .wrapper {
   padding-top: 66px;
@@ -121,3 +121,39 @@ button {
   color: red;
   font-weight: bold;
 }
+// .bar-chart{
+//   width: 60%;
+// }
+
+
+.line-chart-wrapper{
+  display: flex;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  flex-wrap: nowrap;
+
+}
+.bar-chart{
+  display: flex;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.chart-column{
+  flex-basis: 50%;
+}
+
+@media screen and (max-width: 1650px) {
+.line-chart-wrapper{
+  flex-wrap: wrap;
+
+}
+.chart-column{
+  flex-basis: 100%;
+}
+}
+
+

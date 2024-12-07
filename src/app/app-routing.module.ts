@@ -1,3 +1,4 @@
+import { IsBrandGuard } from './_guards/isBrandGuard';
 import { BrandsGuard } from './_guards/BrandsGuard ';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -23,6 +24,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { CredentialsComponent } from './components/credentials/credentials.component';
 import { RequestedRetailerComponent } from './components/requested-retailer/requested-retailer.component';
 import { InsightsComponent } from './components/insights/insights.component';
+import { BrandProfileComponent } from './components/brand-profile/brand-profile.component';
 
 const routes: Routes = [
   { path: 'add-tracking/:id', component: AddTrackingComponent },
@@ -85,6 +87,10 @@ const routes: Routes = [
         path: 'credentials',
         component: CredentialsComponent,
       },
+      {
+        path: 'profile',
+        component: BrandProfileComponent,
+      },
       // {
       //   path: 'stripe-success/:successId',
       //   component: StripeSuccessComponent,
@@ -124,6 +130,17 @@ const routes: Routes = [
     ],
 
     // canActivate: [AuthGuard, BrandsGuard],
+  },
+  {
+    path:'',
+    component:SidebarComponent,
+    canActivate:[AuthGuard, IsBrandGuard],
+    children:[
+      {
+        path:'brand-profile',
+        component:BrandProfileComponent
+      }
+    ]
   },
   {
     path: 'stripe-success/:successId',

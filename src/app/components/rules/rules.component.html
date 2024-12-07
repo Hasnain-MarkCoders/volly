@@ -23,13 +23,13 @@
     <div class="col-11">
       <ul class="nav nav-tabs" style="width: 109%;">
         <li class="nav-item">
-          <a class="nav-link " routerLink="/location">Shopify Location</a>
+          <a class="nav-link " routerLink="/location"> Active Retailers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="javascript:void(0)"> Volley Merchandise</a>
+          <a class="nav-link active" href="javascript:void(0)">  Merchandise</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" routerLink="/location/state-rules"> Volley Product</a>
+        <a class="nav-link" routerLink="/location/state-rules">  Product</a>
         </li>
       </ul>
     </div>
@@ -51,8 +51,8 @@
 
 
         <colgroup>
-          <col style="width: 60%;">
           <col style="width: 20%;">
+          <col style="width: 60%;">
           <col style="width: 20%;">
           <col style="width: 20%;">
         </colgroup>
@@ -60,17 +60,26 @@
         <thead>
           <tr>
             <th scope="col">
-              Product <i class="fa fa-fw fa-sort" (click)="toggleSort()"></i>
-            </th>
-            <th scope="col">
               Shopify Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i>
             </th>
+            <th scope="col">
+              Product 
+            </th>
+            <!-- <th scope="col">
+              Shopify Location Name <i class="fa fa-fw fa-sort" (click)="sortLocation()"></i>
+            </th> -->
             <th scope="col">Ratings</th>
             <th scope="col"  style="min-width: 100px">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let rule of rulesList;let i = index">
+            <td >
+              <!-- Loop through the locations and display each as a chip -->
+             
+                 {{ rule.locationName }}
+               
+          </td>
             <td><input type="text" class="filter_search_input" [(ngModel)]="rule.productFilter" placeholder="Search">
               <div class="chip-container">
                 <!-- Loop through the locations and display each as a chip -->
@@ -79,12 +88,11 @@
                 </span>
               </div>
             </td>
-            <td >
-                <!-- Loop through the locations and display each as a chip -->
-               
+            <!-- <td >
+            
                    {{ rule.locationName }}
                  
-            </td>
+            </td> -->
             <td >
               <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
 

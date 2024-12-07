@@ -1,3 +1,37 @@
-<div>
-    <canvas id="canvas">{{chart}}</canvas>
-  </div>
+
+    <div class="bar-chart">
+        <canvas id="canvas">{{chart}}</canvas>
+      </div>
+ <div class="line-chart-wrapper">
+
+     <div class="chart-column">
+    
+         <div class="line-chart-filter" style="margin-top: 20px;">
+             <label for="filterOrder" style="margin-right: 10px; font-weight: bold;">Filter:</label>
+             <select id="filterOrder" (change)="updateChart($event)">
+               <option value="brand">Brand</option>
+               <option value="state">State</option>
+               <option value="retailer">Retailers</option>
+         
+             </select>
+           </div>
+         <div class="line-chart">
+             <canvas id="lineChartCanvas"></canvas>
+           </div>
+     </div>
+    
+      <div class="chart-column">
+          <div class="line-chart-filter" style="margin-top: 20px;">
+            <label for="filterDollar" style="margin-right: 10px; font-weight: bold;">Filter:</label>
+            <select id="filterDollar" (change)="updateChartDollarVolume($event)">
+              <option value="brand">Brand</option>
+              <option value="state">State</option>
+              <option value="retailer">Retailers</option>
+        
+            </select>
+          </div>
+          <div class="line-chart">
+            <canvas id="lineChartCanvasDollarVolume"></canvas>
+          </div>
+      </div>
+ </div>

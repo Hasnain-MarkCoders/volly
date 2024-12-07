@@ -7,7 +7,7 @@
     <ul class="buttons_listing">
       <li>
         <button *ngIf="currentUserValue && currentUserValue.roleId < 3" class="btn btn_1" (click)="open(content)"><span class="icons"></span>Add New CMS Retailer</button>
-        <button *ngIf="currentUserValue && currentUserValue.roleId > 2" class="btn btn_1" (click)="open(request_cms_retailer_content)"><span class="icons"></span>Request CMS Retailer</button>
+        <button *ngIf="currentUserValue && currentUserValue.roleId > 2" class="btn btn_1" (click)="open(request_cms_retailer_content)"><span class="icons"></span>Request A Retailer</button>
 
       </li>
     </ul>
@@ -45,7 +45,9 @@
             <th scope="col">In-House</th>
             <th scope="col">Shopify Location</th>
             <th scope="col">Ratings</th>
+            <th scope="col">States</th>
             <th scope="col">Action</th>
+
             <!-- <th scope="col">Created At</th>
           <th scope="col">Updated At</th> -->
           </tr>
@@ -86,14 +88,21 @@
                 href="javascript:void(0)"><span (click)=unlink(list.id)><u>Unassign</u></span></a></td>
                 <td >
                   <a href="javascript:void(0)" 
-                  (click)="openRatingModal(ratingModal, retailer)"
+                  (click)="openRatingModal(ratingModal, list)"
                   [attr.title]="'Give Rating'" 
                   data-toggle="tooltip" 
                   data-placement="top">
                  <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
                </a>
               </td>
-            <td>
+              <td>
+                <div class="chip-container">
+                  <span    *ngFor="let state of list.states" class="chip">
+                    {{ state.name }}
+                  </span>
+                </div>
+              </td>
+            <td style="min-width: 100px;">
               <a href="javascript:void(0)" (click)="udpateModal(updateRetailerContent,list)">
                 <span class="icons edit_icon"></span>
               </a> &nbsp;
@@ -413,6 +422,27 @@
             Website is required and format should be <i>https://www.example.com</i>.
           </small>
         </div>
+        <div class="form-group has-label col-md-12">
+          <label class="control-label" for="">States:</label>
+          <span class="star">*</span>
+          <!-- <select 
+          
+          class="form-control mr-1" formControlName="productId" (change)="selectProduct($event); getStatesForSpecificProductAndLocation(stateForm.get('locationId').value,stateForm.get('productId').value)">
+            <option value="">Choose Product</option>
+            <option value="{{ product.id }}" *ngFor="let product of products; let i = index">{{ product.title }}
+            </option>
+          </select> -->
+          <ng-multiselect-dropdown
+          formControlName="states"
+        [settings]="stateSetting"
+        [placeholder]="'States'"
+        [data]="allStates"
+        [(ngModel)]="allSelectedStates"
+        (onSelect)="onStateSelect($event)"
+        (onSelectAll)="onAllStatesSelect($event)"
+      >
+      </ng-multiselect-dropdown>
+        </div>
       </div>
       <!-- </div> -->
       <div class="modal-footer">
@@ -542,7 +572,7 @@
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close Clicked')">
           Close
         </button>
-        <button type="submit" class="btn btn-primary">Save Rating</button>
+        <button type="submit" [disabled] = "currentUserValue && currentUserValue.roleId < 2" class="btn btn-primary">Save Rating</button>
       </div>
     </form>
   </div>

@@ -28,6 +28,7 @@ export class RequestedRetailerComponent implements OnInit {
   locationName: any;
   URL_REGEX = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
   sortToggle = false;
+  retailer_id = null
 
   constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute, private helperService: HelperService, private toastr: ToastrService, private accountsService: AccountsService) {
   }
@@ -198,8 +199,10 @@ export class RequestedRetailerComponent implements OnInit {
       email: this.updateBusinessForm.value.email,
       contact: contactNumber,
       website: this.updateBusinessForm.value.website,
+    "stripe": "true",
+    "inHouseBusiness": "true"
     };
-    this.helperService.updateBusiness(body).subscribe((response) => {
+    this.helperService.updateRequestedRetailer(body).subscribe((response) => {
       this.toastr.success('Retailer Updated sucessfully!');
       this.list();
       this.modalService.dismissAll();
@@ -212,6 +215,9 @@ export class RequestedRetailerComponent implements OnInit {
     });
   }
   // End
+
+
+  // E
 
   assignLocation() {
     this.submitted = true;
@@ -283,6 +289,22 @@ export class RequestedRetailerComponent implements OnInit {
     }, error => this.toastr.error(error));
 
   }
+  deleteRequestedRetailer(id: any) {
+    this.helperService.deleteRequestedRetailer(id).subscribe((res) => {
+      this.toastr.info('Account deleted');
+      this.list();
+    }, error => this.toastr.error(error));
+
+  }
+
+  requestedRetailerStatusToggle(id: any) {
+    this.helperService.requestedRetailerStatusToggle(id).subscribe((res) => {
+      this.toastr.info('Status Updated.');
+      this.list();
+    }, error => this.toastr.error(error));
+
+  }
+
 
   inHouseModal(inhousecontent, list) {
     this.id = list.id;
