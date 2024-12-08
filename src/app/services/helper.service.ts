@@ -185,12 +185,12 @@ export class HelperService {
     return this.http.get(`${environment.apiUrl}/tracking-info/${fulfillmentId}`);
   }
 
-  getPayouts(pageSize, pageNo, status, sort) {
-    return this.http.get(`${environment.apiUrl}/payouts?pageSize=${pageSize}&page=${pageNo}&status=${(status) ? status : ''}&sort=${sort}`);
+  getPayouts(pageSize, pageNo, status, sort, orderNumber:string, retailer:string, brandName:string , createdDate:string) {
+    return this.http.get(`${environment.apiUrl}/payouts?pageSize=${pageSize}&page=${pageNo}&status=${(status) ? status : ''}&sort=${sort}&orderNumber=${orderNumber}&retailer=${retailer}&brandName=${brandName}&createdDate=${createdDate}`);
   }
 
-  getFulfillments(pageSize, pageNo, status, sort, daterange, shopifyTrackingStatus) {
-    const url = `${environment.apiUrl}/fulfillments?pageSize=${pageSize}&page=${pageNo}&status=${(status) ? status : ''}&sort=${sort}&daterange=${daterange}&shopifyTrackingStatus=${shopifyTrackingStatus}`;
+  getFulfillments(pageSize, pageNo, status, sort, daterange, shopifyTrackingStatus, retailer:string, brandName:string , createdDate:string) {
+    const url = `${environment.apiUrl}/fulfillments?pageSize=${pageSize}&page=${pageNo}&status=${(status) ? status : ''}&sort=${sort}&daterange=${daterange}&shopifyTrackingStatus=${shopifyTrackingStatus}&retailer=${retailer}&brandName=${brandName}&createdDate=${createdDate}`;
     return this.http.get(url);
   }
 

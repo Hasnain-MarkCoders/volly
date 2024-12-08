@@ -54,12 +54,47 @@
     </div>
     <div class="col-4">
       <div>&nbsp;</div>
-      <button class="btn btn-primary" (click)="fetchData(true)">Search</button>
+      <!-- <button class="btn btn-primary" (click)="fetchData(true)">Search</button> -->
     <!-- </div> -->
     <!-- <div class="col-2" *ngIf="displayExport"> -->
       <!-- <div>&nbsp;</div> -->
-      &nbsp;&nbsp;<button class="btn btn-primary" *ngIf="displayExport" (click)="exportToExcel()">Export</button>
+      <!-- &nbsp;&nbsp;<button class="btn btn-primary" *ngIf="displayExport" (click)="exportToExcel()">Export</button> -->
     </div>
+
+    <div class="search-flex-contailer">
+      <div class="col-3"  *ngIf="currentUserValue && currentUserValue.roleId <3">
+        <label>Brand</label>:
+        <input class="form-control col12 input-search-order" [(ngModel)]="brandName" placeholder="example brand">
+        <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Enter Brand Name</span>
+    </div>
+    <div class="col-3">
+      <label>Retailer</label>:
+      <input class="form-control col12 input-search-order" [(ngModel)]="retailerName" placeholder="example retailer">
+      <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Retailer Name</span>
+    </div>
+    <div class="col-3 " >
+      <label>Date</label>:
+      <div class="date-container">
+
+        <input
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          name="dp"
+          [(ngModel)]="model"
+          ngbDatepicker
+          #d="ngbDatepicker"
+        />
+      <span  (click)="d.toggle()"  class="material-symbols-outlined date-button">
+          calendar_month
+          </span>
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="search_fn()">Search</button>
+    <button class="btn btn-danger" (click)="clear_search_fn()">Clear Filter</button>
+    <button class="btn btn-primary" *ngIf="displayExport" (click)="exportToExcel()">Export</button>
+    
+    
+      </div>
   </div>
 
   <div class="data_container">

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HelperService } from '../../services/helper.service';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import * as moment from 'moment';
 import * as $ from 'jquery';
+import { AccountsService } from 'src/app/services/accounts.service';
 
 @Component({
   selector: 'app-fulfillments',
@@ -29,17 +30,54 @@ export class FulfillmentsComponent implements OnInit {
   daterange = '';
   shopifyTrackingStatus = '';
   displayExport = false;
-
+  brandName:string=''
+  retailerName:string=''
+  model: NgbDateStruct;
+  date: { year: number; month: number; day: number };
+  unixTimestamp: string='';
+  currentUserValue: any = null;
   constructor(
     private modalService: NgbModal,
     private router: Router,
     private route: ActivatedRoute,
     private helperService: HelperService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private accountsService: AccountsService
   ) {}
 
   ngOnInit(): void {
     this.fetchData(false);
+    this.accountsService.currentUser.subscribe(user => {
+      this.currentUserValue = user;
+
+    })
+  }
+
+  clear_search_fn(){
+    this.brandName='' 
+    this.retailerName=''
+    this.unixTimestamp=''
+    this.status=''
+    this.daterange=''
+    this.shopifyTrackingStatus=''
+    this.fetchData(true);
+  }
+
+  search_fn(){
+    if (this.model && this.model.year && this.model.month && this.model.day) {
+      const utcTimestamp = Math.floor(Date.UTC(
+        this.model.year,
+        this.model.month - 1, // Adjust month index
+        this.model.day
+      ) / 1000);
+  
+      this.unixTimestamp = utcTimestamp.toString();
+      console.log("Unix Timestamp (UTC, seconds):", this.unixTimestamp);
+    } else {
+      console.error("Invalid date model:", this.model);
+    }
+    this.fetchData(true);
+
   }
 
   navigateToPage(idx) {
@@ -69,7 +107,11 @@ export class FulfillmentsComponent implements OnInit {
         this.status,
         this.sortField,
         this.daterange,
-        this.shopifyTrackingStatus
+        this.shopifyTrackingStatus,
+        this.retailerName,
+         this.brandName,
+          this.unixTimestamp
+          // console.log(res);
       )
       .subscribe(async (res) => {
         clearInterval(this.fulfillmentInterval);

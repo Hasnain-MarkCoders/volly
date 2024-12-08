@@ -157,3 +157,20 @@ button {
 }
 
 
+.search-flex-contailer{
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+
+}
+.status{
+  flex-basis: 100px;
+}
+.date-container{
+  display: flex;
+  align-items: center;
+}
+.date-button{
+  cursor: pointer;
+}

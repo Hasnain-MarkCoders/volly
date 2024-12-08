@@ -20,13 +20,48 @@
       </ul>
     </div>
   </div>
-  <div>
-    <label>Status</label>:
-    <select [(ngModel)]="status" class="form-control col-2" (ngModelChange)="fetchData()">
-      <option value="" selected>All</option>
-      <option value="true">Success</option>
-      <option value="false">Pending</option>
-    </select>
+  <div class="search-flex-contailer">
+    <div  class="col-2">
+      <label>Status</label>:
+      <select [(ngModel)]="status" class="form-control" (ngModelChange)="fetchData(true)">
+        <option value="" selected>All</option>
+        <option value="true">Success</option>
+        <option value="false">Pending</option>
+      </select>
+   
+    </div>
+    <div class="col-3">
+      <label>Order</label>:
+      <input class="form-control col12 input-search-order" [(ngModel)]="search_order" placeholder="Search Order Exa. 1001">
+      <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Enter Valid Order No</span>
+  </div>
+  <div class="col-3"  *ngIf="currentUserValue && currentUserValue.roleId < 3">
+    <label>Brand</label>:
+    <input class="form-control col12 input-search-order" [(ngModel)]="brandName" placeholder="example brand">
+    <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Enter Brand Name</span>
+</div>
+<div class="col-3">
+  <label>Retailer</label>:
+  <input class="form-control col12 input-search-order" [(ngModel)]="retailerName" placeholder="example retailer">
+  <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Retailer Name</span>
+</div>
+<div class="col-3 date-container" >
+    <input
+      class="form-control"
+      placeholder="yyyy-mm-dd"
+      name="dp"
+      [(ngModel)]="model"
+      ngbDatepicker
+      #d="ngbDatepicker"
+    />
+  <span  (click)="d.toggle()"  class="material-symbols-outlined date-button">
+      calendar_month
+      </span>
+</div>
+<button class="btn btn-primary" (click)="search_fn()">Search</button>
+<button class="btn btn-danger" (click)="clear_search_fn()">Clear Filter</button>
+
+
   </div>
   <div class="data_container">
     <div class="table-responsive">

@@ -1,6 +1,6 @@
 import { BrandsService } from './../../services/brands.service';
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,7 @@ import * as fs from 'file-saver';
 import * as moment from 'moment';
 import * as $ from 'jquery';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AccountsService } from 'src/app/services/accounts.service';
 @Component({
   selector: 'app-brands',
   templateUrl: './brands.component.html',
@@ -26,19 +27,55 @@ export class BrandsComponent implements OnInit {
   commissionForm: FormGroup;
   editForm: FormGroup;
   currentBrandId: string;
+  brandName:string=''
+  retailerName:string=''
+  model: NgbDateStruct;
+  date: { year: number; month: number; day: number };
+  unixTimestamp: string='';
+  currentUserValue: any = null;
   constructor(
     private modalService: NgbModal,
     private router: Router,
     private route: ActivatedRoute,
     private helperService: BrandsService,
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private accountsService: AccountsService
   ) {}
 
   ngOnInit(): void {
     this.fetchData(false);
     this.initializeCommissionForm();
+    this.accountsService.currentUser.subscribe(user => {
+      this.currentUserValue = user;
+
+    })
   }
+
+  clear_search_fn(){
+    this.brandName='' 
+    this.retailerName=''
+    this.unixTimestamp=''
+    this.fetchData(true);
+  }
+
+  search_fn(){
+    if (this.model && this.model.year && this.model.month && this.model.day) {
+      const utcTimestamp = Math.floor(Date.UTC(
+        this.model.year,
+        this.model.month - 1, // Adjust month index
+        this.model.day
+      ) / 1000);
+  
+      this.unixTimestamp = utcTimestamp.toString();
+      console.log("Unix Timestamp (UTC, seconds):", this.unixTimestamp);
+    } else {
+      console.error("Invalid date model:", this.model);
+    }
+    this.fetchData(true);
+
+  }
+
 
   initializeCommissionForm(): void {
     this.commissionForm = this.fb.group({
@@ -139,13 +176,17 @@ export class BrandsComponent implements OnInit {
     this.fetchData(false);
   }
 
-  fetchData(isSearch: boolean) {
+  fetchData(isSearch :Boolean) {
     this.loading = true;
     this.payoutData = [];
+if(isSearch){
+  this.pageNumber=1
+}
 
     this.helperService
-      .getFulfillments(this.pageSize, this.pageNumber)
-      .subscribe(async (res) => {
+      .getFulfillments(this.pageSize, this.pageNumber,this.retailerName, this.brandName, this.unixTimestamp).subscribe((res) => {
+        // console.log(res);)
+      // .subscribe(async (res) => {
         this.payoutData = res['data'];
         if (this.payoutData) {
           this.dataLength = this.payoutData.length;

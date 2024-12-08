@@ -13,9 +13,9 @@ export class BrandsService {
   constructor(private http: HttpClient) {
   }
 
-  getFulfillments(pageSize, pageNo) {
+  getFulfillments(pageSize, pageNo, retailer:string, brandName:string , createdDate:string) {
     console.log(pageSize, pageNo)
-    const url = `${environment.apiUrl}/public/brand/all?pageSize=${pageSize}&page=${pageNo}`;
+    const url = `${environment.apiUrl}/public/brand/all?pageSize=${pageSize}&page=${pageNo}&retailer=${retailer}&brandName=${brandName}&createdDate=${createdDate}`;
     return this.http.get(url);
   }
 
