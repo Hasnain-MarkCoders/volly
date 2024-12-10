@@ -33,11 +33,7 @@
           <span class="icons orders_icon"></span> <label>Orders</label></a
         >
       </li>
-      <!-- <li (click)="isSelected('/brands')" routerLinkActive="active">
-        <a href="javascript:void(0)" routerLink="/brands">
-          <span class="icons material-symbols-outlined"> group </span>
-        </a>
-      </li> -->
+     
       <li (click)="isSelected('/brands')"   *ngIf="currentUserValue && currentUserValue.roleId < 3"    routerLinkActive="active">
         <a href="javascript:void(0)" class="custom_tab_icon_style" routerLink="/brands">
           <span class="material-symbols-outlined">
@@ -55,17 +51,6 @@
           <span class="icons retailers_icon"></span> <label>CMS Retailer</label>
         </a>
       </li>
-      <!-- <li (click)="isSelected('/payments')" *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
-        <a href="javascript:void(0)" routerLink="/payments">
-          <span class="icons payment_icon"></span> <label>Payments</label>
-        </a>
-      </li>
-      <li (click)="isSelected('/fulfillments')" *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
-        <a href="javascript:void(0)" routerLink="/fulfillments">
-          <span class="icons edit_icon"></span> <label>Fulfillments</label>
-        </a>
-      </li> -->
-
       <li (click)="isSelected('/payments')"  routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/payments">
           <span class="icons payment_icon"></span> <label>Payments</label>
@@ -107,7 +92,6 @@
             </span><label>Insights</label></a
         >
       </li>
-      
     </ul>
   </aside>
   <div class="w_side">

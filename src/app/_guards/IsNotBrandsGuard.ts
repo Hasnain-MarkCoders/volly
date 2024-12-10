@@ -5,7 +5,7 @@ import { AccountsService } from '../services/accounts.service';
 @Injectable({
   providedIn: 'root'
 })
-export class BrandsGuard implements CanActivate {
+export class IsNotBrandsGuard implements CanActivate {
 
   constructor(private router: Router, private accountsService: AccountsService) {}
 

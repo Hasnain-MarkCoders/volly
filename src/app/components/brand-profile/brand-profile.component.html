@@ -1,19 +1,19 @@
 <div class=" row "  style="margin: 0px ">
     <div class="col-12 mb-4">
         <label class="mb-2">Brand Name</label>:
-        <input class="form-control col12 input-search-order" disabled="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="brandName" value="brandName" placeholder="Example Brand">
+        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="brandName" value="brandName" placeholder="Example Brand">
     </div>
     <div class="col-12 mb-4">
         <label class="mb-2">Email</label>:
-        <input class="form-control col12 input-search-order" disabled="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="email" value="email" placeholder="example@gmail.com">
+        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="email" value="email" placeholder="example@gmail.com">
     </div>
     <div class="col-12 mb-4">
         <label class="mb-2">Contact</label>:
-        <input class="form-control col12 input-search-order" disabled="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="contact" value="contact" placeholder="+12345678901">
+        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="contact" value="contact" placeholder="+12345678901">
     </div>
     <div class="col-12 mb-4">
         <label class="mb-2">Website</label>:
-        <input class="form-control col12 input-search-order" disabled="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="website" value="website" placeholder="https://example.com">
+        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="website" value="website" placeholder="https://example.com">
     </div>
     <div class="col-6">
         <button class="btn btn-primary" [hidden]="currentUserValue && currentUserValue.isSuperAdmin" (click)="updateBrand()">Update Profile</button> &nbsp;
