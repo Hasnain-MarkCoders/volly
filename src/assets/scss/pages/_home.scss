@@ -1,6 +1,7 @@
 .sidebar{
     display: inline-block;
     width: 100%;
+    margin-top: 40px;
     max-width: 224px;
     background-color: #FFFFFF;
     padding: 66px 8px 100px 8px;
@@ -44,6 +45,7 @@
     margin-left: 224px;
     vertical-align: top;
     padding-left:15px;
+    margin-top: 60px;
     @media screen and (max-width: 767px){
         margin-left: 0;
         width: 100%;
@@ -148,6 +150,9 @@ h2.heading_main{
                 display: inline-block;
                 width: auto;
                 max-width: 100px;
+                border-radius: 10px;
+                margin-left: 30px;
+                display: block;
             }
         }
     }

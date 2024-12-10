@@ -75,7 +75,9 @@ export class BrandsComponent implements OnInit {
     this.fetchData(true);
 
   }
-
+  handleNavigate (id){
+    this.router.navigate(['/brand-profile'], { queryParams: { id } });
+  }
 
   initializeCommissionForm(): void {
     this.commissionForm = this.fb.group({
@@ -122,8 +124,10 @@ export class BrandsComponent implements OnInit {
         this.modalService.dismissAll();
         this.commissionForm.reset();
         this.fetchData(false);
+        console.log("response", response)
       },
       (error) => {
+        console.log(error.errro)
         this.toastr.error(error, '', {
           timeOut: 2000,
         });

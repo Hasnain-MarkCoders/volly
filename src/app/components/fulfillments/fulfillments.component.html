@@ -113,6 +113,8 @@
             <th scope="col">Shopify Order Timestamp</th>
             <th scope="col">Tracking Timestamp</th>
             <th scope="col">Days Outstanding</th>
+            <th scope="col">Ratings</th>
+
           </tr>
         </thead>
         <tbody name="payoutData" ngDefaultControl [(ngModel)]="payoutData" *ngIf="payoutData?.length != 0">
@@ -142,6 +144,38 @@
             <td>
               <span *ngIf="data.status">{{data.daysOutstanding}}</span>
               <span *ngIf="!data.status">-</span>
+            </td>
+            <td>
+              <!-- <a
+              [ngbTooltip]="'communication : ' + list.avgCommRating + '⭐, speed : ' + list.avgSpeedRating + '⭐, price: ' + list.avgPriceRating +' ⭐'"
+                href="javascript:void(0)"
+                (click)="openRatingModal(ratingModal, list)"
+                data-toggle="tooltip"
+                data-placement="top"
+                [ngStyle]="{
+                  'font-size': '18px',
+                  'color': 'black',
+                  'text-decoration': list.overallAvgRating < 1 ? 'underline' : 'none'
+                }"
+              > -->
+           <!-- <span>{{starGenerator(list.overallAvgRating)}} </span> -->
+            <a
+            data-toggle="tooltip"
+            data-placement="top"
+            [ngStyle]="{
+              'font-size': '18px',
+              'color': 'black',
+              'text-decoration': data.overallAvgRating < 1 ? 'underline' : 'none',
+              'display':data.status?'inline-block':'none'
+            }"
+            href="javascript:void(0)"
+            (click)="openRatingModal(ratingModal, data)"
+            >
+
+              <span>{{starGenerator(data.overallAvgRating)}} </span>
+            </a>
+            
+              <!-- </a> -->
             </td>
             <!-- <td>{{list.createdAt}}</td>
             <td>{{list.updatedAt}}</td> -->
@@ -250,3 +284,90 @@
   </ng-container>&nbsp; -->
 <!--    <li class="page-item"><button class="page-link"(click)="navigateNext()">Next</button></li>-->
 <!-- </ul> -->
+<!-- rating modal -->
+<ng-template #ratingModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header" id="modal-basic-title">
+      <h5 class="modal-title" id="exampleModalLabel">Rate Retailer</h5>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.close('Close Clicked')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="ratingForm" novalidate (ngSubmit)="submitRating()">
+      <div class="modal-body">
+        <!-- Communication Rating -->
+        <div class="form-group col-12">
+          <label class="control-label"
+            >Rating on Communication: <span class="star">*</span></label
+          >
+          <div class="rating">
+            <span
+              *ngFor="let star of stars; let i = index"
+              (click)="setRating('communication', i + 1)"
+              [class.filled]="communicationRating >= i + 1"
+            >
+              &#9733;
+            </span>
+          </div>
+        </div>
+
+        <!-- Speed Rating -->
+        <div class="form-group col-12">
+          <label class="control-label"
+            >Rating on Speed: <span class="star">*</span></label
+          >
+          <div class="rating">
+            <span
+            
+              *ngFor="let star of stars; let i = index"
+              (click)="setRating('speed', i + 1)"
+              [class.filled]="speedRating >= i + 1"
+            >
+              &#9733;
+            </span>
+          </div>
+        </div>
+
+        <!-- Price Rating -->
+        <div class="form-group col-12">
+          <label class="control-label"
+            >Rating on Price: <span class="star">*</span></label
+          >
+          <div class="rating">
+            <span
+          [disabled]="currentUserValue && currentUserValue.roleId < 2"
+
+              *ngFor="let star of stars; let i = index"
+              (click)="setRating('price', i + 1)"
+              [class.filled]="priceRating >= i + 1"
+            >
+              &#9733;
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modal.close('Close Clicked')"
+        >
+          Close
+        </button>
+        <button
+          type="submit"
+          [hidden]="currentUserValue && currentUserValue.roleId < 2"
+          class="btn btn-primary"
+        >
+          Save Rating
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

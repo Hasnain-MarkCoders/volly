@@ -7,7 +7,7 @@
           <img src="../../../assets/avatar-380-456332.png" alt=""
             style="height: 35%;width: 40%;margin-top: -22%;margin-left: 27%;">
           <h5 class="card-title text-center">Login as Brand </h5>
-          <form class="form-login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <form class="form-login" [formGroup]="loginForm"  (ngSubmit)="onSubmit()">
             <div class="form-label-group">
               <input type="email" id="inputEmail" class="form-control" placeholder="Email" formControlName="email"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required autofocus>
@@ -25,7 +25,11 @@
               <label class="custom-control-label" for="customCheck1">Remember password</label>
             </div>
             <button class="btn btn-lg btn-primary btn-block " type="submit">Login as brand</button>
-            <button class="btn btn-lg btn-primary btn-block " type="button" (click)="handleNavigate()">Register as brand</button>
+            <div style=" display: flex; justify-content: flex-end; padding-right: 10px; padding-top: 10px;">
+
+              <a href="javascript:void(0)" (click)="handleNavigate()">Register as brand</a>
+            </div>
+            <!-- <button class="btn btn-lg btn-primary btn-block " type="button" (click)="handleNavigate()">Register as brand</button> -->
           </form>
         </div>
       </div>

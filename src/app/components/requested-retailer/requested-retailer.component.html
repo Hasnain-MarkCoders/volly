@@ -44,7 +44,7 @@
               <th scope="col">Stripe</th>
               <th scope="col">In-House</th>
               <th scope="col">Status</th>
-              <th scope="col" *ngIf="currentUserValue && currentUserValue.roleId >= 3">Action</th>
+              <th scope="col" >Action</th>
               <!-- <th scope="col">Created At</th>
             <th scope="col">Updated At</th> -->
             </tr>
@@ -80,31 +80,53 @@
               <td>{{list.updatedAt}}</td> -->
               <!-- <td> -->
                 <td>
-                    <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && list.isRequested" (click)="requestedRetailerStatusToggle(list?.id)">
-                        <!-- <span class="badge badge-success" placement="top" ngbTooltip="Click to change">true</span> -->
+                    <!-- <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && list.isRequested" (click)="requestedRetailerStatusToggle(list?.id)">
                         <span  ngbTooltip="Click to change" class="material-symbols-outlined">
                           check_circle
                           </span>
                       </a>
                       <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && !list.isRequested" (click)="requestedRetailerStatusToggle(list?.id)">
-                        <!-- <span class="badge badge-danger" placement="top" ngbTooltip="Click to change">false</span> -->
                           <span  ngbTooltip="Click to change" class="material-symbols-outlined">
                             cancel
                             </span>
-                      </a>
+                      </a> -->
                       
-                      <span *ngIf="currentUserValue && currentUserValue.roleId >= 3" class="badge" [ngClass]="{'badge-success': list.isRequested, 'badge-danger': !list.isRequested}" placement="top">
+                      <!-- <span *ngIf="currentUserValue && currentUserValue.roleId >= 3" class="badge" [ngClass]="{'badge-success': list.isRequested, 'badge-danger': !list.isRequested}" placement="top">
+                        {{ list.isRequested ? 'Approved' : 'Pending' }}
+                        
+                      </span> -->
+                      <span  class="badge" [ngClass]="{'badge-success': list.isRequested, 'badge-danger': !list.isRequested}" placement="top">
                         {{ list.isRequested ? 'Approved' : 'Pending' }}
                         
                       </span>
 
                 </td>
-              <td *ngIf="currentUserValue && currentUserValue.roleId >= 3">
-                <a href="javascript:void(0)" (click)="udpateModal(updateRetailerContent,list)">
-                  <span class="icons edit_icon"></span>
+              <td 
+              
+              >
+                <a
+                *ngIf="currentUserValue && currentUserValue.roleId >= 3  && !list.isRequested"
+                href="javascript:void(0)" 
+                (click)="!list.isRequested && udpateModal(updateRetailerContent,list)">
+                  <span 
+                  class="icons edit_icon"></span>
                 </a> &nbsp;
-                <a href="javascript:void(0)" (click)="deleteRequestedRetailer(list.id)">
-                  <span class="icons delete_icon"></span>
+                <a
+                *ngIf="currentUserValue && currentUserValue.roleId >= 3  && !list.isRequested"
+                href="javascript:void(0)" (click)="!list.isRequested && deleteRequestedRetailer(list.id)">
+                  <span 
+                  class="icons delete_icon"></span>
+                </a>
+
+                <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && list.isRequested" (click)="requestedRetailerStatusToggle(list?.id)">
+                  <span  ngbTooltip="Click to change" class="material-symbols-outlined">
+                    change_circle
+                    </span>
+                </a>
+                <a href="javascript:void(0)" *ngIf="currentUserValue && currentUserValue.roleId < 3 && !list.isRequested" (click)="requestedRetailerStatusToggle(list?.id)">
+                    <span  ngbTooltip="Click to change" class="material-symbols-outlined">
+                      change_circle
+                      </span>
                 </a>
               </td>
             </tr>

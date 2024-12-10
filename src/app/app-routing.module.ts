@@ -83,13 +83,25 @@ const routes: Routes = [
       //   path: 'brands',
       //   component: BrandsComponent
       // },
-      {
-        path: 'credentials',
-        component: CredentialsComponent,
-      },
+      // {
+      //   path: 'credentials',
+      //   component: CredentialsComponent,
+      // },
       {
         path: 'profile',
         component: BrandProfileComponent,
+      },
+      {
+        path: 'fulfillments',
+        component: FulfillmentsComponent,
+      },
+      {
+        path: 'payments',
+        component: PaymentsComponent,
+      },
+      {
+        path:'brand-profile',
+        component:BrandProfileComponent
       },
       // {
       //   path: 'stripe-success/:successId',
@@ -111,10 +123,10 @@ const routes: Routes = [
         path: 'staff',
         component: StaffComponent,
       },
-      {
-        path: 'fulfillments',
-        component: FulfillmentsComponent,
-      },
+      // {
+      //   path: 'fulfillments',
+      //   component: FulfillmentsComponent,
+      // },
       {
         path: 'payments',
         component: PaymentsComponent,
@@ -136,10 +148,14 @@ const routes: Routes = [
     component:SidebarComponent,
     canActivate:[AuthGuard, IsBrandGuard],
     children:[
+      // {
+      //   path:'brand-profile',
+      //   component:BrandProfileComponent
+      // },
       {
-        path:'brand-profile',
-        component:BrandProfileComponent
-      }
+        path: 'credentials',
+        component: CredentialsComponent,
+      },
     ]
   },
   {

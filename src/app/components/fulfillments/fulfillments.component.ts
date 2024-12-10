@@ -8,6 +8,7 @@ import * as fs from 'file-saver';
 import * as moment from 'moment';
 import * as $ from 'jquery';
 import { AccountsService } from 'src/app/services/accounts.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-fulfillments',
@@ -36,23 +37,91 @@ export class FulfillmentsComponent implements OnInit {
   date: { year: number; month: number; day: number };
   unixTimestamp: string='';
   currentUserValue: any = null;
+  ratingForm: FormGroup;
+  communicationRating: number = 0;
+  speedRating: number = 0;
+  priceRating: number = 0;
+  stars: boolean[] = [true, true, true, true, true]; // 5 stars
+  retailerId: string;
+  fulfillment_id: string;
   constructor(
     private modalService: NgbModal,
     private router: Router,
     private route: ActivatedRoute,
     private helperService: HelperService,
     private toastr: ToastrService,
-    private accountsService: AccountsService
+    private accountsService: AccountsService,
+    private fb: FormBuilder
   ) {}
 
+
   ngOnInit(): void {
+    this.initializeRatingForm()
     this.fetchData(false);
     this.accountsService.currentUser.subscribe(user => {
       this.currentUserValue = user;
 
     })
   }
+  starGenerator=(num:number)=>num===0?"no rating":Array.from({length:num}).fill("⭐").join("")
 
+  initializeRatingForm(): void {
+    this.ratingForm = this.fb.group({
+      communication: [1, Validators.required],
+      speed: [1, Validators.required],
+      price: [1, Validators.required]
+    });
+  }
+
+
+    // Open Rating Modal
+    openRatingModal(content, retailer) {
+      console.log("retailer", retailer)
+      this.retailerId = retailer?.accountId;  // retailer object with id and other details
+      this.fulfillment_id = retailer?.fulfillmentId
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    }
+  
+    // Set rating on click (1-5 stars)
+    setRating(type: string, rating: number): void {
+      if (type === 'communication') {
+        this.communicationRating = rating;
+      } else if (type === 'speed') {
+        this.speedRating = rating;
+      } else if (type === 'price') {
+        this.priceRating = rating;
+      }
+    }
+  
+  
+    submitRating(): void {
+      if (this.ratingForm.invalid) {
+        return;
+      }
+  
+      const ratingData = {
+        retailer_id: this.retailerId,
+        comm_rating: this.communicationRating,
+        speed_rating: this.speedRating,
+        price_rating: this.priceRating,
+        fulfillment_id:this.fulfillment_id
+      };
+  
+      // Call the backend service to save ratings
+      this.saveRatings(ratingData);
+    }
+
+    saveRatings(ratingData: any): void {
+      console.log(ratingData)
+      // API call to save the ratings
+      this.helperService.saveRatings(ratingData).subscribe(response => {
+        this.toastr.success(response?.message);
+        this.modalService.dismissAll();
+      }, error => {
+        this.toastr.error('Failed to save ratings');
+      });
+  
+    }
   clear_search_fn(){
     this.brandName='' 
     this.retailerName=''

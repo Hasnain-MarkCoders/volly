@@ -152,16 +152,13 @@ export class RetailerComponent implements OnInit {
       this.toastr.error('Failed to save ratings');
     });
 
-    // For now, just simulate success:
-    // this.toastr.success('Ratings saved successfully!');
-    // this.modalService.dismissAll();
   }
 
 
 
 
 
-
+   starGenerator=(num:number)=>num===0?"no rating":Array.from({length:num}).fill("⭐").join("")
 
   list() {
     this.helperService.getRetailer().subscribe((data: any) => {

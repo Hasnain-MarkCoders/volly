@@ -1,14 +1,25 @@
 <!-- <p>payments works!</p> -->
 <!-- <p>rules works!</p> -->
 <div class="container mw_1440">
-  <div class="right_head" style="margin-bottom: 3%;">
+  <div class="right_head" style="margin-bottom: 3%">
     <h2 class="heading_main">CMS Retailers</h2>
 
     <ul class="buttons_listing">
       <li>
-        <button *ngIf="currentUserValue && currentUserValue.roleId < 3" class="btn btn_1" (click)="open(content)"><span class="icons"></span>Add New CMS Retailer</button>
-        <button *ngIf="currentUserValue && currentUserValue.roleId > 2" class="btn btn_1" (click)="open(request_cms_retailer_content)"><span class="icons"></span>Request A Retailer</button>
-
+        <button
+          *ngIf="currentUserValue && currentUserValue.roleId < 3"
+          class="btn btn_1"
+          (click)="open(content)"
+        >
+          <span class="icons"></span>Add New CMS Retailer
+        </button>
+        <button
+          *ngIf="currentUserValue && currentUserValue.roleId > 2"
+          class="btn btn_1"
+          (click)="open(request_cms_retailer_content)"
+        >
+          <span class="icons"></span>Request A Retailer
+        </button>
       </li>
     </ul>
   </div>
@@ -37,7 +48,10 @@
       <table class="table table_ui_1">
         <thead>
           <tr>
-            <th scope="col">CMS Retailer Name <i class="fa fa-fw fa-sort" (click)="toggleSort()"></i></th>
+            <th scope="col">
+              CMS Retailer Name
+              <i class="fa fa-fw fa-sort" (click)="toggleSort()"></i>
+            </th>
             <th scope="col">Contact</th>
             <th scope="col">Email</th>
             <th scope="col">Website</th>
@@ -54,24 +68,52 @@
         </thead>
         <tbody *ngIf="retailerList?.length != 0">
           <tr *ngFor="let list of retailerList">
-            <td>{{list.businessName}}</td>
-            <td>{{list.contact}}</td>
-            <td>{{list.email}}</td>
-            <td>{{list.website}}</td>
+            <td>{{ list.businessName }}</td>
+            <td>{{ list.contact }}</td>
+            <td>{{ list.email }}</td>
+            <td>{{ list.website }}</td>
             <td>
-              <span class="badge badge-success" *ngIf="list.isActivated" placement="top" ngbTooltip="Stripe Account ID: {{list.accountId}}">true</span>
-              <span class="badge badge-danger" *ngIf="!list.isActivated">false</span>
+              <span
+                class="badge badge-success"
+                *ngIf="list.isActivated"
+                placement="top"
+                ngbTooltip="Stripe Account ID: {{ list.accountId }}"
+                >true</span
+              >
+              <span class="badge badge-danger" *ngIf="!list.isActivated"
+                >false</span
+              >
               <a *ngIf="!list.isActivated" href="javascript:void(0)">
-                <small (click)=createAccountLink(list.accountId)>Resend Email</small>
+                <small (click)="createAccountLink(list.accountId)"
+                  >Resend Email</small
+                >
               </a>
             </td>
-            
+
             <td>
-              <a href="javascript:void(0)" *ngIf="list.inHouseBusiness" (click)="inHouseModal(inhousecontent,list)">
-                <span class="badge badge-success" placement="top" ngbTooltip="Click to change">true</span>
+              <a
+                href="javascript:void(0)"
+                *ngIf="list.inHouseBusiness"
+                (click)="inHouseModal(inhousecontent, list)"
+              >
+                <span
+                  class="badge badge-success"
+                  placement="top"
+                  ngbTooltip="Click to change"
+                  >true</span
+                >
               </a>
-              <a href="javascript:void(0)" *ngIf="!list.inHouseBusiness" (click)="inHouseModal(inhousecontent,list)">
-                <span class="badge badge-danger" placement="top" ngbTooltip="Click to change">false</span>
+              <a
+                href="javascript:void(0)"
+                *ngIf="!list.inHouseBusiness"
+                (click)="inHouseModal(inhousecontent, list)"
+              >
+                <span
+                  class="badge badge-danger"
+                  placement="top"
+                  ngbTooltip="Click to change"
+                  >false</span
+                >
               </a>
               <!-- <span class="badge badge-success" *ngIf="list.inHouseBusiness">true</span>
               <span class="badge badge-danger" *ngIf="!list.inHouseBusiness">false</span> -->
@@ -80,32 +122,61 @@
             <td>{{list.updatedAt}}</td> -->
             <!-- <td> -->
             <td *ngIf="!list.locationId">
-              <a href="javascript:void(0)" (click)="locationContent(locationcontent, list)">
+              <a
+                href="javascript:void(0)"
+                (click)="locationContent(locationcontent, list)"
+              >
                 <span><u>Assign Shopify Location</u></span>
               </a>
             </td>
-            <td *ngIf="list.locationId">{{list.locationName}}({{list.locationId}})&nbsp;<a
-                href="javascript:void(0)"><span (click)=unlink(list.id)><u>Unassign</u></span></a></td>
-                <td >
-                  <a href="javascript:void(0)" 
-                  (click)="openRatingModal(ratingModal, list)"
-                  [attr.title]="'Give Rating'" 
-                  data-toggle="tooltip" 
-                  data-placement="top">
-                 <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
-               </a>
-              </td>
-              <td>
-                <div class="chip-container">
-                  <span    *ngFor="let state of list.states" class="chip">
-                    {{ state.name }}
-                  </span>
-                </div>
-              </td>
-            <td style="min-width: 100px;">
-              <a href="javascript:void(0)" (click)="udpateModal(updateRetailerContent,list)">
+            <td *ngIf="list.locationId">
+              {{ list.locationName }}({{ list.locationId }})&nbsp;<a
+                href="javascript:void(0)"
+                ><span (click)="unlink(list.id)"><u>Unassign</u></span></a
+              >
+            </td>
+            <td>
+              <a
+              [ngbTooltip]="'communication : ' + list.avgCommRating + '⭐, speed : ' + list.avgSpeedRating + '⭐, price: ' + list.avgPriceRating +' ⭐'"
+                href="javascript:void(0)"
+                data-toggle="tooltip"
+                data-placement="top"
+                [ngStyle]="{
+                  'font-size': '18px',
+                  'color': 'black'
+                }"
+              >
+              <!-- <a
+              [ngbTooltip]="'communication : ' + list.avgCommRating + '⭐, speed : ' + list.avgSpeedRating + '⭐, price: ' + list.avgPriceRating +' ⭐'"
+                href="javascript:void(0)"
+                (click)="openRatingModal(ratingModal, list)"
+                data-toggle="tooltip"
+                data-placement="top"
+                [ngStyle]="{
+                  'font-size': '18px',
+                  'color': 'black',
+                  'text-decoration': list.overallAvgRating < 1 ? 'underline' : 'none'
+                }"
+              > -->
+           <span>{{starGenerator(list.overallAvgRating)}} </span>
+            
+              </a>
+            </td>
+            <td>
+              <div class="chip-container">
+                <span *ngFor="let state of list.states" class="chip">
+                  {{ state.name }}
+                </span>
+              </div>
+            </td>
+            <td style="min-width: 100px">
+              <a
+                href="javascript:void(0)"
+                (click)="udpateModal(updateRetailerContent, list)"
+              >
                 <span class="icons edit_icon"></span>
-              </a> &nbsp;
+              </a>
+              &nbsp;
               <a href="javascript:void(0)" (click)="deleteRetailer(list.id)">
                 <span class="icons delete_icon"></span>
               </a>
@@ -116,7 +187,9 @@
           <tr>
             <td colspan="9" class="no-data-available">No data!</td>
           </tr>
-        <tbody>
+        </tbody>
+
+        <tbody></tbody>
       </table>
     </div>
   </div>
@@ -127,7 +200,12 @@
   <div class="modal-content">
     <div class="modal-header" id="modal-basic-title">
       <h5 class="modal-title" id="exampleModalLabel">Add New CMS Retailer</h5>
-      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.close('Close Clicked')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -135,67 +213,120 @@
       <div class="modal-body">
         <!-- <div class="row m-0"> -->
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">CMS Retailer Name:
+          <label class="control-label" for=""
+            >CMS Retailer Name:
             <span class="star">*</span>
           </label>
-          <input type="text" class="form-control" formControlName="businessName">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="businessName"
+          />
           <small
-            [hidden]="businessForm.get('businessName').valid && (! submitted || businessForm.get('businessName').touched)"
-            class="text-danger">
+            [hidden]="
+              businessForm.get('businessName').valid &&
+              (!submitted || businessForm.get('businessName').touched)
+            "
+            class="text-danger"
+          >
             CMS Retailer Name is Required.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Contact Number:
+          <label class="control-label" for=""
+            >Contact Number:
             <span class="star">*</span>
           </label>
           <div>
-            <ngx-intl-tel-input [cssClass]="'form-control w-100'" [enableAutoCountrySelect]="true"
-              [enablePlaceholder]="true" [searchCountryFlag]="true"
-              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-              [selectedCountryISO]="CountryISO.UnitedStates" [maxLength]="15"
-              [phoneValidation]="true" name="contactNumber" formControlName="contact">
+            <ngx-intl-tel-input
+              [cssClass]="'form-control w-100'"
+              [enableAutoCountrySelect]="true"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]"
+              [selectedCountryISO]="CountryISO.UnitedStates"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              name="contactNumber"
+              formControlName="contact"
+            >
             </ngx-intl-tel-input>
           </div>
-          <small [hidden]="businessForm.get('contact').valid && (! submitted || businessForm.get('contact').touched)"
-            class="text-danger">
+          <small
+            [hidden]="
+              businessForm.get('contact').valid &&
+              (!submitted || businessForm.get('contact').touched)
+            "
+            class="text-danger"
+          >
             Contact number is required.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Email:
+          <label class="control-label" for=""
+            >Email:
             <span class="star">*</span>
           </label>
-          <input type="text" class="form-control" formControlName="email">
-          <small [hidden]="businessForm.get('email').valid && (! submitted || businessForm.get('email').touched)"
-            class="text-danger">
+          <input type="text" class="form-control" formControlName="email" />
+          <small
+            [hidden]="
+              businessForm.get('email').valid &&
+              (!submitted || businessForm.get('email').touched)
+            "
+            class="text-danger"
+          >
             Email is required and format should be <i>john@doe.com</i>.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Website:
+          <label class="control-label" for=""
+            >Website:
             <span class="star">*</span>
           </label>
-          <input type="text" class="form-control" formControlName="website">
-          <small [hidden]="businessForm.get('website').valid && (! submitted || businessForm.get('website').touched)"
-            class="text-danger">
-            Website is requried and format should be <i>https://www.example.com</i>.
+          <input type="text" class="form-control" formControlName="website" />
+          <small
+            [hidden]="
+              businessForm.get('website').valid &&
+              (!submitted || businessForm.get('website').touched)
+            "
+            class="text-danger"
+          >
+            Website is requried and format should be
+            <i>https://www.example.com</i>.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Stripe:
-            <span class="star">*</span>
-          </label><br>
+          <label class="control-label" for=""
+            >Stripe:
+            <span class="star">*</span> </label
+          ><br />
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="stripe" id="stripe-true" value=true> Yes
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="stripe"
+                id="stripe-true"
+                value="true"
+              />
+              Yes
             </label>
           </div>
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="stripe" id="stripe-false" value=false> No
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="stripe"
+                id="stripe-false"
+                value="false"
+              />
+              No
             </label>
           </div>
 
@@ -210,32 +341,52 @@
         <div class="form-group has-label col-12">
           <label class="control-label" for="">
             In House Business:
-            <span class="star">*</span>
-          </label><br>
+            <span class="star">*</span> </label
+          ><br />
 
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="inHouseBusiness" id="inHouseBusiness-true" value=true> Yes
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="inHouseBusiness"
+                id="inHouseBusiness-true"
+                value="true"
+              />
+              Yes
             </label>
           </div>
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="inHouseBusiness" id="inHouseBusiness-false" value=false> No
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="inHouseBusiness"
+                id="inHouseBusiness-false"
+                value="false"
+              />
+              No
             </label>
           </div>
 
           <div>
             <small class="text-danger">
-              Checked 'Yes' if business is InHouse. (Stripe transfer will be not perform for this business)
+              Checked 'Yes' if business is InHouse. (Stripe transfer will be not
+              perform for this business)
             </small>
           </div>
         </div>
       </div>
       <!-- </div> -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="modal.close('Close Clicked')"
+        >
           Close
         </button>
         <button type="submit" class="btn btn-primary">Save</button>
@@ -244,84 +395,143 @@
   </div>
 </ng-template>
 
-
-
 <!-- request cms retailer -->
-
 
 <ng-template #request_cms_retailer_content let-modal>
   <div class="modal-content">
     <div class="modal-header" id="modal-basic-title">
       <h5 class="modal-title" id="exampleModalLabel">Request CMS Retailer</h5>
-      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.close('Close Clicked')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form [formGroup]="businessForm" novalidate (ngSubmit)="request_cms_retailer()">
+    <form
+      [formGroup]="businessForm"
+      novalidate
+      (ngSubmit)="request_cms_retailer()"
+    >
       <div class="modal-body">
         <!-- <div class="row m-0"> -->
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">CMS Retailer Name:
+          <label class="control-label" for=""
+            >CMS Retailer Name:
             <span class="star">*</span>
           </label>
-          <input type="text" class="form-control" formControlName="businessName">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="businessName"
+          />
           <small
-            [hidden]="businessForm.get('businessName').valid && (! submitted || businessForm.get('businessName').touched)"
-            class="text-danger">
+            [hidden]="
+              businessForm.get('businessName').valid &&
+              (!submitted || businessForm.get('businessName').touched)
+            "
+            class="text-danger"
+          >
             CMS Retailer Name is Required.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Contact Number:
+          <label class="control-label" for=""
+            >Contact Number:
             <span class="star">*</span>
           </label>
           <div>
-            <ngx-intl-tel-input [cssClass]="'form-control w-100'" [enableAutoCountrySelect]="true"
-              [enablePlaceholder]="true" [searchCountryFlag]="true"
-              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-              [selectedCountryISO]="CountryISO.UnitedStates" [maxLength]="15"
-              [phoneValidation]="true" name="contactNumber" formControlName="contact">
+            <ngx-intl-tel-input
+              [cssClass]="'form-control w-100'"
+              [enableAutoCountrySelect]="true"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]"
+              [selectedCountryISO]="CountryISO.UnitedStates"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              name="contactNumber"
+              formControlName="contact"
+            >
             </ngx-intl-tel-input>
           </div>
-          <small [hidden]="businessForm.get('contact').valid && (! submitted || businessForm.get('contact').touched)"
-            class="text-danger">
+          <small
+            [hidden]="
+              businessForm.get('contact').valid &&
+              (!submitted || businessForm.get('contact').touched)
+            "
+            class="text-danger"
+          >
             Contact number is required.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Email:
+          <label class="control-label" for=""
+            >Email:
             <span class="star">*</span>
           </label>
-          <input type="text" class="form-control" formControlName="email">
-          <small [hidden]="businessForm.get('email').valid && (! submitted || businessForm.get('email').touched)"
-            class="text-danger">
+          <input type="text" class="form-control" formControlName="email" />
+          <small
+            [hidden]="
+              businessForm.get('email').valid &&
+              (!submitted || businessForm.get('email').touched)
+            "
+            class="text-danger"
+          >
             Email is required and format should be <i>john@doe.com</i>.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Website:
+          <label class="control-label" for=""
+            >Website:
             <span class="star">*</span>
           </label>
-          <input type="text" class="form-control" formControlName="website">
-          <small [hidden]="businessForm.get('website').valid && (! submitted || businessForm.get('website').touched)"
-            class="text-danger">
-            Website is requried and format should be <i>https://www.example.com</i>.
+          <input type="text" class="form-control" formControlName="website" />
+          <small
+            [hidden]="
+              businessForm.get('website').valid &&
+              (!submitted || businessForm.get('website').touched)
+            "
+            class="text-danger"
+          >
+            Website is requried and format should be
+            <i>https://www.example.com</i>.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Stripe:
-            <span class="star">*</span>
-          </label><br>
+          <label class="control-label" for=""
+            >Stripe:
+            <span class="star">*</span> </label
+          ><br />
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="stripe" id="stripe-true" value=true> Yes
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="stripe"
+                id="stripe-true"
+                value="true"
+              />
+              Yes
             </label>
           </div>
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="stripe" id="stripe-false" value=false> No
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="stripe"
+                id="stripe-false"
+                value="false"
+              />
+              No
             </label>
           </div>
 
@@ -336,32 +546,52 @@
         <div class="form-group has-label col-12">
           <label class="control-label" for="">
             In House Business:
-            <span class="star">*</span>
-          </label><br>
+            <span class="star">*</span> </label
+          ><br />
 
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="inHouseBusiness" id="inHouseBusiness-true" value=true> Yes
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="inHouseBusiness"
+                id="inHouseBusiness-true"
+                value="true"
+              />
+              Yes
             </label>
           </div>
           <div class="form-check-inline">
             <label class="form-check-label">
-              <input type="radio" class="form-control" style="height: auto; width: auto; display: inline-block;"
-                formControlName="inHouseBusiness" id="inHouseBusiness-false" value=false> No
+              <input
+                type="radio"
+                class="form-control"
+                style="height: auto; width: auto; display: inline-block"
+                formControlName="inHouseBusiness"
+                id="inHouseBusiness-false"
+                value="false"
+              />
+              No
             </label>
           </div>
 
           <div>
             <small class="text-danger">
-              Checked 'Yes' if business is InHouse. (Stripe transfer will be not perform for this business)
+              Checked 'Yes' if business is InHouse. (Stripe transfer will be not
+              perform for this business)
             </small>
           </div>
         </div>
       </div>
       <!-- </div> -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="modal.close('Close Clicked')"
+        >
           Close
         </button>
         <button type="submit" class="btn btn-primary">Request</button>
@@ -378,48 +608,101 @@
   <div class="modal-content">
     <div class="modal-header" id="modal-basic-title">
       <h5 class="modal-title" id="exampleModalLabel">Update CMS Retailer</h5>
-      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.close('Close Clicked')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form [formGroup]="updateBusinessForm" novalidate (ngSubmit)="udpateRetailer()">
+    <form
+      [formGroup]="updateBusinessForm"
+      novalidate
+      (ngSubmit)="udpateRetailer()"
+    >
       <div class="modal-body">
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">CMS Retailer Name: <span class="star">*</span></label>
-          <input type="text" class="form-control" formControlName="businessName">
+          <label class="control-label" for=""
+            >CMS Retailer Name: <span class="star">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="businessName"
+          />
           <small
-            [hidden]="updateBusinessForm.get('businessName').valid && (! submitted || updateBusinessForm.get('businessName').touched)"
-            class="text-danger">
+            [hidden]="
+              updateBusinessForm.get('businessName').valid &&
+              (!submitted || updateBusinessForm.get('businessName').touched)
+            "
+            class="text-danger"
+          >
             CMS Retailer Name is Required.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Contact Number: <span class="star">*</span></label>
+          <label class="control-label" for=""
+            >Contact Number: <span class="star">*</span></label
+          >
           <div>
-            <ngx-intl-tel-input [cssClass]="'form-control w-100'" [enableAutoCountrySelect]="true"
-              [enablePlaceholder]="true" [searchCountryFlag]="true"
-              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-              [selectedCountryISO]="CountryISO.UnitedStates" [maxLength]="15" 
-              [phoneValidation]="true" name="contactNumber" formControlName="contact">
+            <ngx-intl-tel-input
+              [cssClass]="'form-control w-100'"
+              [enableAutoCountrySelect]="true"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]"
+              [selectedCountryISO]="CountryISO.UnitedStates"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              name="contactNumber"
+              formControlName="contact"
+            >
             </ngx-intl-tel-input>
           </div>
-          <small [hidden]="updateBusinessForm.get('contact').valid && (! submitted || updateBusinessForm.get('contact').touched)"
-            class="text-danger">
+          <small
+            [hidden]="
+              updateBusinessForm.get('contact').valid &&
+              (!submitted || updateBusinessForm.get('contact').touched)
+            "
+            class="text-danger"
+          >
             Contact number is required.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Email: <span class="star">*</span></label>
-          <input type="text" class="form-control" formControlName="email">
-          <small [hidden]="updateBusinessForm.get('email').valid && (! submitted || updateBusinessForm.get('email').touched)" class="text-danger">
+          <label class="control-label" for=""
+            >Email: <span class="star">*</span></label
+          >
+          <input type="text" class="form-control" formControlName="email" />
+          <small
+            [hidden]="
+              updateBusinessForm.get('email').valid &&
+              (!submitted || updateBusinessForm.get('email').touched)
+            "
+            class="text-danger"
+          >
             Email is required and format should be <i>john@doe.com</i>.
           </small>
         </div>
         <div class="form-group has-label col-12">
-          <label class="control-label" for="">Website: <span class="star">*</span></label>
-          <input type="text" class="form-control" formControlName="website">
-          <small [hidden]="updateBusinessForm.get('website').valid && (! submitted || updateBusinessForm.get('website').touched)" class="text-danger">
-            Website is required and format should be <i>https://www.example.com</i>.
+          <label class="control-label" for=""
+            >Website: <span class="star">*</span></label
+          >
+          <input type="text" class="form-control" formControlName="website" />
+          <small
+            [hidden]="
+              updateBusinessForm.get('website').valid &&
+              (!submitted || updateBusinessForm.get('website').touched)
+            "
+            class="text-danger"
+          >
+            Website is required and format should be
+            <i>https://www.example.com</i>.
           </small>
         </div>
         <div class="form-group has-label col-md-12">
@@ -433,20 +716,25 @@
             </option>
           </select> -->
           <ng-multiselect-dropdown
-          formControlName="states"
-        [settings]="stateSetting"
-        [placeholder]="'States'"
-        [data]="allStates"
-        [(ngModel)]="allSelectedStates"
-        (onSelect)="onStateSelect($event)"
-        (onSelectAll)="onAllStatesSelect($event)"
-      >
-      </ng-multiselect-dropdown>
+            formControlName="states"
+            [settings]="stateSetting"
+            [placeholder]="'States'"
+            [data]="allStates"
+            [(ngModel)]="allSelectedStates"
+            (onSelect)="onStateSelect($event)"
+            (onSelectAll)="onAllStatesSelect($event)"
+          >
+          </ng-multiselect-dropdown>
         </div>
       </div>
       <!-- </div> -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="modal.close('Close Clicked')"
+        >
           Close
         </button>
         <button type="submit" class="btn btn-primary">Save</button>
@@ -460,8 +748,15 @@
 <ng-template #locationcontent let-modal>
   <div class="modal-content">
     <div class="modal-header" id="modal-basic-title">
-      <h5 class="modal-title" id="exampleModalLabel">Assign Shopify Location</h5>
-      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Assign Shopify Location
+      </h5>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.close('Close Clicked')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -471,20 +766,39 @@
         <div class="form-group has-label col-md-12">
           <label class="control-label" for="">Shopify Location:</label>
           <span class="star">*</span>
-          <select class="form-control mr-1" formControlName="locationId" (change)="selected($event)">
+          <select
+            class="form-control mr-1"
+            formControlName="locationId"
+            (change)="selected($event)"
+          >
             <option value="">Choose Shopify Location</option>
-            <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name }} </option>
+            <option
+              value="{{ loc.id }}"
+              *ngFor="let loc of locations; let i = index"
+            >
+              {{ loc.name }}
+            </option>
           </select>
           <small
-            [hidden]="locationForm.get('locationId').valid && (! locationForm.submitted || locationForm.get('locationId').touched)"
-            class="text-danger">
+            [hidden]="
+              locationForm.get('locationId').valid &&
+              (!locationForm.submitted ||
+                locationForm.get('locationId').touched)
+            "
+            class="text-danger"
+          >
             Shopify Location is Required.
           </small>
         </div>
       </div>
       <!-- </div> -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="modal.close('Close Clicked')"
+        >
           Close
         </button>
         <button type="submit" class="btn btn-primary">Save</button>
@@ -499,18 +813,34 @@
   <div class="modal-content">
     <div class="modal-header" id="modal-basic-title">
       <h5 class="modal-title" id="exampleModalLabel">In House Business</h5>
-      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.close('Close Clicked')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <form [formGroup]="inhouseForm" novalidate (ngSubmit)="changeInHouseBusiness()">
+    <form
+      [formGroup]="inhouseForm"
+      novalidate
+      (ngSubmit)="changeInHouseBusiness()"
+    >
       <div class="modal-body">
         <div class="form-group has-label col-md-12">
-          <div class="text-mute">Are you sure want to change In House business status?</div>
+          <div class="text-mute">
+            Are you sure want to change In House business status?
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.close('Close Clicked')">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="modal.close('Close Clicked')"
+        >
           Cancel
         </button>
         <button type="submit" class="btn btn-primary">Yes</button>
@@ -525,7 +855,12 @@
   <div class="modal-content">
     <div class="modal-header" id="modal-basic-title">
       <h5 class="modal-title" id="exampleModalLabel">Rate Retailer</h5>
-      <button type="button" class="close" aria-label="Close" (click)="modal.close('Close Clicked')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.close('Close Clicked')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -533,11 +868,15 @@
       <div class="modal-body">
         <!-- Communication Rating -->
         <div class="form-group col-12">
-          <label class="control-label">Rating on Communication: <span class="star">*</span></label>
+          <label class="control-label"
+            >Rating on Communication: <span class="star">*</span></label
+          >
           <div class="rating">
-            <span *ngFor="let star of stars; let i = index" 
-              (click)="setRating('communication', i + 1)" 
-              [class.filled]="communicationRating >= (i + 1)">
+            <span
+              *ngFor="let star of stars; let i = index"
+              (click)="setRating('communication', i + 1)"
+              [class.filled]="communicationRating >= i + 1"
+            >
               &#9733;
             </span>
           </div>
@@ -545,11 +884,15 @@
 
         <!-- Speed Rating -->
         <div class="form-group col-12">
-          <label class="control-label">Rating on Speed: <span class="star">*</span></label>
+          <label class="control-label"
+            >Rating on Speed: <span class="star">*</span></label
+          >
           <div class="rating">
-            <span *ngFor="let star of stars; let i = index" 
-              (click)="setRating('speed', i + 1)" 
-              [class.filled]="speedRating >= (i + 1)">
+            <span
+              *ngFor="let star of stars; let i = index"
+              (click)="setRating('speed', i + 1)"
+              [class.filled]="speedRating >= i + 1"
+            >
               &#9733;
             </span>
           </div>
@@ -557,11 +900,15 @@
 
         <!-- Price Rating -->
         <div class="form-group col-12">
-          <label class="control-label">Rating on Price: <span class="star">*</span></label>
+          <label class="control-label"
+            >Rating on Price: <span class="star">*</span></label
+          >
           <div class="rating">
-            <span *ngFor="let star of stars; let i = index" 
-              (click)="setRating('price', i + 1)" 
-              [class.filled]="priceRating >= (i + 1)">
+            <span
+              *ngFor="let star of stars; let i = index"
+              (click)="setRating('price', i + 1)"
+              [class.filled]="priceRating >= i + 1"
+            >
               &#9733;
             </span>
           </div>
@@ -569,10 +916,20 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modal.close('Close Clicked')">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modal.close('Close Clicked')"
+        >
           Close
         </button>
-        <button type="submit" [disabled] = "currentUserValue && currentUserValue.roleId < 2" class="btn btn-primary">Save Rating</button>
+        <button
+          type="submit"
+          [disabled]="currentUserValue && currentUserValue.roleId < 2"
+          class="btn btn-primary"
+        >
+          Save Rating
+        </button>
       </div>
     </form>
   </div>

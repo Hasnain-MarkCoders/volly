@@ -7,7 +7,7 @@
       <div class="logo_container">
         <!-- <h4>Volley</h4> -->
         <a href="javascript:void(0)">
-          <img src="../../../assets/volley_logo.jpg" alt="logo" />
+          <img src="../../../assets/images/AlcPayLogo.png" alt="logo" />
         </a>
       </div>
       <div class="header_right_extra">
@@ -55,12 +55,23 @@
           <span class="icons retailers_icon"></span> <label>CMS Retailer</label>
         </a>
       </li>
-      <li (click)="isSelected('/payments')" *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
+      <!-- <li (click)="isSelected('/payments')" *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/payments">
           <span class="icons payment_icon"></span> <label>Payments</label>
         </a>
       </li>
       <li (click)="isSelected('/fulfillments')" *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/fulfillments">
+          <span class="icons edit_icon"></span> <label>Fulfillments</label>
+        </a>
+      </li> -->
+
+      <li (click)="isSelected('/payments')"  routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/payments">
+          <span class="icons payment_icon"></span> <label>Payments</label>
+        </a>
+      </li>
+      <li (click)="isSelected('/fulfillments')" routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/fulfillments">
           <span class="icons edit_icon"></span> <label>Fulfillments</label>
         </a>
@@ -77,7 +88,7 @@
             </span> <label>Requested Retailers</label>
         </a>
       </li>
-      <li (click)="isSelected('/credentials')" routerLinkActive="active">
+      <li (click)="isSelected('/credentials')" *ngIf="currentUserValue && currentUserValue.roleId >= 2" routerLinkActive="active">
         <a href="javascript:void(0)" class="custom_tab_icon_style" routerLink="/credentials">
           <span class="material-symbols-outlined"> lock </span> <label>Credentials</label></a
         >

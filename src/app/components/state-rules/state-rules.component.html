@@ -190,6 +190,7 @@
               <option
               value="{{ loc.id }}" 
                *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}}</option>
+              
             </select>
             <small
               [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"

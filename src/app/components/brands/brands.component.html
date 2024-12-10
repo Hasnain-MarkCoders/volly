@@ -65,6 +65,8 @@
               <th scope="col">Email</th>
               <th scope="col">Commission</th>
               <th scope="col">Active</th>
+              <th scope="col">Details</th>
+
               <!-- <th scope="col">Action</th> -->
 
 
@@ -86,6 +88,14 @@
               <td>
                 <span class="badge badge-success" style="padding:7px" *ngIf="data.isActivated">SUCCESS</span>
                 <span class="badge badge-danger" style="padding:7px" *ngIf="!data.isActivated">PENDING</span>
+                
+              </td>
+              <td>
+                <span 
+                (click)="handleNavigate(data.id)"
+                class="material-symbols-outlined">
+                  visibility
+                  </span>
               </td>
               <!-- <td>
               <span (click) = "openEditBrandModal(data, editBrandModal)" class="material-symbols-outlined">
