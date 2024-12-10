@@ -23,6 +23,7 @@ import { CredentialsComponent } from './components/credentials/credentials.compo
 import { RequestedRetailerComponent } from './components/requested-retailer/requested-retailer.component';
 import { InsightsComponent } from './components/insights/insights.component';
 import { BrandProfileComponent } from './components/brand-profile/brand-profile.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   { path: 'add-tracking/:id', component: AddTrackingComponent },
@@ -33,6 +34,10 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        component: HomeComponent,
+      },
+      {
+        path: 'orders',
         component: OrdersComponent,
       },
       {

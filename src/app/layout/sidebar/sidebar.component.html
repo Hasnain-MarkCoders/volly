@@ -24,12 +24,19 @@
   </div>
   <aside class="sidebar">
     <ul class="side_listing">
+      <li (click)="isSelected('/kpis-across-brands')" routerLinkActive="active">
+        <a href="javascript:void(0)"  *ngIf="currentUserValue && currentUserValue.roleId < 3" class="custom_tab_icon_style" routerLink="/kpis-across-brands">
+          <span class="material-symbols-outlined">
+            monitoring
+            </span><label>Insights</label></a
+        >
+      </li>
       <li
-        (click)="isSelected('/')"
+        (click)="isSelected('/orders')"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <a href="javascript:void(0)" routerLink="/">
+        <a href="javascript:void(0)" routerLink="/orders">
           <span class="icons orders_icon"></span> <label>Orders</label></a
         >
       </li>
@@ -85,13 +92,7 @@
             </span><label>Edit Profile</label></a
         >
       </li>
-      <li (click)="isSelected('/kpis-across-brands')" routerLinkActive="active">
-        <a href="javascript:void(0)"  *ngIf="currentUserValue && currentUserValue.roleId < 3" class="custom_tab_icon_style" routerLink="/kpis-across-brands">
-          <span class="material-symbols-outlined">
-            monitoring
-            </span><label>Insights</label></a
-        >
-      </li>
+   
     </ul>
   </aside>
   <div class="w_side">
