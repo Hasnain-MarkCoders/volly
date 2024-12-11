@@ -93,11 +93,11 @@
                    {{ rule.locationName }}
                  
             </td> -->
-            <td >
+            <!-- <td >
               <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
 
                
-          </td>
+          </td> -->
             <td>
               <ul class="action_listing">
                 <li>
@@ -169,7 +169,7 @@
             
             class="form-control mr-1" formControlName="locationId" (change)="selected($event);  getStatesForSpecificProductAndLocation(stateForm.get('locationId').value,stateForm.get('productId').value)">
               <option value="">Choose Shopify Location</option>
-              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}} </option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +" "+ starGenerator(loc.overallAvgRating, false)}} </option>
             </select>
             <small
               [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"
@@ -287,7 +287,7 @@
             <select
             class="form-control mr-1" formControlName="locationId" (change)="selected($event); getProductsForSpecificLocation(productForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
-              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}} </option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name+" "+ starGenerator(loc.overallAvgRating, false)}} </option>
             </select>
             <small
               [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
@@ -459,7 +459,7 @@
             <select
             class="form-control mr-1" formControlName="locationId" (change)="selected($event); getProductsForSpecificLocation(productForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
-              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}} </option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +" "+ starGenerator(loc.overallAvgRating, false)}} </option>
             </select>
             <small
               [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"

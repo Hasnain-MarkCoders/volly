@@ -120,6 +120,7 @@ export class RulesComponent implements OnInit {
     return filter && product.title.toLowerCase().includes(filter.toLowerCase());
   }
 
+  starGenerator=(num:number, isShowMessage:Boolean=true)=>num===0&&isShowMessage?"no rating":Array.from({length:num}).fill("⭐").join("")
 
   getProductsForSpecificLocation (locId:string){
     this.allProductsList=[]

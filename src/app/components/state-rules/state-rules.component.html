@@ -49,7 +49,7 @@
           <col style="width: 30%;">
           <col style="width: 30%;">
           <col style="width: 20%;">
-          <col style="width: 20%;">
+          <!-- <col style="width: 20%;"> -->
           <col style="width: 20%; ">
 
 
@@ -69,10 +69,10 @@
             <!-- <th scope="col">
               Shopify Location Name 
             </th> -->
-            <th scope="col">
+            <!-- <th scope="col">
               Rating 
             </th>
-          
+           -->
 
             <th scope="col" style="min-width: 100px">
               Action 
@@ -106,11 +106,26 @@
               </div>
             </td>
             <!-- <td>{{rule['locationName']}} ({{rule['locationId']}})</td> -->
-            <td >
-              <img  style="width: 100px; object-fit: contain;" src="./../../../assets/images/rating.png"/>
-
-               
-          </td>
+            <!-- <td> -->
+              <!-- <a
+              [ngbTooltip]="'communication : ' + rule.avgCommRating + '⭐, speed : ' + rule.avgSpeedRating + '⭐, price: ' + rule.avgPriceRating +' ⭐'"
+  
+              data-toggle="tooltip"
+              data-placement="top"
+              [ngStyle]="{
+                'font-size': '18px',
+                'color': 'black',
+                'text-decoration': rule.overallAvgRating < 1 ? 'underline' : 'none',
+                'display':rule.overallAvgRating?'inline-block':'none'
+              }"
+              href="javascript:void(0)"
+              (click)="!data.overallAvgRating && openRatingModal(ratingModal, data)"
+              >
+                <span>{{starGenerator(data.overallAvgRating)}} </span>
+              </a> -->
+              <!-- <span>{{starGenerator(3)}} </span> -->
+              
+              <!-- </td> -->
             <!-- <td>{{rule['productName']}} ({{rule['productId']}})</td> -->
            
             <td>
@@ -189,7 +204,7 @@
               <option value="">Choose Shopify Location</option>
               <option
               value="{{ loc.id }}" 
-               *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}}</option>
+               *ngFor="let loc of locations; let i = index">{{ loc.name +" "+ starGenerator(loc.overallAvgRating, false)}}</option>
               
             </select>
             <small
@@ -305,7 +320,7 @@
             <span class="star">*</span>
             <select class="form-control mr-1" formControlName="locationId" (change)="selected($event); getProductsForSpecificLocation(productForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
-              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}} </option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +" "+ starGenerator(loc.overallAvgRating, false)}} </option>
             </select>
             <small
               [hidden]="productForm.get('locationId').valid && (! productForm.submitted || productForm.get('locationId').touched)"
@@ -393,7 +408,7 @@
             class="form-control mr-1" formControlName="locationId" (change)="selected($event);
             getStatesForSpecificProductAndLocation(stateForm.get('productId').value, stateForm.get('locationId').value)">
               <option value="">Choose Shopify Location</option>
-              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +"⭐⭐⭐⭐⭐"}} </option>
+              <option value="{{ loc.id }}" *ngFor="let loc of locations; let i = index">{{ loc.name +" "+ starGenerator(loc.overallAvgRating, false)}} </option>
             </select>
             <small
               [hidden]="stateForm.get('locationId').valid && (! stateForm.submitted || stateForm.get('locationId').touched)"

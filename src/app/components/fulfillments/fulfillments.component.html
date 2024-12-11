@@ -146,19 +146,6 @@
               <span *ngIf="!data.status">-</span>
             </td>
             <td>
-              <!-- <a
-              [ngbTooltip]="'communication : ' + list.avgCommRating + '⭐, speed : ' + list.avgSpeedRating + '⭐, price: ' + list.avgPriceRating +' ⭐'"
-                href="javascript:void(0)"
-                (click)="openRatingModal(ratingModal, list)"
-                data-toggle="tooltip"
-                data-placement="top"
-                [ngStyle]="{
-                  'font-size': '18px',
-                  'color': 'black',
-                  'text-decoration': list.overallAvgRating < 1 ? 'underline' : 'none'
-                }"
-              > -->
-           <!-- <span>{{starGenerator(list.overallAvgRating)}} </span> -->
             <a
             [ngbTooltip]="'communication : ' + data.avgCommRating + '⭐, speed : ' + data.avgSpeedRating + '⭐, price: ' + data.avgPriceRating +' ⭐'"
 
@@ -173,11 +160,9 @@
             href="javascript:void(0)"
             (click)="!data.overallAvgRating && openRatingModal(ratingModal, data)"
             >
-
               <span>{{starGenerator(data.overallAvgRating)}} </span>
             </a>
             
-              <!-- </a> -->
             </td>
             <!-- <td>{{list.createdAt}}</td>
             <td>{{list.updatedAt}}</td> -->
