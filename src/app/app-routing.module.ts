@@ -1,5 +1,6 @@
 import { IsBrandGuard } from './_guards/isBrandGuard';
 import { IsNotBrandsGuard } from './_guards/IsNotBrandsGuard';
+import { PreventLoggedInGuard } from './_guards/prevent-logged-in.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddTrackingComponent } from './components/add-tracking/add-tracking.component';
@@ -136,14 +137,19 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginBrandComponent,
+    canActivate: [PreventLoggedInGuard],
   },
   {
     path: 'admin-login',
     component: LoginComponent,
+    canActivate: [PreventLoggedInGuard],
+
   },
   {
     path: 'brand-register',
     component: RegisterBrandComponent,
+    canActivate: [PreventLoggedInGuard],
+
   },
 ];
 

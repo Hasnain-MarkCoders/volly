@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { ShopifyService } from 'src/app/services/shopify.service';
-
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-brand-profile',
   templateUrl: './brand-profile.component.html',
@@ -31,7 +31,8 @@ export class BrandProfileComponent implements OnInit {
     private brandService: BrandProfileService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private accountsService: AccountsService
+    private accountsService: AccountsService,
+    private _location: Location
   ) {}
   ngOnInit(): void {
     this.accountsService.currentUser.subscribe((user) => {
@@ -48,6 +49,9 @@ export class BrandProfileComponent implements OnInit {
     this.FetchData();
   }
 
+  backClicked() {
+    this._location.back();
+  }
   updateBrand() {
     const data = this.filterValidEntries({
       brandName: this.brandName,

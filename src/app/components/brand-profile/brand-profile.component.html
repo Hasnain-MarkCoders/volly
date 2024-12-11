@@ -1,21 +1,35 @@
-<div class=" row "  style="margin: 0px ">
-    <div class="col-12 mb-4">
-        <label class="mb-2">Brand Name</label>:
-        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="brandName" value="brandName" placeholder="Example Brand">
+<div class="p-4">
+
+    <div class="row mb-4">
+        <div class="col-12 ms-2 d-flex items-center">
+            
+            <span (click)="backClicked()" ngbTooltip="Go back" class="material-symbols-outlined pointer-cursor ">
+                arrow_back_ios
+                </span>
+        <h2 class="heading_main">Brand Profile </h2>
+        </div>
     </div>
-    <div class="col-12 mb-4">
-        <label class="mb-2">Email</label>:
-        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="email" value="email" placeholder="example@gmail.com">
-    </div>
-    <div class="col-12 mb-4">
-        <label class="mb-2">Contact</label>:
-        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="contact" value="contact" placeholder="+12345678901">
-    </div>
-    <div class="col-12 mb-4">
-        <label class="mb-2">Website</label>:
-        <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="website" value="website" placeholder="https://example.com">
-    </div>
-    <div class="col-6">
-        <button class="btn btn-primary" [hidden]="currentUserValue && currentUserValue.isSuperAdmin" (click)="updateBrand()">Update Profile</button> &nbsp;
+    
+    <div class="row">
+        <div class="col-12 mb-4">
+            <label class="mb-2">Brand Name</label>:
+            <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="brandName" value="brandName" placeholder="Example Brand">
+        </div>
+        <div class="col-12 mb-4">
+            <label class="mb-2">Email</label>:
+            <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="email" value="email" placeholder="example@gmail.com">
+        </div>
+        <div class="col-12 mb-4">
+            <label class="mb-2">Contact</label>:
+            <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="contact" value="contact" placeholder="+12345678901">
+        </div>
+        <div class="col-12 mb-4">
+            <label class="mb-2">Website</label>:
+            <input class="form-control col12 input-search-order" [disabled]="currentUserValue && currentUserValue.isSuperAdmin" [(ngModel)]="website" value="website" placeholder="https://example.com">
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary" [hidden]="currentUserValue && currentUserValue.isSuperAdmin" (click)="updateBrand()">Update Profile</button> &nbsp;
+        </div>
     </div>
 </div>
+
