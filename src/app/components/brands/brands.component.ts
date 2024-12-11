@@ -56,6 +56,8 @@ export class BrandsComponent implements OnInit {
     this.brandName='' 
     this.retailerName=''
     this.unixTimestamp=''
+    this.model=null
+
     this.fetchData(true);
   }
 

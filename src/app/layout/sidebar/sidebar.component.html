@@ -48,7 +48,9 @@
             </span> <label>Brands</label></a
         >
       </li>
-      <li (click)="isSelected('/location')"  routerLinkActive="active">
+      <li 
+      *ngIf="currentUserValue && currentUserValue.roleId >= 2" 
+      (click)="isSelected('/location')"  routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/location">
           <span class="icons location_icon"></span> <label> Order Logic</label>
         </a>

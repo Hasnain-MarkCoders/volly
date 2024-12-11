@@ -157,12 +157,16 @@ button {
 }
 
 
-.search-flex-contailer{
+// .search-flex-contailer{
+//   display: flex;
+//   gap: 20px;
+//   // margin-top: 10px;
+//   flex-wrap: wrap;
+
+// }
+.btn-container{
   display: flex;
   gap: 20px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-
 }
 .status{
   flex-basis: 100px;

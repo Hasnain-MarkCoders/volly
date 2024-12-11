@@ -5,14 +5,13 @@
     </div>
 
     <!-- Added By gaurav -->
-    <div class="row" style="margin: 0px;">
+    <div class="row" >
         <div class="col-3">
             <label>Order</label>:
-            <input class="form-control col12 input-search-order" [(ngModel)]="search_order" placeholder="Search Order Exa. 1001">
+            <input class="form-control col-12 input-search-order" [(ngModel)]="search_order" placeholder="Search Order Exa. 1001">
             <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Enter Valid Order No</span>
         </div>
-        <div class="col-6">
-            <div>&nbsp;</div>
+        <div style="margin-top: 13px;" class="col-6">
             <button class="btn btn-primary" (click)="searchOrder(true)">Search</button> &nbsp;
             <button class="btn btn-danger" (click)="searchOrder(false)">Clear</button>
         </div>

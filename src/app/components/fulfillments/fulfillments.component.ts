@@ -117,6 +117,10 @@ export class FulfillmentsComponent implements OnInit {
       this.helperService.saveRatings(ratingData).subscribe(response => {
         this.toastr.success(response?.message);
         this.modalService.dismissAll();
+        this.communicationRating=0
+        this.speedRating=0
+        this.priceRating=0
+        this.fetchData(false);
       }, error => {
         this.toastr.error('Failed to save ratings');
       });
@@ -129,6 +133,7 @@ export class FulfillmentsComponent implements OnInit {
     this.status=''
     this.daterange=''
     this.shopifyTrackingStatus=''
+    this.model=null
     this.fetchData(true);
   }
 

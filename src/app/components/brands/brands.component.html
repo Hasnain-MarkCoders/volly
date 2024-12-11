@@ -18,18 +18,18 @@
   <div class="container mw_1440">
     <div class="right_head" style="margin-bottom: 3%;">
       <h2 class="heading_main">Brands</h2>
-      <div class="search-flex-contailer">
-      <div class="col-3"  *ngIf="currentUserValue && currentUserValue.roleId < 3">
+      <div class="row my-4">
+      <div class="col-12 col-md-4"  *ngIf="currentUserValue && currentUserValue.roleId < 3">
         <label>Brand</label>:
         <input class="form-control col12 input-search-order" [(ngModel)]="brandName" placeholder="example brand">
         <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Enter Brand Name</span>
     </div>
-    <div class="col-3">
+    <div class="col-12 col-md-4">
       <label>Retailer</label>:
       <input class="form-control col12 input-search-order" [(ngModel)]="retailerName" placeholder="example retailer">
       <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Retailer Name</span>
     </div>
-    <div class="col-3 " >
+    <div class="col-12 col-md-4 " >
       <label>Date</label>:
       <div class="date-container">
 
@@ -45,11 +45,11 @@
           calendar_month
           </span>
       </div>
-    </div>
-    <button class="btn btn-primary" (click)="search_fn()">Search</button>
-    <button class="btn btn-danger" (click)="clear_search_fn()">Clear Filter</button>
-    
-    
+    </div>  
+      </div>
+      <div class="btn-container">
+        <button class="btn btn-primary" (click)="search_fn()">Search</button>
+        <button class="btn btn-danger" (click)="clear_search_fn()">Clear Filter</button>
       </div>
     </div>
   

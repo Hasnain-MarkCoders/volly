@@ -19,60 +19,61 @@
   <div class="right_head" style="margin-bottom: 3%;">
     <h2 class="heading_main">Fulfillments</h2>
   </div>
-  <div class="row" style="margin: 0px;">
-    <div class="col-2">
-      <label>Status</label>:
-      <select [(ngModel)]="status" class="form-control col-12">
-        <option value="" selected>All</option>
-        <option value="true">Success</option>
-        <option value="false">Pending</option>
-      </select>
-    </div>
-    <div class="col-3">
-      <label>Date</label>:
-      <select [(ngModel)]="daterange" class="form-control col-12">
-        <option value="" selected>All</option>
-        <option value="7"> Last 7 Days</option>
-        <option value="30">Last 30 Days</option>
-      </select>
-    </div>
-
-    <div class="col-3">
-      <label>Shopify Tracking Status</label>:
-      <select [(ngModel)]="shopifyTrackingStatus" class="form-control col-12">
-        <option value="" selected>All</option>
-        <option value="Label Printed">Label Printed</option>
-        <option value="Label Purchased">Label Purchased</option>
-        <option value="Attempted Delivery">Attempted Delivery</option>
-        <option value="Ready For Pickup">Ready For Pickup</option>
-        <option value="Confirmed">Confirmed</option>
-        <option value="In Transit">In Transit</option>
-        <option value="Out For Delivery">Out For Delivery</option>
-        <option value="Delivered">Delivered</option>
-        <option value="Failure">Failure</option>
-      </select>
-    </div>
-    <div class="col-4">
-      <div>&nbsp;</div>
+  <div class="row mb-4">
+  <div class="col-12  col-lg-4">
+    <label>Status</label>:
+    <select [(ngModel)]="status" class="form-control">
+      <option value="" selected>All</option>
+      <option value="true">Success</option>
+      <option value="false">Pending</option>
+    </select>
+  </div>
+  <div class="col-12  col-lg-4">
+    <label>Date</label>:
+    <select [(ngModel)]="daterange" class="form-control ">
+      <option value="" selected>All</option>
+      <option value="7"> Last 7 Days</option>
+      <option value="30">Last 30 Days</option>
+    </select>
+  </div>
+  <div class="col-12  col-lg-4">
+    <label>Shopify Tracking Status</label>:
+    <select [(ngModel)]="shopifyTrackingStatus" class="form-control ">
+      <option value="" selected>All</option>
+      <option value="Label Printed">Label Printed</option>
+      <option value="Label Purchased">Label Purchased</option>
+      <option value="Attempted Delivery">Attempted Delivery</option>
+      <option value="Ready For Pickup">Ready For Pickup</option>
+      <option value="Confirmed">Confirmed</option>
+      <option value="In Transit">In Transit</option>
+      <option value="Out For Delivery">Out For Delivery</option>
+      <option value="Delivered">Delivered</option>
+      <option value="Failure">Failure</option>
+    </select>
+  </div>
+    <!-- <div class="col-4">
+      <div>&nbsp;</div> -->
       <!-- <button class="btn btn-primary" (click)="fetchData(true)">Search</button> -->
     <!-- </div> -->
     <!-- <div class="col-2" *ngIf="displayExport"> -->
       <!-- <div>&nbsp;</div> -->
       <!-- &nbsp;&nbsp;<button class="btn btn-primary" *ngIf="displayExport" (click)="exportToExcel()">Export</button> -->
-    </div>
+    <!-- </div> -->
 
-    <div class="search-flex-contailer">
-      <div class="col-3"  *ngIf="currentUserValue && currentUserValue.roleId <3">
+   
+  </div>
+  <div class="row mb-4">
+      <div class="col-12   col-lg-4 "  *ngIf="currentUserValue && currentUserValue.roleId <3">
         <label>Brand</label>:
         <input class="form-control col12 input-search-order" [(ngModel)]="brandName" placeholder="example brand">
         <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Enter Brand Name</span>
     </div>
-    <div class="col-3">
+    <div class="col-12     col-lg-4">
       <label>Retailer</label>:
       <input class="form-control col12 input-search-order" [(ngModel)]="retailerName" placeholder="example retailer">
       <span [ngStyle]="{'display': 'none', 'color':'#FF0000'}" class="invalid-search-order">Please Retailer Name</span>
     </div>
-    <div class="col-3 " >
+    <div class="col-12   col-lg-4 " >
       <label>Date</label>:
       <div class="date-container">
 
@@ -89,12 +90,11 @@
           </span>
       </div>
     </div>
-    <button class="btn btn-primary" (click)="search_fn()">Search</button>
-    <button class="btn btn-danger" (click)="clear_search_fn()">Clear Filter</button>
-    <button class="btn btn-primary" *ngIf="displayExport" (click)="exportToExcel()">Export</button>
-    
-    
-      </div>
+  </div>
+  <div class=" btn-container">
+  <button class="btn btn-primary" (click)="search_fn()">Search</button>
+  <button class="btn  btn-danger" (click)="clear_search_fn()">Clear Filter</button>
+  <button class="btn btn-primary" *ngIf="displayExport" (click)="exportToExcel()">Export</button>
   </div>
 
   <div class="data_container">
@@ -160,6 +160,8 @@
               > -->
            <!-- <span>{{starGenerator(list.overallAvgRating)}} </span> -->
             <a
+            [ngbTooltip]="'communication : ' + data.avgCommRating + '⭐, speed : ' + data.avgSpeedRating + '⭐, price: ' + data.avgPriceRating +' ⭐'"
+
             data-toggle="tooltip"
             data-placement="top"
             [ngStyle]="{
@@ -169,7 +171,7 @@
               'display':data.status?'inline-block':'none'
             }"
             href="javascript:void(0)"
-            (click)="openRatingModal(ratingModal, data)"
+            (click)="!data.overallAvgRating && openRatingModal(ratingModal, data)"
             >
 
               <span>{{starGenerator(data.overallAvgRating)}} </span>

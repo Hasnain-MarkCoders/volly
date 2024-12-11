@@ -46,6 +46,8 @@ export class PaymentsComponent implements OnInit {
     this.retailerName=''
     this.unixTimestamp=''
     this.status=''
+    this.model=null
+
     this.fetchData(true);
   }
 

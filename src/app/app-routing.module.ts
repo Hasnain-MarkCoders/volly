@@ -40,18 +40,18 @@ const routes: Routes = [
         path: 'orders',
         component: OrdersComponent,
       },
-      {
-        path: 'location',
-        component: LocationsComponent,
-      },
-      {
-        path: 'location/product-rules',
-        component: RulesComponent,
-      },
-      {
-        path: 'location/state-rules',
-        component: StateRulesComponent,
-      },
+      // {
+      //   path: 'location',
+      //   component: LocationsComponent,
+      // },
+      // {
+      //   path: 'location/product-rules',
+      //   component: RulesComponent,
+      // },
+      // {
+      //   path: 'location/state-rules',
+      //   component: StateRulesComponent,
+      // },
       {
         path: 'retailer',
         component: RetailerComponent,
@@ -111,6 +111,18 @@ const routes: Routes = [
     component:SidebarComponent,
     canActivate:[AuthGuard, IsBrandGuard],
     children:[
+      {
+        path: 'location',
+        component: LocationsComponent,
+      },
+      {
+        path: 'location/product-rules',
+        component: RulesComponent,
+      },
+      {
+        path: 'location/state-rules',
+        component: StateRulesComponent,
+      },
       {
         path: 'credentials',
         component: CredentialsComponent,
