@@ -38,9 +38,11 @@ export class RegisterBrandComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
       // website: ['', [Validators.pattern('https?://[a-zA-Z0-9.-]+(?:\.[a-zA-Z]{2,})+')]],  // URL pattern
-      // contact: ['', [Validators.pattern('^\\d{10}$')]],
-      website: '', // URL pattern
-      contact: '',
+      contact: ['', [Validators.pattern('^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')]],
+      // website: '', // URL pattern
+      website:  ['', [Validators.pattern('^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$')]], // URL pattern
+
+      // contact: '',
       brandName: '',
       rememberMe: [false],
     });
