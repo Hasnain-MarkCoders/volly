@@ -40,7 +40,12 @@
           <span class="icons orders_icon"></span> <label>Orders</label></a
         >
       </li>
-     
+      
+      <li (click)="isSelected('/fulfillments')" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/fulfillments">
+          <span class="icons edit_icon"></span> <label>Fulfillments</label>
+        </a>
+      </li>
       <li (click)="isSelected('/brands')"   *ngIf="currentUserValue && currentUserValue.roleId < 3"    routerLinkActive="active">
         <a href="javascript:void(0)" class="custom_tab_icon_style" routerLink="/brands">
           <span class="material-symbols-outlined">
@@ -60,26 +65,16 @@
           <span class="icons retailers_icon"></span> <label>Available Retailers</label>
         </a>
       </li>
-      <li (click)="isSelected('/payments')"  routerLinkActive="active">
-        <a href="javascript:void(0)" routerLink="/payments">
-          <span class="icons payment_icon"></span> <label>Payments</label>
-        </a>
-      </li>
-      <li (click)="isSelected('/fulfillments')" routerLinkActive="active">
-        <a href="javascript:void(0)" routerLink="/fulfillments">
-          <span class="icons edit_icon"></span> <label>Fulfillments</label>
-        </a>
-      </li>
-      <li (click)="isSelected('/staff')"  *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
-        <a href="javascript:void(0)" routerLink="/staff">
-          <span class="icons setting_icon"></span> <label>Settings</label>
-        </a>
-      </li>
       <li (click)="isSelected('/requested-retailers')"  routerLinkActive="active">
         <a href="javascript:void(0)"  class="custom_tab_icon_style" routerLink="/requested-retailers">
           <span class="material-symbols-outlined">
             approval_delegation
             </span> <label>Requested Retailers</label>
+        </a>
+      </li>
+      <li (click)="isSelected('/payments')"  routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/payments">
+          <span class="icons payment_icon"></span> <label>Payments</label>
         </a>
       </li>
       <li (click)="isSelected('/credentials')" *ngIf="currentUserValue && currentUserValue.roleId >= 2" routerLinkActive="active">
@@ -94,7 +89,11 @@
             </span><label>Edit Profile</label></a
         >
       </li>
-   
+      <li (click)="isSelected('/staff')"  *ngIf="currentUserValue && currentUserValue.roleId < 3" routerLinkActive="active">
+        <a href="javascript:void(0)" routerLink="/staff">
+          <span class="icons setting_icon"></span> <label>Settings</label>
+        </a>
+      </li>
     </ul>
   </aside>
   <div class="w_side">
