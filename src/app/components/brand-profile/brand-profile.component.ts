@@ -3,7 +3,6 @@ import { BrandProfileService } from './../../services/brand-profile.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AccountsService } from 'src/app/services/accounts.service';
-import { ShopifyService } from 'src/app/services/shopify.service';
 import {Location} from '@angular/common';
 @Component({
   selector: 'app-brand-profile',
@@ -16,6 +15,7 @@ export class BrandProfileComponent implements OnInit {
   contact: string;
   website: string;
   id: number;
+
   currentUserValue: any = null;
   public filterValidEntries<T extends object>(obj: T): Partial<T> {
     return Object.keys(obj).reduce((accumulator, key) => {
@@ -45,8 +45,9 @@ export class BrandProfileComponent implements OnInit {
         this.id = this.currentUserValue?.user?.id;
       }
     });
-
+   
     this.FetchData();
+  
   }
 
   backClicked() {
@@ -69,6 +70,9 @@ export class BrandProfileComponent implements OnInit {
       }
     );
   }
+
+
+
   FetchData() {
     this.brandService.fetchBrand(this.id).subscribe(
       (res) => {
@@ -83,4 +87,5 @@ export class BrandProfileComponent implements OnInit {
       }
     );
   }
+  
 }

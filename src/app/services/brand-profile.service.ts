@@ -22,5 +22,7 @@ export class BrandProfileService {
     .pipe(map(response => {
        return response
     }));
+    
   }
+  
 }

@@ -25,5 +25,10 @@ export class ShopifyService {
     }));
   }
 
- 
+ fetchWebhookURL(id :number){
+  return this.http.get<any>(`${environment.apiUrl}/public/urls/${id}`)
+  .pipe(map(response => {
+     return response
+  }));
+ }
 }

@@ -12,10 +12,11 @@ export class CredentialsComponent implements OnInit {
   STORE_PASSWORD:string
   STORE_URL:string
   API_VERSION:string
-
+  webHookURL:string="ewrwerewrew"
   constructor(private shopifyService : ShopifyService,     private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.fetchWebHookURL()
   }
 
   saveData(){
@@ -41,5 +42,26 @@ export class CredentialsComponent implements OnInit {
   
     })
   }
+  copyToClipboard() {
+    if (this.webHookURL) {
+      const textArea = document.createElement('textarea');
+      textArea.value = this.webHookURL;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      this.toastr.success('URL copied to clipboard', 'Success');
+    } else {
+      this.toastr.error('No URL available to copy', 'Error');
+    }
+  }
+  fetchWebHookURL(){
+    this.shopifyService.fetchWebhookURL(1).subscribe((res)=>{
+      console.log(res)
+      this.webHookURL=res?.data?.orderCreationUrl
+    },  (error) => {
+      this.toastr.error(error ? error : error?.error?.message, 'Error');
 
+    })
+  }
 }
