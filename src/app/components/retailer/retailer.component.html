@@ -141,9 +141,12 @@
                 href="javascript:void(0)"
                 data-toggle="tooltip"
                 data-placement="top"
+                (click)="!list.overallAvgRating && openRatingModal(ratingModal, list)"
+
                 [ngStyle]="{
                   'font-size': '18px',
-                  'color': 'black'
+                  'color': 'black',
+                   'text-decoration': list.overallAvgRating < 1 ? 'underline' : 'none'
                 }"
               >
               <!-- <a
@@ -926,6 +929,7 @@
         <button
           type="submit"
           [disabled]="currentUserValue && currentUserValue.roleId < 2"
+          [hidden]="currentUserValue && currentUserValue.roleId < 2"
           class="btn btn-primary"
         >
           Save Rating

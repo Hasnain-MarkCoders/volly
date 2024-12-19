@@ -154,6 +154,8 @@ export class RetailerComponent implements OnInit {
     this.helperService.saveRatings(ratingData).subscribe(response => {
       this.toastr.success(response?.message);
       this.modalService.dismissAll();
+    this.list();
+
     }, error => {
       this.toastr.error('Failed to save ratings');
     });

@@ -113,7 +113,7 @@
             <th scope="col">Shopify Order Timestamp</th>
             <th scope="col">Tracking Timestamp</th>
             <th scope="col">Days Outstanding</th>
-            <th scope="col">Ratings</th>
+            <!-- <th scope="col">Ratings</th> -->
 
           </tr>
         </thead>
@@ -145,7 +145,7 @@
               <span *ngIf="data.status">{{data.daysOutstanding}}</span>
               <span *ngIf="!data.status">-</span>
             </td>
-            <td>
+            <!-- <td>
             <a
             [ngbTooltip]="'communication : ' + data.avgCommRating + '⭐, speed : ' + data.avgSpeedRating + '⭐, price: ' + data.avgPriceRating +' ⭐'"
 
@@ -163,7 +163,7 @@
               <span>{{starGenerator(data.overallAvgRating)}} </span>
             </a>
             
-            </td>
+            </td> -->
             <!-- <td>{{list.createdAt}}</td>
             <td>{{list.updatedAt}}</td> -->
             <!-- <td> -->
