@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrdersService } from '../../services/orders.service';
 import { ToastrService } from 'ngx-toastr';
+import { AccountsService } from 'src/app/services/accounts.service';
+import { BrandProfileService } from './../../services/brand-profile.service';
+
 import * as $ from 'jquery';
 @Component({
   selector: 'app-orders',
@@ -9,6 +12,7 @@ import * as $ from 'jquery';
   styleUrls: ['./orders.component.scss'],
 })
 export class OrdersComponent implements OnInit {
+  currentUserValue: any = null;
   loading: any;
   orders: any[] = [];
   orderDetails: any;
@@ -18,10 +22,16 @@ export class OrdersComponent implements OnInit {
   navInfo = { next: false, prev: false };
   email: string;
   search_order: string;
+  id: number;
+  storeName:string
+
   constructor(
     private orderService: OrdersService,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private accountsService: AccountsService,
+    private brandService: BrandProfileService,
+
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +42,11 @@ export class OrdersComponent implements OnInit {
       this.navInfo = resp.nav;
       this.loading = false;
     });
+    this.accountsService.currentUser.subscribe(user => {
+      this.currentUserValue = user;
+      this.id = this.currentUserValue?.user?.id;
+    })
+    this.FetchData()
   }
 
   open(content, order) {
@@ -58,6 +73,8 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+
+  
   openSendMail(content, order) {
     this.orderService.getDetail(order.id).subscribe((resp: any) => {
       this.orderDetails = resp.order;
@@ -130,8 +147,20 @@ export class OrdersComponent implements OnInit {
     );
   }
 
+  FetchData() {
+    this.brandService.fetchBrand(this.id).subscribe(
+      (res) => {
+        this.id = res?.data.id;
+        this.storeName = res?.data.storeName;
+      },
+      (error) => {
+        this.toastr.error(error ? error : error?.error?.message, 'Error');
+      }
+    );
+  }
   fulfillOrder(order) {
-    this.orderService.fulfillOrder(order).subscribe((resp: any) => {
+    console.log("this.storeName==================================>", this.storeName)
+    this.orderService.fulfillOrder(order, this.storeName).subscribe((resp: any) => {
       // console.log("resp", resp);
       this.ngOnInit();
     });

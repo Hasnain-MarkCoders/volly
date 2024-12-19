@@ -120,7 +120,8 @@
         <tbody name="payoutData" ngDefaultControl [(ngModel)]="payoutData" *ngIf="payoutData?.length != 0">
           <tr *ngFor="let data of payoutData">
             <td>
-              <a href="{{data.shopifyOrderURL}}" target="_new">{{data.orderNumber}}</a>
+              <a *ngIf="currentUserValue && currentUserValue.roleId >2 " href="{{  data.shopifyOrderURL}}" target="_new">{{data.orderNumber}}</a>
+              <span *ngIf="currentUserValue && currentUserValue.roleId <3 ">{{data.orderNumber}}</span>
             </td>
             <td>{{data.amount.toFixed(2)}}</td>
             <td>{{data.retailerName}}</td>

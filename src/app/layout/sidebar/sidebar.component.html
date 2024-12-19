@@ -32,6 +32,7 @@
         >
       </li>
       <li
+        *ngIf="currentUserValue && currentUserValue.roleId >2"
         (click)="isSelected('/orders')"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"

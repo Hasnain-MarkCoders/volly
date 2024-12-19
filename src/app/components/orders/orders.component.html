@@ -52,7 +52,7 @@
 
                             <br> <a href="javascript:void(0)" (click)="openSendMail(sendmail,order)" *ngIf="order.fulfillment_status=='fulfilled'"><span>Resend Mail</span></a>
 
-                            <br><a href="javascript:void(0)" (click)="fulfillOrder(order)" *ngIf="order.fulfillment_status==null"><span>Fulfill Order</span></a>
+                            <br><a href="javascript:void(0)" (click)="fulfillOrder(order)"   *ngIf="order.fulfillment_status==null && currentUserValue && currentUserValue.roleId >2"><span>Fulfill Order</span></a>
                         </td>
                     </tr>
                     <div class="btn-group">

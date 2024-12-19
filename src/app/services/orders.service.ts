@@ -22,7 +22,10 @@ export class OrdersService {
     return this.http.post(`${environment.apiUrl}/order/sendTrackingLink`, {email, orderId});
   }
 
-  fulfillOrder(order){
+  fulfillOrder(order, storeName:string){
+    if(order){
+      order.storeName = storeName;
+    }
     return this.http.post(`${environment.apiUrl}/webhook/order`, order);
   }
 
