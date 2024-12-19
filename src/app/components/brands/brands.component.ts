@@ -87,7 +87,10 @@ export class BrandsComponent implements OnInit {
     });
     this.editForm = this.fb.group({
       brandName: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+      ]],
       contact: ['', [Validators.required]],
       website: ['', [Validators.required]],
       isActivated: [true, [Validators.required, Boolean]],

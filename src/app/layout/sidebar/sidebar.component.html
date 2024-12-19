@@ -72,7 +72,7 @@
             </span> <label>Requested Retailers</label>
         </a>
       </li>
-      <li (click)="isSelected('/payments')"  routerLinkActive="active">
+      <li (click)="isSelected('/payments')"  *ngIf="currentUserValue && currentUserValue.roleId < 3"  routerLinkActive="active">
         <a href="javascript:void(0)" routerLink="/payments">
           <span class="icons payment_icon"></span> <label>Payments</label>
         </a>

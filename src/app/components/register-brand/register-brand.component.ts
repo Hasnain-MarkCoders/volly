@@ -35,7 +35,10 @@ export class RegisterBrandComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+      ]],
       password: ['', Validators.required],
       // website: ['', [Validators.pattern('https?://[a-zA-Z0-9.-]+(?:\.[a-zA-Z]{2,})+')]],  // URL pattern
       contact: ['', [Validators.pattern('^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')]],

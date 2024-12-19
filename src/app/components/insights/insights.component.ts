@@ -32,7 +32,7 @@ export class InsightsComponent implements OnInit, OnDestroy {
       next: ({ count, amount }) => {
         // Handle missing or malformed data gracefully
         if (count && count.datasets) {
-          this.brandDatasets = count.datasets.map(dataset => ({
+          this.retailerDatasets = count.datasets.map(dataset => ({
             label: dataset.label,
             data: dataset.data || [],
             backgroundColor: dataset.backgroundColor,
@@ -41,7 +41,7 @@ export class InsightsComponent implements OnInit, OnDestroy {
           }));
         }
         if (amount && amount.datasets) {
-          this.brandDatasetsDollarVolume = amount.datasets.map(dataset => ({
+          this.retailerDatasetsDollarVolume = amount.datasets.map(dataset => ({
             label: dataset.label,
             data: dataset.data || [],
             backgroundColor: dataset.backgroundColor,
@@ -64,7 +64,7 @@ export class InsightsComponent implements OnInit, OnDestroy {
         type: 'bar',
         data: {
           labels: this.getMonthLabels(),
-          datasets: this.brandDatasets,
+          datasets: this.retailerDatasets,
         },
         options: {
           scales: { y: { beginAtZero: true } },
@@ -78,9 +78,9 @@ export class InsightsComponent implements OnInit, OnDestroy {
         type: 'line',
         data: {
           labels: this.getMonthLabels(),
-          datasets: this.brandDatasets,
+          datasets: this.retailerDatasets,
         },
-        options: this.getLineChartOptions('Number of Orders: Brand Performance Over Months'),
+        options: this.getLineChartOptions('Number of Orders: Retailers Performance Over Months'),
       });
     }
 
@@ -89,9 +89,9 @@ export class InsightsComponent implements OnInit, OnDestroy {
         type: 'line',
         data: {
           labels: this.getMonthLabels(),
-          datasets: this.brandDatasetsDollarVolume,
+          datasets: this.retailerDatasetsDollarVolume,
         },
-        options: this.getLineChartOptions('Dollar Volume: Brand Performance Over Months'),
+        options: this.getLineChartOptions('Dollar Volume: Retailers Performance Over Months'),
       });
     }
   }

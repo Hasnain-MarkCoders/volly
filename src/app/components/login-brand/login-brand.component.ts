@@ -36,7 +36,10 @@ export class LoginBrandComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+      ]],
       password: ['', Validators.required],
       rememberMe: [false]
     });

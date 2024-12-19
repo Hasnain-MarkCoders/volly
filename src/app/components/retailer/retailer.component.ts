@@ -47,7 +47,10 @@ export class RetailerComponent implements OnInit {
 
     this.businessForm = new FormGroup({
       businessName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$') // Corrected pattern
+      ]),
       contact: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required, Validators.pattern(this.URL_REGEX)]),
       stripe: new FormControl('false', [Validators.required]),
@@ -58,7 +61,10 @@ export class RetailerComponent implements OnInit {
 
     this.updateBusinessForm = new FormGroup({
       businessName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$') // Corrected pattern
+      ]),
       contact: new FormControl('', [Validators.required]),
       website: new FormControl('', [Validators.required, Validators.pattern(this.URL_REGEX)]),
       states: new FormControl([]),

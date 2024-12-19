@@ -10,9 +10,9 @@
            <div class="line-chart-filter" style="margin-top: 20px;">
                <label for="filterOrder1" style="margin-right: 10px; font-weight: bold;">Filter:</label>
                <select id="filterOrder1" (change)="updateChart($event)">
+                <option value="retailer">Retailers</option>
                  <option value="brand">Brand</option>
                  <option value="state">State</option>
-                 <option value="retailer">Retailers</option>
            
                </select>
              </div>
@@ -25,9 +25,9 @@
             <div class="line-chart-filter" style="margin-top: 20px;">
               <label for="filterDollar2" style="margin-right: 10px; font-weight: bold;">Filter:</label>
               <select id="filterDollar2" (change)="updateChartDollarVolume($event)">
+                <option value="retailer">Retailers</option>
                 <option value="brand">Brand</option>
                 <option value="state">State</option>
-                <option value="retailer">Retailers</option>
           
               </select>
             </div>

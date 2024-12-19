@@ -29,7 +29,10 @@ export class StaffComponent implements OnInit {
     this.staffForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       contactNumber: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$') // Corrected pattern
+      ]),
       // roleId: new FormControl(0, [Validators.required]),
       password: new FormControl('', [Validators.required]),
       status: new FormControl(false)
@@ -61,7 +64,10 @@ export class StaffComponent implements OnInit {
       id: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       contactNumber: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$') // Corrected pattern
+      ]),
       status: new FormControl(false)
     });
   }
@@ -71,7 +77,10 @@ export class StaffComponent implements OnInit {
         id: new FormControl('', [Validators.required]),
         name: new FormControl('', [Validators.required]),
         contactNumber: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required, Validators.email]),
+        email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$') // Corrected pattern
+      ]),
         status: new FormControl(false)
       });
     
