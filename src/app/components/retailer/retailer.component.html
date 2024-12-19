@@ -60,7 +60,7 @@
             <th scope="col">Shopify Location</th>
             <th scope="col">Ratings</th>
             <th scope="col">States</th>
-            <th scope="col">Action</th>
+          <th *ngIf="currentUserValue && currentUserValue.roleId < 3" scope="col">Action</th>
 
             <!-- <th scope="col">Created At</th>
           <th scope="col">Updated At</th> -->
@@ -169,7 +169,7 @@
                 </span>
               </div>
             </td>
-            <td style="min-width: 100px">
+            <td *ngIf="currentUserValue && currentUserValue.roleId < 3" style="min-width: 100px">
               <a
                 href="javascript:void(0)"
                 (click)="udpateModal(updateRetailerContent, list)"
